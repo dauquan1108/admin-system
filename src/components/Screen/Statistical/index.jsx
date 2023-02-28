@@ -18,26 +18,78 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table, Tag, Popconfirm } from "antd";
 
 // Component
+import Loading from '../../Loading';
+
 import SelectOption from "./SelectOption";
 import ModalNote from "./ModalNote";
 import ModalAddNew from "./ModalAddNew";
 import OpenChart from "./OpenChart";
-import { dataFakeHasInvoice, listDataInvoice, listDataTransactionFake } from "./DataFake";
+import { listDataInvoice } from "./DataFake";
 
 // Styles
 import styles from './Styles/index.module.scss';
 
 // Img
 import note from '../../Img/notes.png';
+import axios from "axios";
+
+import { API_URL } from "../../../utils/Config";
 
 function Statistical() {
+	const [hasTransaction, setHasTransaction] = React.useState({});
+	const [listDataTransaction, setListDataTransaction] = React.useState([]);
+
+	const [isCallApi, setIsCallApi] = React.useState({ current: 1, pageSize: 10 })
+	const refCurrent = React.useRef(null);
+
+	const onSuccess = (HasTransaction, Transaction) => {
+		setHasTransaction(HasTransaction)
+		const listDataTransactionCustom = [];
+		const listData = {...Transaction}
+		if (Object.keys(listData).length) {
+			for (const property in listData) {
+				if (listData.hasOwnProperty(property)) {
+					const itemInvoice = listData[property];
+					// gán giá trị cũ vào thuộc tính mới
+					itemInvoice.key = itemInvoice._id;
+					// xóa thuộc tính mới
+					// delete itemInvoice._id;
+					listDataTransactionCustom.push(itemInvoice);
+				}
+			}
+		}
+		setListDataTransaction([...listDataTransaction,...listDataTransactionCustom]);
+	};
+
+	React.useEffect(() => {
+		const { current, pageSize } = isCallApi;
+		if (refCurrent.current < current) {
+			refCurrent.current = current;
+			axios({
+				method: "get",
+				url: `${API_URL}?limit=${pageSize}&&page=${current}`,
+			}).then((response) => {
+				if (response.status === 200) {
+					const { data } = response.data;
+					const { HasTransaction, Transaction } = data;
+					HasTransaction && Transaction && onSuccess(HasTransaction, Transaction)
+				}
+			}).catch((error) => {
+				throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
+			}).finally(() => {
+
+			});
+		}
+	}, [isCallApi, refCurrent]);
+
+
+
 	const [searchText, setSearchText] = React.useState("");
 	const [searchedColumn, setSearchedColumn] = React.useState("");
 	const searchInput = React.useRef(null);
 
 	// Đóng mở Modal
 	const [dataInvoice, setDataInvoice] = React.useState({});
-
 
 	const handleSearch = (selectedKeys, confirm, dataIndex) => {
 		confirm();
@@ -153,92 +205,104 @@ function Statistical() {
 	};
 
 	const onClickDeleteItem = (id) => {
-		console.log('id: ================>', id); // Log QuanDX fix bug
+		console.log('id: =========123=======>', id); // Log QuanDX fix bug
 	};
 
 	const columns = [
 		{
 			title: "Tên thiết bị",
-			dataIndex: "device",
-			key: "device",
-			...getColumnSearchProps("device", "tên thiết bị"),
-			sorter: (a, b) => a.device.length - b.device.length,
+			dataIndex: "devicePost",
+			key: "devicePost",
+			...getColumnSearchProps("devicePost", "tên thiết bị"),
+			sorter: (a, b) => a.devicePost.length - b.devicePost.length,
 			sortDirections: ["descend", "ascend"],
 			width: 140,
 			fixed: "left"
 		},
 		{
 			title: "Ngày làm",
-			dataIndex: "workTime",
-			key: "workTime",
+			dataIndex: "workTimestamp",
+			key: "workTimestamp",
 			width: 120,
 			fixed: "left",
 			// sorter: true
 		},
+		// {
+		// 	title: "Chủ thẻ",
+		// 	dataIndex: "accountName",
+		// 	key: "accountName",
+		// 	...getColumnSearchProps("accountName", "chủ thẻ"),
+		// 	sorter: (a, b) => a.accountName.length - b.accountName.length,
+		// 	sortDirections: ["descend", "ascend"]
+		// },
+		// {
+		// 	title: "Số thẻ",
+		// 	dataIndex: "cardNumber",
+		// 	key: "cardNumber",
+		// },
 		{
-			title: "Chủ thẻ",
-			dataIndex: "accountName",
-			key: "accountName",
-			...getColumnSearchProps("accountName", "chủ thẻ"),
-			sorter: (a, b) => a.accountName.length - b.accountName.length,
-			sortDirections: ["descend", "ascend"]
-		},
-		{
-			title: "Số thẻ",
-			dataIndex: "cardNumber",
-			key: "cardNumber",
-		},
-		{
-			title: "Số tiền",
-			dataIndex: "amountOfMoney",
-			key: "amountOfMoney",
+			title: "Số tiền nhận từ khách",
+			dataIndex: "money",
+			key: "money",
+			render: (value) => {
+				const valueNew = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+				return (
+					<span>
+						{`${valueNew} vnđ`}
+					</span>
+				);
+			}
 		},
 		{
 			title: "% Phí ngân hàng",
-			dataIndex: "bankingFee",
-			key: "bankingFee",
+			dataIndex: "percentBank",
+			key: "percentBank",
+			render: (value) => (
+				<span>
+					{`${value} %`}
+				</span>
+			),
 		},
-		{
-			title: "Phí ngân hàng",
-			dataIndex: "bankFees",
-			key: "bankFees",
-		},
+		// {
+		// 	title: "Phí ngân hàng",
+		// 	dataIndex: "bankFees",
+		// 	key: "bankFees",
+		// },
 		{
 			title: "% Phí thu khách",
-			dataIndex: "customerCharge",
-			key: "customerCharge",
+			dataIndex: "percentCustomer",
+			key: "percentCustomer",
+			render: (value) => (
+				<span>
+					{`${value} %`}
+				</span>
+			),
 		},
-		{
-			title: "Phí thu",
-			dataIndex: "fees",
-			key: "fees",
-		},
-		{
-			title: "Lãi",
-			dataIndex: "interestRate",
-			key: "interestRate",
-		},
+		// {
+		// 	title: "Phí thu",
+		// 	dataIndex: "fees",
+		// 	key: "fees",
+		// },
+		// {
+		// 	title: "Lãi",
+		// 	dataIndex: "interestRate",
+		// 	key: "interestRate",
+		// },
+
 		{
 			title: "Hình thức",
-			key: "tag",
-			dataIndex: "tag",
-			render: (_, { tag }) => (
-				<>
-					{tag.map((tag) => {
-						let color = tag.length > 5 ? "geekblue" : "green";
-						return (
-							<Tag color={color} key={tag}>
-								{tag.toUpperCase()}
-							</Tag>
-						);
-					})}
-				</>
+			key: "type",
+			dataIndex: "type",
+			render: (_, { type }) => (
+				<Tag color={ type.length > 5 ? "geekblue" : "green"} key={type}>
+					{type.toUpperCase()}
+				</Tag>
 			)
 		},
 		{
 			title: "Note",
-			Key: "Note",
-			dataIndex: "Note",
+			Key: "extends",
+			dataIndex: "extends",
 			align: "center",
 			render: (_, record) => (
 				<Space size="middle">
@@ -249,11 +313,12 @@ function Statistical() {
 			),
 		},
 		{
-			title: "operation",
-			key: "operation",
-			dataIndex: "operation",
 			fixed: "right",
-			width: 100,
+			align: "center",
+			key: "operation",
+			title: "Xóa thông tin",
+			dataIndex: "operation",
+			width: 130,
 			render: (_, record) =>
 				listDataInvoice.length >= 1 ? (
 					<Popconfirm
@@ -262,47 +327,51 @@ function Statistical() {
 						title="Bạn có chắc muốn xóa ?"
 						onConfirm={() => onClickDeleteItem(record.key)}
 					>
-						<a>Xóa</a>
+						<Button type="link" danger>Xóa</Button>
 					</Popconfirm>
 				) : null
 		},
 	];
 
 	const cancel = (current, pageSize) => {
-		console.log('current: ================>', current); // Log QuanDX fix bug
-		console.log('pageSize: ================>', pageSize); // Log QuanDX fix bug
+		setIsCallApi({ current, pageSize })
 	};
 
-	const total = dataFakeHasInvoice.HasInvoice['total'] || 0;
-
-
-	console.log('listDataTransactionFake: ================>', listDataTransactionFake); // Log QuanDX fix bug
-
+	const total = hasTransaction.total || 0;
 
 	return(
-    	<div className={styles.wrapInvoice}>
-		    <div className={styles.invoiceHeader}>
-			    <div className={styles.contentLeft}>
-				    <ModalAddNew />
-				    <SelectOption />
-			    </div>
-			    <div className={styles.contentRight}>
-				    <OpenChart />
-			    </div>
-		    </div>
-		    <Table
-			    columns={columns}
-			    scroll={{ x: 1800 }}
-			    dataSource={listDataInvoice}
-			    pagination={{
-				    onChange: cancel,
-				    defaultCurrent: 1,
-				    total
-			    }}
-		    />
-		    <ModalNote open={Object.values(dataInvoice).length !== 0} setOpen={onClickNote} dataInvoice={dataInvoice} />
-	    </div>
+		<React.Fragment>
+			{
+				listDataTransaction.length > 0 ?
+				(
+					<div className={styles.wrapInvoice}>
+						<div className={styles.invoiceHeader}>
+							<div className={styles.contentLeft}>
+								<ModalAddNew />
+								<SelectOption />
+							</div>
+							<div className={styles.contentRight}>
+								<OpenChart />
+							</div>
+						</div>
+						<Table
+							columns={columns}
+							scroll={{x: 1800}}
+							dataSource={listDataTransaction}
+							pagination={{
+								onChange: cancel,
+								defaultCurrent: 1,
+								total
+							}}
+						/>
+						<ModalNote open={Object.values(dataInvoice).length !== 0} setOpen={onClickNote} dataInvoice={dataInvoice} />
+					</div>
+				) : (
+					<Loading />
+				)
+			}
+		</React.Fragment>
     );
 }
 
-export default Statistical;
+export default React.memo(Statistical);
