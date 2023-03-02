@@ -24,14 +24,29 @@
             font-size: 20px;
         }
     }
+    .wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
     .wrapText {
         color: #4D4D4D;
         font-size: 16px;
         line-height: 22px;
         font-weight: 600;
+        margin-bottom: 30px;
         .contentText {
-            line-height: 24px;
             color: #000000;
+            font-size: 18px;
+            line-height: 24px;
+            margin-left: 5px;
         }
+    }
+    .flex_1 {
+        flex: 1;
+    }
+    .flex_2 {
+        flex: 2;
     }
 }

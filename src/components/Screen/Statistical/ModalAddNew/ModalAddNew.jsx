@@ -148,6 +148,7 @@ function ModalAddNew(props) {
 			open={isModal}
 			destroyOnClose
 			onOk={onOkModal}
+			maskClosable={false}
 			onCancel={onCancelModal}
 			title="Thêm mới khách hàng"
 			confirmLoading={confirmLoading}

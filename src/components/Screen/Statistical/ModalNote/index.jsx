@@ -14,6 +14,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from "classnames";
 import { Modal, Button } from 'antd';
 
 // Style
@@ -28,18 +29,39 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 		setOpen({});
 	};
 
-	const device = dataInvoice.device || "";
-	const workTime = dataInvoice.workTime || "";
+	const convertTime = (time) => {
+		const date = new Date(time);
+		const day = ("0" + date.getDate()).slice(-2);
+		const month = ("0" + (date.getMonth() + 1)).slice(-2);
+		const year = date.getFullYear();
+		return `${day}/${month}/${year}`;
+	};
+
+
+	const convertMoney = (value) => {
+		const moneyNew = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+		return `${moneyNew} vnđ`;
+	};
+
+	const devicePost = dataInvoice.devicePost || "";
+	const workTime = dataInvoice.workTimestamp || "";
+	const workTimestamp = convertTime(workTime)
+
+	const timestamp = dataInvoice.timestamp || "";
+	const timestampNew = convertTime(timestamp)
+
 	const name = dataInvoice.name || "";
 	const cardNumber = dataInvoice.cardNumber || "";
-	const amountOfMoney = dataInvoice.amountOfMoney || "0 vnđ";
-	const bankingFee =  dataInvoice.bankingFee || "";
+	const amountOfMoney = dataInvoice.money || "0 vnđ";
+
+	const amountOfMoneyNew = convertMoney(amountOfMoney)
+	const percentBank =  dataInvoice.percentBank || "";
 	const bankFees = dataInvoice.bankFees || "0 vnđ";
-	const customerCharge = dataInvoice.customerCharge || "";
+	const percentCustomer = dataInvoice.percentCustomer || "";
 	const fees = dataInvoice.fees || "0 vnđ";
 	const interestRate = dataInvoice.interestRate || "0 vnđ";
 	const note = dataInvoice.extends || "";
-	const tag = dataInvoice.tag || "";
+	const type = dataInvoice.type || "";
 
 	return(
 	    <Modal
@@ -47,48 +69,68 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 		    centered
 		    open={open}
 		    closeIcon={<img src={close} alt="" width='12px' />}
-		    width={600}
+		    width={680}
 		    onOk={onClick}
 		    onCancel={onClick}
 		    wrapClassName={styles.wrapModal}
 		    footer={
-			    <Button onClick={onClick} type="primary" danger>
+			    <Button onClick={onClick} type="primary" size='large' danger>
 				    Đóng
 			    </Button>
 		    }
 	    >
-		    <p className={styles.wrapText}>Tên thiết bị:
-			    <span className={styles.contentText}> {device}</span>
-		    </p>
-		    <p className={styles.wrapText}>Thời gian làm:
-			    <span className={styles.contentText}> {workTime}</span>
-		    </p>
-		    <p className={styles.wrapText}>Chủ thẻ:
-			    <span className={styles.contentText}> {name}</span>
-			</p>
-		    <p className={styles.wrapText}>Mã số thẻ:
-			    <span className={styles.contentText}> {cardNumber}</span>
-			</p>
-		    <p className={styles.wrapText}>Số tiền nhận từ khách:
-			    <span className={styles.contentText}> {amountOfMoney}</span>
-			</p>
-		    <p className={styles.wrapText}>% Phí ngân hàng:
-			    <span className={styles.contentText}> {bankingFee} %</span></p>
-		    <p className={styles.wrapText}>Phí thu:
-			    <span className={styles.contentText}> {fees}</span>
-			</p>
-		    <p className={styles.wrapText}>Phí ngân hàng:
-			    <span className={styles.contentText}> {bankFees}</span>
-			</p>
-		    <p className={styles.wrapText}>% Phí thu khách:
-			    <span className={styles.contentText}> {customerCharge} %</span>
-		    </p>
-		    <p className={styles.wrapText}> Số tiền lãi:
-			    <span className={styles.contentText}> {interestRate}</span>
-			</p>
-		    <p className={styles.wrapText}>Hình thức:
-			    <span className={styles.contentText}> {tag}</span>
-		    </p>
+		    <div className={styles.wrapText}>
+			    Tên thiết bị:
+			    <span className={styles.contentText}> {devicePost}</span>
+		    </div>
+
+		    <div className={styles.wrap}>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Thời gian làm:
+				    <span className={styles.contentText}> {workTimestamp}</span>
+			    </div>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Thời gian nhập lên hệ thống:
+				    <span className={styles.contentText}> {timestampNew}</span>
+			    </div>
+		    </div>
+
+
+		    {/*<p className={styles.wrapText}>Chủ thẻ:*/}
+			{/*    <span className={styles.contentText}> {name}</span>*/}
+			{/*</p>*/}
+		    {/*<p className={styles.wrapText}>Mã số thẻ:*/}
+			{/*    <span className={styles.contentText}> {cardNumber}</span>*/}
+			{/*</p>*/}
+		    <div className={styles.wrapText}>Số tiền nhận từ khách:
+			    <span className={styles.contentText}> {amountOfMoneyNew}</span>
+			</div>
+
+		    <div className={styles.wrap}>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+			        % Phí ngân hàng:
+				    <span className={styles.contentText}> {percentBank} %</span>
+			    </div>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    % Phí thu khách:
+				    <span className={styles.contentText}> {percentCustomer} %</span>
+			    </div>
+		    </div>
+		    {/*<div className={styles.wrapText}>*/}
+			{/*    Phí thu:*/}
+			{/*    <span className={styles.contentText}> {fees}</span>*/}
+		    {/*</div>*/}
+		    {/*<p className={styles.wrapText}>Phí ngân hàng:*/}
+			{/*    <span className={styles.contentText}> {bankFees}</span>*/}
+			{/*</p>*/}
+
+		    {/*<p className={styles.wrapText}> Số tiền lãi:*/}
+			{/*    <span className={styles.contentText}> {interestRate}</span>*/}
+			{/*</p>*/}
+		    <div className={styles.wrapText}>
+			    Hình thức:
+			    <span className={styles.contentText}>{type}</span>
+		    </div>
 		    <p className={styles.wrapText}>Note:
 				<span className={styles.contentText}> {note}</span>
 		    </p>
