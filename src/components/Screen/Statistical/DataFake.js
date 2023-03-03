@@ -409,6 +409,23 @@ const listDataTransaction = {
 	}
 }
 
+// {
+// 	companyId:"00000",
+// 	customerId: "000000000",
+// 	devicePost: "Thiết bị 1", // ======> Tên thiết bị
+// 	extends:"ok", // =====> Note
+// 	key: "63fb308112fdbd0008e1761b",
+// 	money: 100000, // ========> Số tiền nhận từ khách
+// 	percentBank: 1.4, // =======> % Phí ngân hàng
+// 	percentCustomer: 1.5,// =====>  % thu khách
+// 	timestamp: 1677406302493, // thời gian nhân viên nhập lên hệ thống
+// 	type: "Rút tiền". // =====> Hình thức
+// 	userId: "admin",
+// 	version: "v.0.0.0",
+// 	workTimestamp: 1677517200000, // thời gian khách hàng đến giao dịch
+// 	_id : "63fb308112fdbd0008e1761b"
+// }
+
 
 const listDataTransactionFake = [];
 

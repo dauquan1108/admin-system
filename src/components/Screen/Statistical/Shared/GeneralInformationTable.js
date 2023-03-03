@@ -14,6 +14,7 @@
 
 const dateFormatList = ["DD/MM/YYYY"];
 
+// TODO: Lấy ra ngày hiện tại "Ngày/Tháng/Năm"
 const today = () => {
 	const dates = new Date();
 	return (
@@ -21,17 +22,27 @@ const today = () => {
 	);
 };
 
+// TODO: Chuyển đổi date sang "Tháng/Ngày/Năm"
 const convertMDY = (dateStringDMY) => {
 	const dataNew = dateStringDMY || today();
 	const parts = dataNew.split('/');
 	return parts[1] + '/' + parts[0] + '/' + parts[2];
 };
 
-
+// TODO: Chuyển đổi date("Tháng/Ngày/Năm") => TimeStamp
 const convertTimeStamp = (dateStringMDY) => {
 	const dateString = dateStringMDY || convertMDY();
 	const dateObject = new Date(dateString);
 	return dateObject.getTime();
+};
+
+// TODO: Chuyển đổi từ TimeStamp => Ngày/Tháng/Năm
+const convertDMY = (timeStamp) => {
+	const date = new Date(timeStamp);
+	const day = ("0" + date.getDate()).slice(-2);
+	const month = ("0" + (date.getMonth() + 1)).slice(-2);
+	const year = date.getFullYear();
+	return (`${day}/${month}/${year}`);
 };
 
 
@@ -50,4 +61,4 @@ const typeName = {
 	type: 'type', // Hình thức
 }
 
-export { dateFormatList, today, convertMDY, convertTimeStamp, typeName };
+export { dateFormatList, today, convertMDY, convertTimeStamp, convertDMY, typeName };
