@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Modal, message, Button } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 
 // Component
 import useModalAddNew from "./useModalAddNew";
@@ -31,6 +32,9 @@ import DatePickerComponent from '../Shared/DatePickerComponent';
 
 // Util
 import { API_URL } from "../../../../utils/Config";
+
+// action-saga
+import { addTransaction } from '../../../../cores/actions-sagas/transaction'
 
 // Style
 import styles from './Styles/index.module.scss';
@@ -46,6 +50,7 @@ const { confirm } = Modal;
 
 function ModalAddNew(props) {
 	const { isModal, onCloseModal } = props;
+	const dispatch = useDispatch();
 
 	const {
 		data,
@@ -98,7 +103,8 @@ function ModalAddNew(props) {
 
 	const onCallApi = () => {
 		setConfirmLoading(true);
-		callApiAdd();
+		// callApiAdd();
+		dispatch(addTransaction(data))
 	};
 
 	const callApiAdd = () => {

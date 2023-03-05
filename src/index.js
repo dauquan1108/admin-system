@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Provider } from "react-redux";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -7,6 +8,9 @@ import App from './App';
 import Loading from './components/Loading';
 import reportWebVitals from './reportWebVitals';
 
+// store
+import store from './cores/reducers';
+
 // Style
 import './index.css';
 
@@ -14,11 +18,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<Suspense fallback={<Loading style={{ height: window.innerHeight }} />}>
-				<App />
-			</Suspense>
-		</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<Suspense fallback={<Loading style={{ height: window.innerHeight }} />}>
+					<App />
+				</Suspense>
+			</BrowserRouter>
+		</Provider>
 	</React.StrictMode>
 );
 
