@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
 
 // Shared
-import { typeName as typeNames } from "../../Shared/GeneralInformationTable";
+import { typeName as typeNames } from "../../Shared/Synthetic";
 
 // Style
 import styles from './Styles/index.module.scss';

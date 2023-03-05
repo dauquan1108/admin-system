@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 function SelectComponent(props) {
 	const { data, onSelect, style } = props;
 
-	const refSelect = React.useRef(null);
+	const refSelect = React.useRef(data[0]);
 
 	const onChangeTag = (value) => {
 		refSelect.current = value;

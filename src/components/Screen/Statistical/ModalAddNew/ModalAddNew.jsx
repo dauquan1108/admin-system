@@ -26,7 +26,7 @@ import AutoCompleteCustom from "./AutoCompleteCustom";
 
 // Shared
 import SelectComponent from "../Shared/SelectComponent";
-import { typeName } from '../Shared/GeneralInformationTable';
+import { typeName } from '../Shared/Synthetic';
 import DatePickerComponent from '../Shared/DatePickerComponent';
 
 // Util

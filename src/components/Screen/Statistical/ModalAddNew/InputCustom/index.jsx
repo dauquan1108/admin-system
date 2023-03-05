@@ -16,9 +16,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, InputNumber } from "antd";
 
-// Shared
+// Base
 import { isCheckNumber } from "../../../../Base/Regex/validationNumber";
-import { typeName as typeNames } from "../../Shared/GeneralInformationTable";
+
+// Shared
+import { typeName as typeNames } from "../../Shared/Synthetic";
 
 // Style
 import styles from './Styles/index.module.scss';

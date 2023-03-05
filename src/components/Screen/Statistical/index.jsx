@@ -14,11 +14,11 @@
 
 import React from 'react';
 import axios from "axios";
+import { Spin, message } from 'antd';
 
 // Component
 import Table from "./Table";
 import OpenChart from "./OpenChart";
-import Loading from '../../Loading';
 import ModalAddNew from "./ModalAddNew";
 import SelectOption from "./SelectOption";
 
@@ -31,6 +31,7 @@ import { API_URL } from "../../../utils/Config";
 function Statistical() {
 	const [hasTransaction, setHasTransaction] = React.useState({});
 	const [dataSource, setDataSource] = React.useState( {});
+	const [isLoading, setIsLoading] = React.useState(true);
 
 	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 10 })
 
@@ -53,7 +54,11 @@ function Statistical() {
 		setDataSource({...dataSource, ...listItem});
 	};
 
-	const callApi = (pageSize, pageNumber) => {
+	const onFinally = () => {
+		setIsLoading(false);
+	};
+
+	const callApiGetListData = (pageSize, pageNumber) => {
 		axios({
 			method: "get",
 			url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
@@ -66,27 +71,59 @@ function Statistical() {
 		}).catch((error) => {
 			throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
 		}).finally(() => {
-
+			onFinally();
 		});
 	};
 
 	React.useEffect(() => {
 		const { pageSize, pageNumber } = isCallApi;
-		callApi(pageSize, pageNumber);
+		callApiGetListData(pageSize, pageNumber);
 	}, []);
-
 
 	const listDataSource = () => {
 		const { pageNumber } = isCallApi;
 		if (!dataSource.hasOwnProperty(pageNumber)) {
 			const { pageSize, pageNumber } = isCallApi;
-			callApi(pageSize, pageNumber);
+			callApiGetListData(pageSize, pageNumber);
 		} else {
 			return dataSource[pageNumber];
 		}
 	};
 
+	const onDeleteItemSuccess = (valueNew, page) => {
+		const dataSourceNew = dataSource;
+		dataSourceNew[page] = valueNew;
+		setDataSource({...dataSourceNew});
+	};
+
+	const onDeleteItemError = () => {
+		message.error('Chức năng xóa không thành công vui lòng thử lại.', 5);
+	};
+
+	const callApiDeleteItem = (id, valueNew, page) => {
+		axios({
+			method: "delete",
+			url: `${API_URL}/${id}`,
+		}).then((response) => {
+			if (response.status === 200) {
+				onDeleteItemSuccess(valueNew, page);
+			}
+		}).catch((error) => {
+			onDeleteItemError();
+			throw new Error("Xóa item thất bại ======== [[ Error ]] =====>:", error);
+		}).finally(() => {
+			onFinally();
+		});
+	};
+
+	const onDeleteItemDataSource = (id, valueNew, page) => {
+		setIsLoading(true);
+		callApiDeleteItem(id, valueNew, page);
+	};
+
 	const total = hasTransaction.total || 0;
+
+	const { pageNumber } = isCallApi;
 
 	return(
 		<React.Fragment>
@@ -95,6 +132,11 @@ function Statistical() {
 					<div className={styles.contentLeft}>
 						<ModalAddNew />
 						<SelectOption />
+						{
+							isLoading && (
+								<Spin style={{ marginTop: '2px', marginLeft: '12px' }} />
+							)
+						}
 					</div>
 					<div className={styles.contentRight}>
 						<OpenChart />
@@ -102,8 +144,12 @@ function Statistical() {
 				</div>
 				<Table
 					total={total}
-					dataSource={listDataSource()}
+					pageNumber={pageNumber}
 					setIsCallApi={setIsCallApi}
+					setIsLoading={setIsLoading}
+					dataSource={listDataSource()}
+					dataSourceOrigin={dataSource}
+					onDeleteItemDataSource={onDeleteItemDataSource}
 				/>
 			</div>
 		</React.Fragment>

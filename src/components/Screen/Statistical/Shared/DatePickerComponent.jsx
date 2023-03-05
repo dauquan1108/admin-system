@@ -19,7 +19,7 @@ import { DatePicker } from 'antd';
 import locale from "antd/es/date-picker/locale/vi_VN";
 
 // Shared
-import { convertMDY, convertTimeStamp, dateFormatList, today } from "./GeneralInformationTable";
+import { convertMDY, convertTimeStamp, dateFormatList, today } from "./Time";
 
 function DatePickerComponent(props) {
 	const { style, placeholder, onDatePicker } = props;

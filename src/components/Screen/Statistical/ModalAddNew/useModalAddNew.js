@@ -15,7 +15,8 @@
 import React from 'react';
 
 // Shared
-import { convertTimeStamp, typeName } from "../Shared/GeneralInformationTable";
+import { typeName } from "../Shared/Synthetic";
+import { convertTimeStamp } from "../Shared/Time";
 
 const provinceDataType = ['Rút tiền', 'Đáo'];
 
