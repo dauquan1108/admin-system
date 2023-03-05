@@ -5,7 +5,8 @@ const NAME = {
     CUMTOMER: 'customer', // Khách hàng
     ACCOUNT_MANAGEMENT: 'account-management', // quản lý tài khoản
     STAFF: 'staff', // nhân viến
-    STATISTICAL: 'statistical', // Thống kê
+    STATISTICAL: 'statistical', // Thống kêD
+    TODOS: 'todos', // Thống kêD
 }
 const ROUTES = {
     LOGIN: `/${NAME.LOGIN}`,
@@ -15,6 +16,7 @@ const ROUTES = {
     STAFF: `/${NAME.STAFF}`,
     ACCOUNT_MANAGEMENT: `/${NAME.ACCOUNT_MANAGEMENT}`,
     STATISTICAL: `/${NAME.STATISTICAL}`,
+    TODOS: `/${NAME.TODOS}`,
 }
 
 export default ROUTES;

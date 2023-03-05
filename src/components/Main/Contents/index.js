@@ -69,7 +69,6 @@ function Contents({ collapsed }) {
 	const navigate = useNavigate();
 
 	const onClickItem = (event) => {
-		console.log('event.key:', event.key);
 		navigate(event.key);
 	};
 

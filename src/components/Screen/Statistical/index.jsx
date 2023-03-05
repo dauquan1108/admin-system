@@ -30,7 +30,7 @@ import { API_URL } from "../../../utils/Config";
 
 function Statistical() {
 	const [hasTransaction, setHasTransaction] = React.useState({});
-	const [dataSource, setDataSource] = React.useState( {});
+	const [dataSource, setDataSource] = React.useState({});
 
 	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 10 })
 
