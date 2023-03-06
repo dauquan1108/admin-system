@@ -71,7 +71,7 @@ function TableComponent(props) {
 			...getColumnSearchProps("devicePost", "tên thiết bị"),
 			sortDirections: ["descend", "ascend"],
 			width: 200,
-			// fixed: "left"
+			fixed: "left"
 			// sorter: (a, b) => a.devicePost.length - b.devicePost.length,
 		},
 		{
@@ -86,7 +86,7 @@ function TableComponent(props) {
 						{workTimestamp}
 					</span>
 				);
-			}
+			},
 			// fixed: "left",
 			// sorter: true
 		},
@@ -149,11 +149,13 @@ function TableComponent(props) {
 		// 	dataIndex: "fees",
 		// 	key: "fees",
 		// },
-		// {
-		// 	title: "Lãi",
-		// 	dataIndex: "interestRate",
-		// 	key: "interestRate",
-		// },
+		{
+			title: "Lãi",
+			dataIndex: "money",
+			key: "interestRate",
+			// render: (text, row) => <a href='#'> {text + row.devicePost}</a>
+			render: (text, row) => <a href='#'>Đoạn này tính toán</a>
+		},
 
 		{
 			key: "type",
@@ -206,7 +208,7 @@ function TableComponent(props) {
 						title="Bạn có chắc muốn xóa ?"
 						onConfirm={() => onClickDeleteItem(record.key)}
 					>
-						<Button type="link" danger>Xóa</Button>
+						<Button type="link" danger style={{ fontSize: '15px', fontWeight: '600' }}>Xóa</Button>
 					</Popconfirm>
 				) : null
 		},

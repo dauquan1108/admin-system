@@ -33,7 +33,9 @@ function Statistical() {
 	const [dataSource, setDataSource] = React.useState( {});
 	const [isLoading, setIsLoading] = React.useState(true);
 
-	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 10 })
+	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 10 });
+
+	const refPageNumber = React.useRef(null);
 
 	const onSuccess = (Transaction, HasTransaction) => {
 		setHasTransaction(HasTransaction);
@@ -59,26 +61,24 @@ function Statistical() {
 	};
 
 	const callApiGetListData = (pageSize, pageNumber) => {
-		axios({
-			method: "get",
-			url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
-		}).then((response) => {
-			if (response.status === 200) {
-				const { data } = response.data;
-				const { HasTransaction, Transaction } = data;
-				HasTransaction && Transaction && onSuccess(Transaction, HasTransaction);
-			}
-		}).catch((error) => {
-			throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
-		}).finally(() => {
-			onFinally();
-		});
+		if (refPageNumber.current !== pageNumber) {
+			refPageNumber.current = pageNumber;
+			axios({
+				method: "get",
+				url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
+			}).then((response) => {
+				if (response.status === 200) {
+					const { data } = response.data;
+					const { HasTransaction, Transaction } = data;
+					HasTransaction && Transaction && onSuccess(Transaction, HasTransaction);
+				}
+			}).catch((error) => {
+				throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
+			}).finally(() => {
+				onFinally();
+			});
+		}
 	};
-
-	React.useEffect(() => {
-		const { pageSize, pageNumber } = isCallApi;
-		callApiGetListData(pageSize, pageNumber);
-	}, []);
 
 	const listDataSource = () => {
 		const { pageNumber } = isCallApi;
