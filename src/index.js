@@ -9,7 +9,7 @@ import Loading from './components/Loading';
 import reportWebVitals from './reportWebVitals';
 
 // store
-import store from '@truelove-core/reducers';
+import store from 'cores/reducers';
 
 // Style
 import './index.css';
