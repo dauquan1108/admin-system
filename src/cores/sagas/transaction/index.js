@@ -1,3 +1,3 @@
-import hasTransaction from './watcherTransaction';
+import watcherTransaction from './watcherTransaction';
 
-export default hasTransaction;
+export default watcherTransaction;

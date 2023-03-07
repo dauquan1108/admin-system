@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import produce from "immer";
 
-const hasTransSlice = createSlice({
-    name: "HasTransaction",
+import TYPE_STORE from 'cores/reducers/typeStore';
+
+const hasTransaction = createSlice({
+    // name: TYPE_STORE.HasTransaction, // MongLV: kiểm tra nguyên nhân
+    name: 'HasTransaction',
     initialState: {
         total: 0,
         count: 0,
@@ -11,7 +14,7 @@ const hasTransSlice = createSlice({
     reducers: {
         add: {
             reducer: (state, action) => {
-                produce(state, (draftState) => {
+                return produce(state, (draftState) => {
                     draftState.total += 1;
                     draftState.count += 1;
                     draftState.itemIds.push(action.payload);
@@ -30,5 +33,5 @@ const hasTransSlice = createSlice({
     }
 });
 
-export const { add } = hasTransSlice.actions;
-export default hasTransSlice.reducer;
+export const { add } = hasTransaction.actions;
+export default hasTransaction.reducer;
