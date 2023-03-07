@@ -3,7 +3,7 @@ import {
     configureStore,
     getDefaultMiddleware
 } from "@reduxjs/toolkit";
-import { composeWithDevTools } from 'redux-devtools';
+// import { composeWithDevTools } from 'redux-devtools';
 
 import todosReducer from "./todos";
 

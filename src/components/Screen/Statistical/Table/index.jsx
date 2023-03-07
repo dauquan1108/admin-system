@@ -61,6 +61,10 @@ function TableComponent(props) {
 		onDeleteItemDataSource && onDeleteItemDataSource(id, newData, pageNumber);
 	};
 
+	const convertMoney = (money) => {
+	    return (money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	};
+
 	const { provinceDataType } = useModalAddNew();
 
 	const columns = [
@@ -107,56 +111,72 @@ function TableComponent(props) {
 			key: "money",
 			dataIndex: "money",
 			title: "Số tiền nhận từ khách",
-			width: 260,
-			render: (value) => {
-				const valueNew = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-				return (
-					<span>
-						{`${valueNew} vnđ`}
-					</span>
-				);
-			}
+			width: 200,
+			render: (value) => <span>{`${convertMoney(value) || 0} vnđ`}</span>
 		},
 		{
 			key: "percentBank",
 			dataIndex: "percentBank",
 			title: "% Phí ngân hàng",
-			width: 180,
+			// width: 180,
 			render: (value) => (
 				<span>
-					{`${value} %`}
+					{`${value || 0} %`}
 				</span>
 			),
 		},
-		// {
-		// 	title: "Phí ngân hàng",
-		// 	dataIndex: "bankFees",
-		// 	key: "bankFees",
-		// },
+		{
+			title: "Phí ngân hàng thu",
+			key: "bankMoney",
+			dataIndex: "money",
+			render: (value, row) => {
+				// bank_money ( Phí ngân hàng thu) = money  * (percentBank /  100 )
+				const bank_money = (value * (row.percentBank /  100 )).toFixed(2);
+				const bankMoney = convertMoney(bank_money);
+				return (
+					<span>{`${bankMoney || 0} vnđ`}</span>
+				);
+			}
+		},
 		{
 			key: "percentCustomer",
 			dataIndex: "percentCustomer",
 			title: "% Phí thu khách",
-			width: 180,
+			// width: 180,
 			render: (value) => (
 				<span>
 					{`${value} %`}
 				</span>
 			),
 		},
-		// {
-		// 	title: "Phí thu",
-		// 	dataIndex: "fees",
-		// 	key: "fees",
-		// },
 		{
-			title: "Lãi",
+			title: "Phí thu khách",
+			key: "feesClient",
 			dataIndex: "money",
-			key: "interestRate",
-			// render: (text, row) => <a href='#'> {text + row.devicePost}</a>
-			render: (text, row) => <a href='#'>Đoạn này tính toán</a>
+			render: (value, row) => {
+				//  customer_money (Phí thu khách) = money  * (percentCustomer /  100 )
+				const feesClient = (value * (row.percentCustomer /  100)).toFixed(2);
+				const feesClientNew = convertMoney(feesClient);
+				return (
+					<span>{`${feesClientNew || 0} vnđ`}</span>
+				);
+			}
 		},
-
+		{
+			title: "Tiền lãi",
+			key: "interestRate",
+			dataIndex: "money",
+			render: (value, row) => {
+				// Lãi = bank_money - customer_money;
+				const bankMoney = value * (row.percentBank /  100 );
+				const feesClient = value * (row.percentCustomer /  100);
+				const interestRate = (feesClient- bankMoney).toFixed(2);
+				const interestRateNew = convertMoney(interestRate);
+				return (
+					<span>{`${interestRateNew || 0} vnđ`}</span>
+				);
+			}
+		},
 		{
 			key: "type",
 			dataIndex: "type",
@@ -188,7 +208,7 @@ function TableComponent(props) {
 			render: (_, record) => (
 				<Space size="middle">
 					<a onClick={() => onClickNote(record)}>
-						<img src={note} alt='note' width="20px" />
+						<img src={note} alt='note' width="22px" />
 					</a>
 				</Space>
 			),
@@ -199,7 +219,7 @@ function TableComponent(props) {
 			title: "Xóa thông tin",
 			align: "center",
 			fixed: "right",
-			width: 160,
+			width: 140,
 			render: (_, record) =>
 				dataSource.length >= 1 ? (
 					<Popconfirm
