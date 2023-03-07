@@ -1,0 +1,10 @@
+{
+ "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@truelove-core/*": ["./cores/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}   

@@ -1,9 +1,8 @@
 import {
     combineReducers,
-    configureStore,
-    getDefaultMiddleware
+    configureStore
 } from "@reduxjs/toolkit";
-// import { composeWithDevTools } from 'redux-devtools';
+// import { composeWithDevTools } from 'redux-devtools/core';
 
 import todosReducer from "./todos";
 
@@ -20,7 +19,7 @@ const sagaMiddleware = createSaga();
 
 const store = configureStore({
     reducer: rootReducer,
-    middleware: [...getDefaultMiddleware(), sagaMiddleware],
+    middleware: [sagaMiddleware],
 });
 
 sagaMiddleware.run(rootSagas);
