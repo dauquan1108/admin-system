@@ -1,10 +1,9 @@
 import baseAPI from './baseAPI';
 const route = 'transaction';
 const transactionAPIs = {
-    // params yeu cau sau / vd : lay ra 10 ptu dau
-    // getAll(data) {
-    //     return axiosClient.get(route, data);
-    // },
+    getAll(data) {
+        return baseAPI.get(route, data);
+    },
     // get(id) {
     //     const url = `/product/${id}`;
     //     return axiosClient.get(url);

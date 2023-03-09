@@ -6,6 +6,6 @@ import transaction from './transaction';
 export default function* rootSagas() {
     yield all([
         todo.watcherAddTodo(), todo.watcherToggleTodo(), // Todo
-        transaction.watcherAdd(), // transaction
+        transaction.watcherAdd(), transaction.watcherGetList(), // transaction
     ]);
 }

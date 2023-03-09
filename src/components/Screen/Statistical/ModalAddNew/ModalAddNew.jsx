@@ -104,7 +104,7 @@ function ModalAddNew(props) {
 	const onCallApi = () => {
 		setConfirmLoading(true);
 		// callApiAdd();
-		dispatch(addTransaction(data, [() => setConfirmLoading(false)]))
+		dispatch(addTransaction(data, [onSuccess]))
 	};
 
 	const callApiAdd = () => {

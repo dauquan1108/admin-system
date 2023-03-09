@@ -30,8 +30,20 @@ const hasTransaction = createSlice({
             // Trong đó không có tham số
             prepare: (payload) => ({ payload })
         },
+        getList: {
+            reducer: (state, action) => {
+                const { count, total, itemIds } = action.payload;
+                if (state.count != count) {
+                    return produce(state, (draftState) => {
+                        draftState.total = total;
+                        draftState.count = draftState.count + count;
+                        draftState.itemIds = [...new Set(draftState.itemIds.concat(itemIds))];
+                    });
+                }
+            },
+        }
     }
 });
 
-export const { add } = hasTransaction.actions;
+export const { add, getList } = hasTransaction.actions;
 export default hasTransaction.reducer;

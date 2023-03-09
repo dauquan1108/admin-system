@@ -17,6 +17,7 @@ import React, { Suspense } from 'react';
 import { Menu } from 'antd';
 import PropTypes from 'prop-types';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
 	UserOutlined,
 	PieChartOutlined,
@@ -28,6 +29,9 @@ import {
 
 // Components
 import Loading from '../../Loading';
+
+// Action
+import { getListTransaction } from 'cores/actions-sagas/transaction';
 
 // Utils
 import ROUTES from '../../../utils/const/namerouter';
@@ -58,6 +62,10 @@ const items = [
 ];
 
 function About() {
+	const dispatch = useDispatch()
+	React.useEffect(() => {
+		dispatch(getListTransaction());
+	}, [])
 	return (
 		<div>
 			<h2>About</h2>

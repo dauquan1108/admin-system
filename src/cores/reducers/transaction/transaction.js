@@ -16,8 +16,13 @@ const Transaction = createSlice({
                 });
             },
         },
+        getList: {
+            reducer: (state, action) => {
+                return produce(state, (draftState) => ({ ...draftState, ...action.payload }));
+            },
+        }
     }
 });
 
-export const { add } = Transaction.actions;
+export const { add, getList } = Transaction.actions;
 export default Transaction.reducer;
