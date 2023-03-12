@@ -1,19 +1,11 @@
 import baseAPI from 'cores/axios/baseAPI';
-
+import { doMergeGetList } from 'cores/sagas/workerCore';
 import { put, fork } from "redux-saga/effects";
 
 import transactionAPIs from 'cores/axios/transactionAPIs'
 
-import { add as addHas, getList as getListHas } from 'cores/reducers/transaction/hasTransaction';
-import { add, getList } from 'cores/reducers/transaction/transaction'
-
-// import TYPE_STORE from 'cores/reducers/typeStore';
-
-// const ACTION_REDUCES = {
-// [TYPE_STORE.HasTransaction]: {
-// 
-// }
-// };
+import { add as addHas } from 'cores/reducers/transaction/hasTransaction';
+import { add } from 'cores/reducers/transaction/transaction'
 
 import API_KEY from 'cores/axios/keyAPI';
 
@@ -35,18 +27,7 @@ function* workerAdd(val, callback = [], config) {
     }
 };
 
-function* doMergeGetList(obj) {
-    const keys = Object.keys(obj);
-    for (let i in keys) {
-        console.log(keys[i]);
-        yield put({
-            type: `${keys[i]}/getList`,
-            payload: obj[keys[i]]
-        })
-    }
-};
-
-function* workerGetList(val, callback = [], config) {
+function* workerGetList(callback = [], config) {
     const { data = null, status = 404 } = yield baseAPI.getList(API_KEY.transaction);
     switch (status) {
         case 200:
@@ -59,6 +40,7 @@ function* workerGetList(val, callback = [], config) {
             break;
     }
 };
+
 export default {
     workerAdd,
     workerGetList,

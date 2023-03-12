@@ -17,15 +17,14 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<BrowserRouter>
-				<Suspense fallback={<Loading style={{ height: window.innerHeight }} />}>
-					<App />
-				</Suspense>
-			</BrowserRouter>
-		</Provider>
-	</React.StrictMode>
+	// <React.StrictMode>
+	<Provider store={store}>
+		<BrowserRouter>
+			<Suspense fallback={<Loading style={{ height: window.innerHeight }} />}>
+				<App />
+			</Suspense>
+		</BrowserRouter>
+	</Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

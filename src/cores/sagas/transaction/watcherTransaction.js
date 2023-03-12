@@ -1,7 +1,4 @@
-import { put, take, fork } from "redux-saga/effects";
-
-// action store
-// import hasTransaction from "../../reducers/hasTransaction";
+import { take, fork } from "redux-saga/effects";
 
 // worker
 import workerTransaction from './workerTransaction';
@@ -19,7 +16,7 @@ function* watcherAdd() {
 function* watcherGetList() {
     while (true) {
         const { payload } = yield take(TYPE_ACTION_TRANSACTION.GET_LIST);
-        yield fork(workerTransaction.workerGetList, payload.data, payload.callback);
+        yield fork(workerTransaction.workerGetList, payload.callback);
     }
 };
 

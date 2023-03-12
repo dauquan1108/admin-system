@@ -64,7 +64,38 @@ const items = [
 function About() {
 	const dispatch = useDispatch()
 	React.useEffect(() => {
-		dispatch(getListTransaction());
+		// dispatch(getListTransaction());
+
+		// dispatch({
+		// 	type: 'HasTransaction/add[saga]',
+		// 	payload: {
+		// 		config: {
+		// 			data: {
+		// 				"devicePost": "Ngày hôm nay",
+		// 				"customerId": "000000000",
+		// 				"extends": "{}",
+		// 				"percentCustomer": 1.8,
+		// 				"percentBank": 1.2,
+		// 				"workTimestamp": 1111111,
+		// 				"money": 1000000,
+		// 				"type": "Rút tiền"
+		// 			}
+		// 		}
+		// 	}
+		// });
+		dispatch({
+			type: 'HasTransaction/getList[saga]',
+		});
+		// dispatch({
+		// 	type: 'Transaction/remote[saga]',
+		// 	payload: {
+		// 		config: {
+		// 			data: {
+		// 				id: '6407888839cc36000822dd23'
+		// 			}
+		// 		}
+		// 	}
+		// });
 	}, [])
 	return (
 		<div>
