@@ -74,7 +74,7 @@ function TableComponent(props) {
 			title: "Tên thiết bị",
 			...getColumnSearchProps("devicePost", "tên thiết bị"),
 			sortDirections: ["descend", "ascend"],
-			width: 200,
+			width: 180,
 			fixed: "left"
 			// sorter: (a, b) => a.devicePost.length - b.devicePost.length,
 		},
@@ -82,7 +82,6 @@ function TableComponent(props) {
 			key: "workTimestamp",
 			dataIndex: "workTimestamp",
 			title: "Ngày làm",
-			width: 160,
 			render: (value) => {
 				const workTimestamp = convertDMY(value);
 				return (
@@ -111,14 +110,12 @@ function TableComponent(props) {
 			key: "money",
 			dataIndex: "money",
 			title: "Số tiền nhận từ khách",
-			width: 200,
 			render: (value) => <span>{`${convertMoney(value) || 0} vnđ`}</span>
 		},
 		{
 			key: "percentBank",
 			dataIndex: "percentBank",
 			title: "% Phí ngân hàng",
-			// width: 180,
 			render: (value) => (
 				<span>
 					{`${value || 0} %`}
@@ -142,7 +139,6 @@ function TableComponent(props) {
 			key: "percentCustomer",
 			dataIndex: "percentCustomer",
 			title: "% Phí thu khách",
-			// width: 180,
 			render: (value) => (
 				<span>
 					{`${value} %`}
@@ -219,7 +215,7 @@ function TableComponent(props) {
 			title: "Xóa thông tin",
 			align: "center",
 			fixed: "right",
-			width: 140,
+			width: 120,
 			render: (_, record) =>
 				dataSource.length >= 1 ? (
 					<Popconfirm
@@ -244,7 +240,7 @@ function TableComponent(props) {
 	let locale = {
 		emptyText: (
 			<span>
-				<WarningFilled style={{ fontSize: '25px', marginRight: '10px' }} />
+				<WarningFilled style={{ fontSize: '25px', marginRight: '10px', color: '#f8b310' }} />
                 Chưa có dữ liệu.
             </span>
 		)
@@ -256,7 +252,7 @@ function TableComponent(props) {
 			    <Table
 				    locale={locale}
 				    columns={columns}
-				    scroll={{x: 1800}}
+				    scroll={{x: 2000}}
 				    dataSource={dataSource}
 				    rowClassName={(record, index) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
 				    pagination={{

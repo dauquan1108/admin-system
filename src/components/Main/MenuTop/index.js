@@ -36,44 +36,18 @@ const items = [
 ];
 
 function MenuTop(props) {
-	const { collapsed, setCollapsed } = props;
-
-	const toggleCollapsed = () => {
-		setCollapsed(!collapsed);
-	};
-
     return(
 	    <div className={styles.menuTop}>
-		    <Button
-			    type="primary"
-			    onClick={toggleCollapsed}
-			    className={styles.btn}
-		    >
-			    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-		    </Button>
-		    <Dropdown
-			    menu={{
-				    items,
-			    }}
-			    placement="bottomLeft"
-			    arrow
-		    >
-			    <Button className={styles.avatar}>
-				    <Avatar url='https://i.pinimg.com/564x/b3/ac/d9/b3acd9852dcb091868874a6534f3e2cd.jpg' className={styles.contentAvatar} />
-			    </Button>
-		    </Dropdown>
+		    <div />
+		    <Avatar url='https://i.pinimg.com/564x/b3/ac/d9/b3acd9852dcb091868874a6534f3e2cd.jpg' className={styles.contentAvatar} />
 	    </div>
     );
 }
 
 MenuTop.propTypes = {
-	collapsed: PropTypes.bool,
-	setCollapsed: PropTypes.func,
 };
 
 MenuTop.defaultProps = {
-	collapsed: false,
-	setCollapsed: () => null,
 };
 
 export default MenuTop;

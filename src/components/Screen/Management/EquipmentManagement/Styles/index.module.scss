@@ -1,0 +1,50 @@
+.wrap {
+    .contentTop {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 8px 0;
+        background-color: #fff2ec;
+
+        .titleWrapContent {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .contentTopWrapIcon {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .icon {
+                padding: 10px;
+                border-radius: 50%;
+                background-color: #FFFFFF;
+                box-shadow: 0 0 11px -3px rgba(0,0,0,0.1);
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .iconSync {
+                margin-right: 10px;
+                cursor: pointer;
+            }
+            .iconSync:hover {
+                color: white;
+                background-color: #d2cfce;
+            }
+        }
+    }
+
+    .contentBottom {
+        margin-top: 5px;
+        //position: absolute;
+        z-index: -1;
+    }
+}

@@ -126,33 +126,31 @@ function Statistical() {
 	const { pageNumber } = isCallApi;
 
 	return(
-		<React.Fragment>
-			<div className={styles.wrapInvoice}>
-				<div className={styles.invoiceHeader}>
-					<div className={styles.contentLeft}>
-						<ModalAddNew />
-						<SelectOption />
-						{
-							isLoading && (
-								<Spin style={{ marginTop: '2px', marginLeft: '12px' }} />
-							)
-						}
-					</div>
-					<div className={styles.contentRight}>
-						<OpenChart />
-					</div>
+		<div className={styles.wrapInvoice}>
+			<div className={styles.invoiceHeader}>
+				<div className={styles.contentLeft}>
+					<ModalAddNew />
+					<SelectOption />
+					{
+						isLoading && (
+							<Spin style={{ marginTop: '2px', marginLeft: '12px' }} />
+						)
+					}
 				</div>
-				<Table
-					total={total}
-					pageNumber={pageNumber}
-					setIsCallApi={setIsCallApi}
-					setIsLoading={setIsLoading}
-					dataSource={listDataSource()}
-					dataSourceOrigin={dataSource}
-					onDeleteItemDataSource={onDeleteItemDataSource}
-				/>
+				<div className={styles.contentRight}>
+					<OpenChart />
+				</div>
 			</div>
-		</React.Fragment>
+			<Table
+				total={total}
+				pageNumber={pageNumber}
+				setIsCallApi={setIsCallApi}
+				setIsLoading={setIsLoading}
+				dataSource={listDataSource()}
+				dataSourceOrigin={dataSource}
+				onDeleteItemDataSource={onDeleteItemDataSource}
+			/>
+		</div>
     );
 }
 

@@ -15,20 +15,14 @@
 import React from 'react';
 
 // Component
-import MenuTop from './MenuTop';
 import Contents from './Contents';
 
 // Style
-import styles from './Styles/index.module.scss';
+// import styles from './Styles/index.module.scss';
 
 function Main() {
-    const [collapsed, setCollapsed] = React.useState(false);
-
     return (
-        <div className={styles.wrapMain}>
-            <MenuTop collapsed={collapsed} setCollapsed={setCollapsed} />
-            <Contents collapsed={collapsed} />
-        </div>
+        <Contents />
     );
 }
 

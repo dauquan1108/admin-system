@@ -1,0 +1,20 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        color: #3e314e;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    .contentList {
+        max-height: 42vh;
+        min-height: 150px;
+        overflow: hidden;
+        overflow-y: inherit;
+    }
+    .contentList::-webkit-scrollbar {
+        width: 0;
+    }
+}

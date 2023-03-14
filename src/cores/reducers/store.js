@@ -6,6 +6,7 @@ import {
 // import { composeWithDevTools } from 'redux-devtools';
 
 import todosReducer from "./todos";
+import backgroundImg from "./backgroundImg";
 
 import createSaga from "redux-saga";
 
@@ -13,6 +14,7 @@ import rootSagas from "../sagas";
 
 const rootReducer = combineReducers({
     todos: todosReducer,
+	backgroundImg,
     // Add more reducers here if needed
 })
 

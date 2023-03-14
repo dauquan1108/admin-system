@@ -16,6 +16,7 @@
 import React, { Suspense } from 'react';
 import { Menu } from 'antd';
 import PropTypes from 'prop-types';
+import {useSelector} from "react-redux";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
 	UserOutlined,
@@ -27,7 +28,11 @@ import {
 } from '@ant-design/icons';
 
 // Components
+import MenuTop from '../MenuTop';
 import Loading from '../../Loading';
+
+// Reducers
+import { selectBackgroundImg } from "../../../cores/reducers/backgroundImg";
 
 // Utils
 import ROUTES from '../../../utils/const/namerouter';
@@ -35,8 +40,10 @@ import ROUTES from '../../../utils/const/namerouter';
 // Style
 import styles from './Styles/index.module.scss';
 
-// const component 
+
+// const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
+const Management = React.lazy(() => import('../../Screen/Management'))
 
 function getItem(label, key, icon, children, type) {
 	return {
@@ -49,12 +56,17 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-	getItem('Thống kê', ROUTES.STATISTICAL, <PieChartOutlined />),
-	getItem('Giao dịch', ROUTES.TRANSACTIONS, <TransactionOutlined />),
-	getItem('Lịch đáo thẻ', ROUTES.CALENDAR, <CalendarOutlined />),
-	getItem('Khách hàng', ROUTES.CUMTOMER, <UsergroupAddOutlined />),
-	getItem('Nhân viên', ROUTES.STAFF, <UserOutlined />),
-	getItem('Quản lý tài khoản', ROUTES.ACCOUNT_MANAGEMENT, <AppstoreAddOutlined />),
+	getItem('MAIN MENU', 'grp', null, [
+		getItem('Thống kê', ROUTES.STATISTICAL, <PieChartOutlined />),
+		getItem('Giao dịch', ROUTES.TRANSACTIONS, <TransactionOutlined />),
+		getItem('Lịch đáo thẻ', ROUTES.CALENDAR, <CalendarOutlined />),
+		getItem('Khách hàng', ROUTES.CUMTOMER, <UsergroupAddOutlined />),
+		getItem('Nhân viên', ROUTES.STAFF, <UserOutlined />),
+	], 'group'),
+
+	getItem('SETTING', 'setting', null, [
+		getItem('Quản lý', ROUTES.ACCOUNT_MANAGEMENT, <AppstoreAddOutlined />)
+	], 'group'),
 ];
 
 function About() {
@@ -72,38 +84,46 @@ function Contents({ collapsed }) {
 		navigate(event.key);
 	};
 
+	const backgroundImg = useSelector(selectBackgroundImg);
+
 	return (
-		<div className={styles.content}>
-			<div
-				style={{
-					width: !collapsed && 220,
-				}}
-			>
-				<Menu
+		<React.Fragment>
+			<div className={styles.background}>
+				<img src={backgroundImg && backgroundImg.img || ''} alt="" />
+			</div>
+			<div className={styles.content}>
+				<div
 					className={styles.menuLeft}
-					// defaultSelectedKeys={[screen]}
-					// defaultOpenKeys={[screen]}
-					mode="inline"
-					theme="dark"
-					inlineCollapsed={collapsed}
-					items={items}
-					onClick={onClickItem}
-				/>
+				>
+					<div className={styles.menuLeftTop} />
+					<Menu
+						className={styles.menuLeftBottom}
+						// defaultSelectedKeys={[screen]}
+						// defaultOpenKeys={[screen]}
+						mode="inline"
+						inlineCollapsed={collapsed}
+						items={items}
+						onClick={onClickItem}
+					/>
+				</div>
+				<div className={styles.viewScreen}>
+					<MenuTop />
+					<div className={styles.viewScreenContent}>
+						<Suspense fallback={<Loading />}>
+							<Routes>
+								<Route path={ROUTES.STATISTICAL} element={<About />} />
+								<Route path={ROUTES.TRANSACTIONS} element={<Statistical />} />
+								<Route path={ROUTES.CALENDAR} element={<About />} />
+								<Route path={ROUTES.CUMTOMER} element={<About />} />
+								<Route path={ROUTES.STAFF} element={<About />} />
+								<Route path={ROUTES.ACCOUNT_MANAGEMENT} element={<Management />} />
+								<Route path='*' element={<About />} />
+							</Routes>
+						</Suspense>
+					</div>
+				</div>
 			</div>
-			<div className={styles.viewScreen}>
-				<Suspense fallback={<Loading />}>
-					<Routes>
-						<Route path={ROUTES.STATISTICAL} element={<About />} />
-						<Route path={ROUTES.TRANSACTIONS} element={<Statistical />} />
-						<Route path={ROUTES.CALENDAR} element={<About />} />
-						<Route path={ROUTES.CUMTOMER} element={<About />} />
-						<Route path={ROUTES.STAFF} element={<About />} />
-						<Route path={ROUTES.ACCOUNT_MANAGEMENT} element={<About />} />
-						<Route path='*' element={<About />} />
-					</Routes>
-				</Suspense>
-			</div>
-		</div>
+		</React.Fragment>
 	);
 }
 
