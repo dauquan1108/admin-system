@@ -1,4 +1,4 @@
-import { put, take, fork } from "redux-saga/effects";
+import { put, take } from "redux-saga/effects";
 
 import { addTodo, toggleTodo } from "../../reducers/todos"
 

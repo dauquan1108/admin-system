@@ -1,10 +1,9 @@
 import baseAPI from './baseAPI';
 const route = 'transaction';
-const categoryAPI = {
-    // params yeu cau sau / vd : lay ra 10 ptu dau
-    // getAll(data) {
-    //     return axiosClient.get(route, data);
-    // },
+const transactionAPIs = {
+    getAll(data) {
+        return baseAPI.get(route, data);
+    },
     // get(id) {
     //     const url = `/product/${id}`;
     //     return axiosClient.get(url);
@@ -20,4 +19,4 @@ const categoryAPI = {
     //     return axiosClient.delete(url);
     // },
 };
-export default categoryAPI;
+export default transactionAPIs;

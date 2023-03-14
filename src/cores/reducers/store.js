@@ -1,21 +1,25 @@
 import {
     combineReducers,
     configureStore,
-    getDefaultMiddleware
+    getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-// import { composeWithDevTools } from 'redux-devtools';
+// import { composeWithDevTools } from 'redux-devtools/core';
 
+// reducer
 import todosReducer from "./todos";
 import backgroundImg from "./backgroundImg";
+import HasTransaction from "./transaction/hasTransaction";
+import Transaction from "./transaction/transaction";
 
 import createSaga from "redux-saga";
 
-import rootSagas from "../sagas";
+import rootSagas from "cores/sagas";
 
 const rootReducer = combineReducers({
     todos: todosReducer,
 	backgroundImg,
-    // Add more reducers here if needed
+    HasTransaction,
+    Transaction,
 })
 
 const sagaMiddleware = createSaga();
