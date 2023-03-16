@@ -250,10 +250,12 @@ function TableComponent(props) {
     	<React.Fragment>
 		    <ConfigProvider locale={locales}>
 			    <Table
+				    pageSize={10}
 				    locale={locale}
 				    columns={columns}
 				    scroll={{x: 2000}}
 				    dataSource={dataSource}
+				    className={styles.wrapTable}
 				    rowClassName={(record, index) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
 				    pagination={{
 					    onChange: cancel,

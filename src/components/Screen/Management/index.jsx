@@ -15,25 +15,18 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {
-	SyncOutlined,
-	PieChartOutlined,
-	SnippetsOutlined,
-	AreaChartOutlined,
-	BarChartOutlined
-} from "@ant-design/icons";
 
 // Component
 import WrapItemManagement from "./WrapItem";
 import EmployeeManager from "./EmployeeManager";
+import RevenueManagement from "./RevenueManagement";
+import BankFeeManagement from "./BankFeeManagement";
+import EquipmentManagement from "./EquipmentManagement";
 import SettingBackgroundImg from "./SettingBackgroundImg";
+import CustomerFeeManagement from "./CustomerFeeManagement";
 
 // Style
 import styles from "./Styles/index.module.scss";
-import RevenueManagement from "./RevenueManagement";
-import EquipmentManagement from "./EquipmentManagement";
-import BankFeeManagement from "./BankFeeManagement";
-import CustomerFeeManagement from "./CustomerFeeManagement";
 
 function Management() {
     return(

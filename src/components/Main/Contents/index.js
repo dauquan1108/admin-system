@@ -16,10 +16,12 @@
 import React, { Suspense } from 'react';
 import { Menu } from 'antd';
 import PropTypes from 'prop-types';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
 	UserOutlined,
+	LoginOutlined,
+	CameraOutlined,
 	PieChartOutlined,
 	CalendarOutlined,
 	AppstoreAddOutlined,
@@ -28,8 +30,9 @@ import {
 } from '@ant-design/icons';
 
 // Components
-import MenuTop from '../MenuTop';
+import MenuTop from './MenuTop';
 import Loading from '../../Loading';
+import Avatar from "../../Avatar";
 
 // Reducers
 import { selectBackgroundImg } from "../../../cores/reducers/backgroundImg";
@@ -39,7 +42,6 @@ import ROUTES from '../../../utils/const/namerouter';
 
 // Style
 import styles from './Styles/index.module.scss';
-
 
 // const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
@@ -56,7 +58,7 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-	getItem('MAIN MENU', 'grp', null, [
+	getItem('MAIN MENU', 'main', null, [
 		getItem('Thống kê', ROUTES.STATISTICAL, <PieChartOutlined />),
 		getItem('Giao dịch', ROUTES.TRANSACTIONS, <TransactionOutlined />),
 		getItem('Lịch đáo thẻ', ROUTES.CALENDAR, <CalendarOutlined />),
@@ -67,6 +69,7 @@ const items = [
 	getItem('SETTING', 'setting', null, [
 		getItem('Quản lý', ROUTES.ACCOUNT_MANAGEMENT, <AppstoreAddOutlined />)
 	], 'group'),
+	getItem('Đăng xuất', 'main', <LoginOutlined />)
 ];
 
 function About() {
@@ -95,7 +98,17 @@ function Contents({ collapsed }) {
 				<div
 					className={styles.menuLeft}
 				>
-					<div className={styles.menuLeftTop} />
+					<div className={styles.menuLeftTop}>
+						<div className={styles.wrapAvatar}>
+							<Avatar url='https://i.pinimg.com/564x/b3/ac/d9/b3acd9852dcb091868874a6534f3e2cd.jpg' size={100} />
+							<div className={styles.iconCamera}>
+								<CameraOutlined style={{ fontSize: '18px' }} />
+							</div>
+						</div>
+						<span className={styles.name}>
+							Tên người dùng
+						</span>
+					</div>
 					<Menu
 						className={styles.menuLeftBottom}
 						// defaultSelectedKeys={[screen]}

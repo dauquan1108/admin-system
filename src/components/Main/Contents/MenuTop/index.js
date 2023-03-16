@@ -13,33 +13,22 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, Dropdown } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined } from "@ant-design/icons";
-
-// Component
-import Avatar from '../../Avatar';
+import { message } from "antd";
 
 // Style
-import styles from  './Styles/index.module.scss';
+import styles from './Styles/index.module.scss';
 
-const items = [
-	{
-		key: '1',
-		label: (
-			<div className={styles.wrapLogout}>
-				<PoweroffOutlined />
-				<span className={styles.text}>Đăng xuất</span>
-			</div>
-		),
-	},
-];
+// Img
+import notification from "../../../Img/notification.png";
 
 function MenuTop(props) {
+	const onclickNotify = () => {
+		message.success('Chức năng đang phát triển',5 );
+	};
+
     return(
 	    <div className={styles.menuTop}>
-		    <div />
-		    <Avatar url='https://i.pinimg.com/564x/b3/ac/d9/b3acd9852dcb091868874a6534f3e2cd.jpg' className={styles.contentAvatar} />
+		    <img src={notification} alt='iconNotification' onClick={onclickNotify} className={styles.iconNotify} />
 	    </div>
     );
 }

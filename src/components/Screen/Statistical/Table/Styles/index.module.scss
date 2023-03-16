@@ -1,8 +1,19 @@
-.withdrawMoney {
-    // Rút tiền
-    background-color: #eef8eb;
+.wrapTable {
+    .withdrawMoney {
+        // Rút tiền
+        background-color: #eef8eb;
+    }
+
+    .unique {
+        // Đáo
+    }
+    :global {
+        .ant-pagination-next {
+            margin-right: 16px;
+        }
+        .ant-pagination-options {
+            display: none;
+        }
+    }
 }
 
-.unique {
-    // Đáo
-}
