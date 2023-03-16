@@ -4,8 +4,8 @@ import produce from 'immer';
 import TYPE_STORE from "cores/utils/constants/TYPE_STORE";
 import hasObjectReducer from "../hasObjectReducer";
 
-const hasNAME = createSlice({
-    name: TYPE_STORE["hasNAME"],
+const hasTodo = createSlice({
+    name: TYPE_STORE["hasTodo"],
     initialState: {
         total: 0,
         count: 0,
@@ -17,5 +17,5 @@ const hasNAME = createSlice({
     }
 });
 
-export const { add, getList, remote } = hasNAME.actions;
-export default hasNAME.reducer;
+export const { add, getList, remote } = hasTodo.actions;
+export default hasTodo.reducer;

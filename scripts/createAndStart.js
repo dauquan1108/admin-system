@@ -20,7 +20,6 @@ if (!fileName) {
 const upperCaseStr = fileName.charAt(0).toUpperCase() + fileName.slice(1);
 //----------------------------------------------------------------------
 const dirPath = path.join(__dirname, '..', 'src', 'cores', 'reducers', fileName, `${fileName}.js`);
-console.log('dirPath: ', dirPath);
 if (fs.existsSync(dirPath)) {
     console.log(`File ${fileName} đã tồn tại!`);
 } else {
@@ -35,7 +34,7 @@ if (fs.existsSync(dirPath)) {
     // Ghi nội dung vào file
     // Đọc nội dung của file và lưu vào biến data
     let data = fs.readFileSync(`src/cores/reducers/example/example.txt`, 'utf-8');
-    // Thay thế các chuỗi 'name' bằng 'new'
+    // Thay thế các chuỗi 'name' bằng 'upperCaseStr'
     data = data.replace(/NAME/g, upperCaseStr);
 
     fs.writeFileSync(dirFile, '');

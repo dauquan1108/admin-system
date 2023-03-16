@@ -12,7 +12,6 @@ function nameAPI(type = '') {
 };
 
 const type = typeCore();
-console.log('typeCore:', type);
 
 function typeCore() {
     const idsGetList = [];
@@ -45,10 +44,8 @@ function* watcherAdd() {
 };
 
 function* watcherRemove() {
-    console.log('xxx: ', type[TYPE_HANDLE.REMOTE])
     yield takeEvery(type[TYPE_HANDLE.REMOTE], function* (action) {
         const { type, payload } = action;
-        console.log('type: ', type);
         yield fork(workerCore, TYPE_HANDLE.REMOTE, nameAPI(type), payload?.config, payload?.callback);
     });
 };
@@ -65,4 +62,5 @@ const watcherCore = {
     watcherAdd,
     watcherRemove,
 };
+
 export default watcherCore;

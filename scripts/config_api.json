@@ -1,4 +1,5 @@
 {
     "transaction": "transaction",
-    "user": "user"
+    "user": "user",
+    "todo": "todo"
 }
