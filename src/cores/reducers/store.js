@@ -8,18 +8,27 @@ import {
 // reducer
 import todosReducer from "./todos";
 import backgroundImg from "./backgroundImg";
-import HasTransaction from "./transaction/hasTransaction";
-import Transaction from "./transaction/transaction";
+
+import transaction from './transaction';
+import user from './user';
+import todo from './todo';
+// [Tự động import reducers vào đây]
 
 import createSaga from "redux-saga";
 
 import rootSagas from "cores/sagas";
 
+const reducers = {
+    ...transaction,
+...user,
+...todo,
+// [Tự động thêm reducer vào đây]
+}
+
 const rootReducer = combineReducers({
     todos: todosReducer,
-	backgroundImg,
-    HasTransaction,
-    Transaction,
+    backgroundImg,
+    ...reducers,
 })
 
 const sagaMiddleware = createSaga();

@@ -1,0 +1,6 @@
+{
+    "HasTransaction": "HasTransaction",
+    "Transaction": "Transaction",
+    "HasUser": "HasUser",
+    "User": "User"
+}

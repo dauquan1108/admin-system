@@ -4,8 +4,8 @@ import { put, fork } from "redux-saga/effects";
 
 import transactionAPIs from 'cores/axios/transactionAPIs'
 
-import { add as addHas } from 'cores/reducers/transaction/hasTransaction';
-import { add } from 'cores/reducers/transaction/transaction'
+import { add as addHas } from 'cores/reducers/_transaction/hasTransaction';
+import { add } from 'cores/reducers/_transaction/transaction'
 
 import API_KEY from 'cores/axios/keyAPI';
 

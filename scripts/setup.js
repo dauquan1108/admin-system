@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 const createFileReducers = require('./core/createFileReducers');
+const updateFileReducerRoot = require('./core/updateFileReducerRoot');
 
 // Đọc nội dung của file và lưu vào biến data
 let dataTxt = fs.readFileSync(`scripts/config_api.json`, 'utf-8');
@@ -47,7 +48,10 @@ const NEW_TYPE_STORE_TXT = TYPE_STORE_TXT.replace(/\{[^{}]*\}/, JSON.stringify(T
 fs.writeFileSync(DIR_TYPE_STORE, NEW_TYPE_STORE_TXT);
 
 // Tạo reducers
-Object.values(data).map((val) => createFileReducers(val));
+Object.values(data).map((val) => {
+    createFileReducers(val);
+    updateFileReducerRoot(val);
+});
 
 // shell.exec('npm start');
 shell.exec('exit');
