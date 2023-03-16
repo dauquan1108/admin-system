@@ -1,17 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import produce from "immer";
 
 import TYPE_STORE from "cores/utils/constants/TYPE_STORE";
-// import TYPE_HANDLE from "cores/utils/constants/TYPE_HANDLE";
 
 import objectReducer from "../objectReducer";
-const NAME = createSlice({
-    name: NAME,
+const Todo = createSlice({
+    name: TYPE_STORE.Todo,
     initialState: {},
     reducers: {
         ...objectReducer
     }
 });
 
-export const { add, getList } = NAME.actions;
-export default NAME.reducer;
+export const { add, getList } = Todo.actions;
+export default Todo.reducer;
