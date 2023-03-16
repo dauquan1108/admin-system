@@ -5,7 +5,7 @@ import TYPE_STORE from "cores/utils/constants/TYPE_STORE";
 import hasObjectReducer from "../hasObjectReducer";
 
 const hasTransaction = createSlice({
-    name: TYPE_STORE["hasTransaction"],
+    name: TYPE_STORE.HasTransaction,
     initialState: {
         total: 0,
         count: 0,
