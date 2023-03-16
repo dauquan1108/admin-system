@@ -1,21 +1,27 @@
 .wrapManagement {
-    flex: 1;
     height: 100%;
 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     .contentManagementTop {
-        flex: 1;
+        height: 40%;
+        min-height: 200px;
+        margin-top: 5px;
+        margin-bottom: 16px;
+
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
 
-        padding-top: 8px;
-
         .wrapContentItem_1 {
-            padding: 0 20px 20px !important;
-            margin-right: 20px;
-            min-height: 200px;
-            max-height: 32vh;
+            height: 100%;
+            margin-right: 16px;
+            padding: 0 20px !important;
+
             overflow: hidden;
             overflow-y: inherit;
 
@@ -27,10 +33,10 @@
         }
 
         .wrapContentItem_2 {
-            padding: 0 20px 20px !important;
-            margin-right: 20px;
-            min-height: 200px;
-            max-height: 32vh;
+            height: 100%;
+            margin-right: 16px;
+            padding: 0 20px !important;
+
             overflow: hidden;
             overflow-y: inherit;
 
@@ -42,10 +48,10 @@
         }
 
         .wrapContentItem_3 {
-            padding: 0 20px 20px !important;
-            margin-right: 20px;
-            min-height: 200px;
-            max-height: 32vh;
+            height: 100%;
+            margin-right: 16px;
+            padding: 0 20px !important;
+
             overflow: hidden;
             overflow-y: inherit;
 
@@ -57,9 +63,9 @@
         }
 
         .wrapContentItem_4 {
-            padding: 0 20px 20px !important;
-            min-height: 200px;
-            max-height: 32vh;
+            height: 100%;
+            padding: 0 20px !important;
+
             overflow: hidden;
             overflow-y: inherit;
 
@@ -77,22 +83,29 @@
     }
 
     .contentManagementBottom {
-        flex: 2;
+        height: 58%;
+        min-height: 200px;
+        margin-bottom: 5px;
+
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
 
-        margin-top: 10px;
-
         .wrapContentItemBottomLeft {
+            height: 100%;
+            overflow: hidden;
+
             flex: 1;
-            margin-right: 10px;
+            margin-right: 8px;
             background-color: #eefcef;
         }
         .wrapContentItemBottomRight {
+            height: 100%;
+            overflow: hidden;
+
             flex: 2;
-            margin-left: 10px;
+            margin-left: 8px;
             background-color: #e6f5fa;
         }
     }

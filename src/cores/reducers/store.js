@@ -8,6 +8,7 @@ import {
 // reducer
 import todosReducer from "./todos";
 import backgroundImg from "./backgroundImg";
+import userInformation from "./userInformation";
 import HasTransaction from "./transaction/hasTransaction";
 import Transaction from "./transaction/transaction";
 
@@ -18,6 +19,7 @@ import rootSagas from "cores/sagas";
 const rootReducer = combineReducers({
     todos: todosReducer,
 	backgroundImg,
+	userInformation,
     HasTransaction,
     Transaction,
 })

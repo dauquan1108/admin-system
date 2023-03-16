@@ -42,6 +42,7 @@ import ROUTES from '../../../utils/const/namerouter';
 
 // Style
 import styles from './Styles/index.module.scss';
+import MenuLeftTop from "./MenuLeftTop";
 
 // const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
@@ -99,15 +100,7 @@ function Contents({ collapsed }) {
 					className={styles.menuLeft}
 				>
 					<div className={styles.menuLeftTop}>
-						<div className={styles.wrapAvatar}>
-							<Avatar url='https://i.pinimg.com/564x/b3/ac/d9/b3acd9852dcb091868874a6534f3e2cd.jpg' size={100} />
-							<div className={styles.iconCamera}>
-								<CameraOutlined style={{ fontSize: '18px' }} />
-							</div>
-						</div>
-						<span className={styles.name}>
-							Tên người dùng
-						</span>
+						<MenuLeftTop />
 					</div>
 					<Menu
 						className={styles.menuLeftBottom}
