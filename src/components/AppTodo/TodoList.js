@@ -14,8 +14,7 @@ function TodoList() {
   // ]);
 
   const todos = useSelector(store => store.Todo)
-  const itemIds = useSelector(store => store.HasTodo.itemIds);
-  console.log('itemIds: ', itemIds);
+  const itemIds = useSelector(store => store.HasTodo).itemIds;
   const dispath = useDispatchCore();
 
   React.useEffect(() => {
