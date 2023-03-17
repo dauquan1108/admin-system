@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import TYPE_STORE from "cores/utils/constants/TYPE_STORE";
 
 import objectReducer from "../objectReducer";
-const User = createSlice({
-    name: TYPE_STORE.User,
+const Mong = createSlice({
+    name: TYPE_STORE.Mong,
     initialState: {},
     reducers: {
         ...objectReducer
     }
 });
 
-export const { add, getList } = User.actions;
-export default User.reducer;
+export const { add, getList } = Mong.actions;
+export default Mong.reducer;

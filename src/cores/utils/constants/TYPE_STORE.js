@@ -1,2 +1,2 @@
-const TYPE_STORE = {"HasTransaction":"HasTransaction","Transaction":"Transaction","HasUser":"HasUser","User":"User","HasTodo":"HasTodo","Todo":"Todo"}
+const TYPE_STORE = {"HasTransaction":"HasTransaction","Transaction":"Transaction","HasTodo":"HasTodo","Todo":"Todo","HasMong":"HasMong","Mong":"Mong"}
 export default TYPE_STORE;

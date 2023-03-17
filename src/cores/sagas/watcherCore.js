@@ -46,7 +46,7 @@ function* watcherAdd() {
 function* watcherRemove() {
     yield takeEvery(type[TYPE_HANDLE.REMOTE], function* (action) {
         const { type, payload } = action;
-        yield fork(workerCore, TYPE_HANDLE.REMOTE, nameAPI(type), payload?.config, payload?.callback);
+        yield fork(workerCore, TYPE_HANDLE.REMOTE, nameAPI(type), payload?.config, payload.callback);
     });
 };
 

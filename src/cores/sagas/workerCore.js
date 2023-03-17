@@ -90,15 +90,15 @@ function* workerCore(method = TYPE_HANDLE.GET_LIST, nameAPI, config = {}, callba
     try {
         isStringInStore(method, TYPE_HANDLE, 'Method này chưa được định nghĩa trong file baseAPI'); // Kiểm tra method truyền vào có tồn tại trong định nghĩa chưa
         const { data = null, status = 404 } = yield baseAPI[method](nameAPI, config);
-        debugger; // MongLV
+        console.log('callback: ', callback);
         switch (status) {
             case 200:
                 yield fork(doSwitchHandleToStore, method, { ...data, ...config?.data }, nameAPI);
-                callback[0] && callback[0](data['data']);
+                // callback[0](data['data']);
                 break;
             case 404:
             default:
-                callback[1] && callback[1](data);
+                // callback[1](data);
                 break;
         }
     } catch (error) {

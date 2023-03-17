@@ -33,9 +33,6 @@ import DatePickerComponent from '../Shared/DatePickerComponent';
 // Util
 import { API_URL } from "../../../../utils/Config";
 
-// action-saga
-import { addTransaction } from '../../../../cores/actions-sagas/transaction'
-
 // Style
 import styles from './Styles/index.module.scss';
 
@@ -104,7 +101,7 @@ function ModalAddNew(props) {
 	const onCallApi = () => {
 		setConfirmLoading(true);
 		// callApiAdd();
-		dispatch(addTransaction(data, [onSuccess]))
+		// dispatch(addTransaction(data, [onSuccess]))
 	};
 
 	const callApiAdd = () => {

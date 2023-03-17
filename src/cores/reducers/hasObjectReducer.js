@@ -7,7 +7,7 @@ const hasObjectReducer = {
             return produce(state, (draftState) => {
                 draftState.total += 1;
                 draftState.count += 1;
-                draftState.itemIds.push(action.payload);
+                draftState.itemIds = [action.payload, ...draftState.itemIds];
             });
         },
 
