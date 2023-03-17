@@ -12,7 +12,7 @@ function Todo({ todo, remove, update, toggleComplete }) {
   };
   const handleUpdate = evt => {
     evt.preventDefault();
-    update(todo.id, task);
+    update(todo._id, task);
     toggleFrom();
   };
   const handleChange = evt => {
@@ -36,7 +36,7 @@ function Todo({ todo, remove, update, toggleComplete }) {
     result = (
       <div className="Todo">
         <li
-          id={todo.id}
+          id={todo._id}
           onClick={toggleCompleted}
           className={JSON.parse(todo.completed) ? "Todo-task completed" : "Todo-task"}
         >
@@ -47,7 +47,7 @@ function Todo({ todo, remove, update, toggleComplete }) {
             <i className="fas fa-pen" />
           </button>
           <button onClick={handleClick}>
-            <i id={todo.id} className="fas fa-trash" />
+            <i id={todo._id} className="fas fa-trash" />
           </button>
         </div>
       </div>

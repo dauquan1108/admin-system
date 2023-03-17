@@ -6,7 +6,10 @@
   color: #fff;
   box-shadow: -20px -20px 0px 0px rgba(100, 100, 100, 0.1);
 }
-
+.LoadingXX {
+  margin-top: 2.6rem;
+  list-style: none;
+}
 .TodoList ul {
   margin-top: 2.6rem;
   list-style: none;

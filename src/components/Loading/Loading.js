@@ -1,10 +1,12 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-function LoadingLazy({ style = {} }) {
+function LoadingLazy({ style = {}, className = '', children = null }) {
     return (
-        <div className='loading' style={style}>
-            <Spin tip="Loading" size="large" />
+        <div className={`${className} loading`} style={style}>
+            {
+                children ? children : <Spin tip="Loading" size="large" />
+            }
         </div>
     );
 }

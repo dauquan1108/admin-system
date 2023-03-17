@@ -43,27 +43,19 @@ export function* doMergeRemove(nameAPI, data) {
     const arr = convertAPItoNameStore(nameAPI);
     // Với trạng thái xóa thì chỉ cần xóa dữ liệu trên trường Has của store 
     yield put({
-        type: `${arr[1]}/${TYPE_HANDLE.REMOTE}`, // Mô phỏng: HasTodo/add
+        type: `${arr[1]}/${TYPE_HANDLE.REMOTE}`, // Mô phỏng: HasTodo/remote
         payload: data.id,
     })
 };
-// function* workerAdd(val, callback = [], config) {
-//     const { data = null, status = 404 } = yield baseAPI.add(config, val);
-//     switch (status) {
-//         case 200:
-//             yield put(add({
-//                 ...val,
-//                 ...data
-//             }));
-//             yield put(addHas(data._id));
-//             yield callback[0] && callback[0](data);
-//             break;
-//         case 404:
-//         default:
-//             yield callback[1] && callback[1](data);
-//             break;
-//     }
-// };
+
+export function* doMergeUpdate(nameAPI, data) {
+    const arr = convertAPItoNameStore(nameAPI);
+    // Với trạng thái update thì chỉ cần update dữ liệu trên trường Object của store 
+    yield put({
+        type: `${arr[0]}/${TYPE_HANDLE.UPDATE}`, // Mô phỏng: Todo/update
+        payload: data,
+    })
+};
 
 function* doSwitchHandleToStore(method, data, nameAPI) {
     switch (method) {
@@ -74,13 +66,14 @@ function* doSwitchHandleToStore(method, data, nameAPI) {
             yield fork(doMergeAdd, nameAPI, data)
             break;
         case TYPE_HANDLE.REMOTE:
-            debugger; // MongLV
             yield fork(doMergeRemove, nameAPI, data)
             break;
         case TYPE_HANDLE.GET:
             break;
         case TYPE_HANDLE.UPDATE:
+            yield fork(doMergeUpdate, nameAPI, data)
         default:
+            console.log('Chưa hỗ trợ method này: ', method);
             // code block
             break;
     }
@@ -90,15 +83,14 @@ function* workerCore(method = TYPE_HANDLE.GET_LIST, nameAPI, config = {}, callba
     try {
         isStringInStore(method, TYPE_HANDLE, 'Method này chưa được định nghĩa trong file baseAPI'); // Kiểm tra method truyền vào có tồn tại trong định nghĩa chưa
         const { data = null, status = 404 } = yield baseAPI[method](nameAPI, config);
-        console.log('callback: ', callback);
         switch (status) {
             case 200:
                 yield fork(doSwitchHandleToStore, method, { ...data, ...config?.data }, nameAPI);
-                // callback[0](data['data']);
+                callback[0](data['data']);
                 break;
             case 404:
             default:
-                // callback[1](data);
+                callback[1](data);
                 break;
         }
     } catch (error) {

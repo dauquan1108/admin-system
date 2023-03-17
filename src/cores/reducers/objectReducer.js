@@ -14,6 +14,13 @@ const objectReducer = {
         reducer: (state, action) => {
             return produce(state, (draftState) => ({ ...draftState, ...action.payload }));
         },
+    },
+    [TYPE_HANDLE.UPDATE]: {
+        reducer: (state, action) => {
+            return produce(state, (draftState) => {
+                draftState[action.payload.id] = { ...draftState[action.payload.id], ...action.payload }
+            });
+        },
     }
 };
 

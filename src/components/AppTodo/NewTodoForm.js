@@ -1,8 +1,11 @@
 import React, { useState, useReducer } from "react";
 import { v4 as uuid } from "uuid";
+import { LoadingOutlined } from '@ant-design/icons';
+
 import "./newTodoForm.css";
 
-function NewTodoForm({ task, createTodo }) {
+
+function NewTodoForm({ createTodo, isLoading }) {
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -32,7 +35,11 @@ function NewTodoForm({ task, createTodo }) {
         name="task"
         placeholder="New Todo"
       />
-      <button>Add Todo</button>
+      <button>
+        {
+          !isLoading ? 'Add Todo' : <LoadingOutlined />
+        }
+      </button>
     </form>
   );
 }

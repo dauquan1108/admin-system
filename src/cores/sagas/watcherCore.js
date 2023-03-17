@@ -50,6 +50,15 @@ function* watcherRemove() {
     });
 };
 
+function* watcherUpdate() {
+    console.log('xxx: ', type[TYPE_HANDLE.UPDATE])
+    yield takeEvery(type[TYPE_HANDLE.UPDATE], function* (action) {
+        const { type, payload } = action;
+        console.log(payload);
+        yield fork(workerCore, TYPE_HANDLE.UPDATE, nameAPI(type), payload?.config, payload.callback);
+    });
+};
+
 function* watcherGetList() {
     yield takeEvery(type[TYPE_HANDLE.GET_LIST], function* (action) {
         const { type, payload } = action;
@@ -61,6 +70,7 @@ const watcherCore = {
     watcherGetList,
     watcherAdd,
     watcherRemove,
+    watcherUpdate,
 };
 
 export default watcherCore;

@@ -19,10 +19,10 @@ import createSaga from "redux-saga";
 import rootSagas from "cores/sagas";
 
 const reducers = {
-...transaction,
-...todo,
-...mong,
-// [Tự động thêm reducer vào đây]
+    ...transaction,
+    ...todo,
+    ...mong,
+    // [Tự động thêm reducer vào đây]
 }
 
 const rootReducer = combineReducers({
@@ -35,7 +35,7 @@ const sagaMiddleware = createSaga();
 
 const store = configureStore({
     reducer: rootReducer,
-    middleware: [...getDefaultMiddleware(), sagaMiddleware],
+    middleware: [sagaMiddleware],
 });
 
 sagaMiddleware.run(rootSagas);
