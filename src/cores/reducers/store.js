@@ -1,9 +1,7 @@
 import {
     combineReducers,
     configureStore,
-    getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-// import { composeWithDevTools } from 'redux-devtools/core';
 
 // reducer
 import todosReducer from "./todos";
