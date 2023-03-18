@@ -16,7 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import locales from "antd/es/locale/vi_VN";
 import { WarningFilled } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Tag, Table, ConfigProvider  } from "antd";
+import { Button, Popconfirm, Space, Tag, Table, ConfigProvider, Spin } from "antd";
 
 // Component
 import ModalNote from '../ModalNote';
@@ -37,6 +37,7 @@ import styles from "./Styles/index.module.scss";
 function TableComponent(props) {
 	const {
 		total,
+		isLoading,
 		dataSource,
 		pageNumber,
 		setIsLoading,
@@ -237,7 +238,7 @@ function TableComponent(props) {
 		}
 	};
 
-	let locale = {
+	const locale = {
 		emptyText: (
 			<span>
 				<WarningFilled style={{ fontSize: '25px', marginRight: '10px', color: '#f8b310' }} />
@@ -246,17 +247,24 @@ function TableComponent(props) {
 		)
 	};
 
+	const showLoading = () => (
+		<div>
+			<Spin size='large' />
+		</div>
+	);
+
     return(
     	<React.Fragment>
 		    <ConfigProvider locale={locales}>
 			    <Table
 				    pageSize={10}
-				    locale={locale}
 				    columns={columns}
 				    scroll={{x: 2000}}
 				    dataSource={dataSource}
 				    className={styles.wrapTable}
-				    rowClassName={(record, index) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
+				    locale={!isLoading && !dataSource.length && locale}
+				    loading={{ indicator: showLoading(), spinning: isLoading }}
+				    rowClassName={(record) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
 				    pagination={{
 					    onChange: cancel,
 					    defaultCurrent: 1,
@@ -272,6 +280,7 @@ function TableComponent(props) {
 
 TableComponent.propTypes = {
 	total: PropTypes.number,
+	isLoading: PropTypes.bool,
 	pageNumber: PropTypes.number,
 	dataSource: PropTypes.array,
 	dataSourceOrigin: PropTypes.object,
@@ -284,6 +293,7 @@ TableComponent.propTypes = {
 TableComponent.defaultProps = {
 	total: 0,
 	dataSource: [],
+	isLoading: false,
 	dataSourceOrigin: {},
 	setIsCallApi: () => null,
 	setIsLoading: () => null,

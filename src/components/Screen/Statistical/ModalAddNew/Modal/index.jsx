@@ -22,29 +22,29 @@ import { WarningOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 
 // Component
-import useModalAddNew from "./useModalAddNew";
-import AutoCompleteCustom from "./AutoCompleteCustom";
+import useModalAddNew from "../useModalAddNew";
+import AutoCompleteCustom from "../AutoCompleteCustom";
 
 // Shared
-import SelectComponent from "../Shared/SelectComponent";
-import { typeName } from '../Shared/Synthetic';
-import DatePickerComponent from '../Shared/DatePickerComponent';
+import SelectComponent from "../../Shared/SelectComponent";
+import { typeName } from '../../Shared/Synthetic';
+import DatePickerComponent from '../../Shared/DatePickerComponent';
 
 // Util
-import { API_URL } from "../../../../utils/Config";
+import { API_URL } from "../../../../../utils/Config";
 
 // action-saga
-import { addTransaction } from '../../../../cores/actions-sagas/transaction'
+import { addTransaction } from '../../../../../cores/actions-sagas/transaction'
 
 // Style
 import styles from './Styles/index.module.scss';
 
 // image
-import close from '../../../Img/close.png';
-import InputComponentAccountName from "../Shared/InputComponentAccountName";
-import InputComponent from "../Shared/InputComponent";
-import InputNumberComponent from "../Shared/InputNumberComponent";
-import InputTextAreaComponent from "../Shared/InputTextAreaComponent";
+import close from '../../../../Img/close.png';
+import InputComponentAccountName from "../../Shared/InputComponentAccountName";
+import InputComponent from "../../Shared/InputComponent";
+import InputNumberComponent from "../../Shared/InputNumberComponent";
+import InputTextAreaComponent from "../../Shared/InputTextAreaComponent";
 
 const { confirm } = Modal;
 
@@ -103,8 +103,8 @@ function ModalAddNew(props) {
 
 	const onCallApi = () => {
 		setConfirmLoading(true);
-		// callApiAdd();
-		dispatch(addTransaction(data, [onSuccess]))
+		callApiAdd();
+		// dispatch(addTransaction(data, [onSuccess]))
 	};
 
 	const callApiAdd = () => {
@@ -204,42 +204,6 @@ function ModalAddNew(props) {
 			</div>
 
 			<div className={styles.wrap}>
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
-					<span className={styles.titleText}>Chủ thẻ:</span>
-					<InputComponentAccountName
-						data={data}
-						maxLength={100}
-						setDisabled={setDisabled}
-						placeholder="Tên chủ thẻ..."
-						typeName={typeName.accountName}
-						onChangeInput={onChangeInput}
-					/>
-				</div>
-
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<samp className={styles.titleText}>Số thẻ:</samp>
-					<InputComponent
-						data={data}
-						maxLength={50}
-						placeholder="Mã số thẻ..."
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						typeName={typeName.cardNumber}
-					/>
-				</div>
-			</div>
-
-			<div className={styles.wrapContent}>
-				<span className={styles.titleText}>Số tiền nhận từ khách:</span>
-				<InputNumberComponent
-					typeName={typeName.money}
-					setDisabled={setDisabled}
-					onChangeInput={onChangeInput}
-					placeholder="Vui lòng nhập số tiền được nhận từ khách..."
-				/>
-			</div>
-
-			<div className={styles.wrap}>
 				<div className={classNames(styles.wrapContent, styles._flex2, styles.contentLeft)}>
 					<span className={styles.titleText}>% Phí ngân hàng: </span>
 					<AutoCompleteCustom
@@ -273,6 +237,43 @@ function ModalAddNew(props) {
 					/>
 				</div>
 			</div>
+
+			<div className={styles.wrapContent}>
+				<span className={styles.titleText}>Số tiền nhận từ khách:</span>
+				<InputNumberComponent
+					typeName={typeName.money}
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					placeholder="Vui lòng nhập số tiền được nhận từ khách..."
+				/>
+			</div>
+
+			<div className={styles.wrap}>
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
+					<span className={styles.titleText}>Chủ thẻ:</span>
+					<InputComponentAccountName
+						data={data}
+						maxLength={100}
+						setDisabled={setDisabled}
+						placeholder="Tên chủ thẻ..."
+						typeName={typeName.accountName}
+						onChangeInput={onChangeInput}
+					/>
+				</div>
+
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
+					<samp className={styles.titleText}>Số thẻ:</samp>
+					<InputComponent
+						data={data}
+						maxLength={50}
+						placeholder="Mã số thẻ..."
+						setDisabled={setDisabled}
+						onChangeInput={onChangeInput}
+						typeName={typeName.cardNumber}
+					/>
+				</div>
+			</div>
+
 			<div>
 				<span className={styles.titleText}>Note:</span>
 				<InputTextAreaComponent

@@ -16,9 +16,11 @@ import React from 'react';
 import { Button } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
 
+// Component
+import Modal from "./Modal";
+
 // Style
 import styles from './Styles/index.module.scss';
-import ModalAddNew from "./ModalAddNew";
 
 function WrapModalAddNew() {
 	const [isModal, setIsModal] = React.useState(false);
@@ -36,7 +38,7 @@ function WrapModalAddNew() {
 	        <Button type="primary" onClick={onShowModal} icon={<PlusCircleOutlined />}>
 		        Thêm mới
 	        </Button>
-	        <ModalAddNew isModal={isModal} onCloseModal={onCloseModal} />
+	        <Modal isModal={isModal} onCloseModal={onCloseModal} />
         </div>
     );
 }

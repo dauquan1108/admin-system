@@ -7,12 +7,13 @@
 
         cursor: pointer;
         margin-bottom: 10px;
-        border: 1px solid #c6c5c3;
+        border: 0.2px solid var(--cl);
 
         .text {
             padding: 10px;
             font-size: 15px;
             font-weight: 600;
+            color: var(--cl);
 
             flex: 1;
             display: flex;
@@ -21,20 +22,21 @@
             justify-content: center;
         }
         .textActive {
-            color: #0a747a;
-            background: rgba(10,116,122,.2);
-            border-bottom: 2px solid #0a747a;
+            color: #2e89ff;
+            background-color: #242526;
         }
     }
 
     .content {
-        padding: 16px;
+        padding: 4px 16px;
     }
 
     :global {
         .ant-modal-content {
-            border-radius: 20px;
             padding: 0;
+            height: 500px;
+            border-radius: 20px;
+
             .ant-modal-header {
                 border-radius: 20px 20px 0 0;
                 .ant-modal-title {

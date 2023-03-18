@@ -8,11 +8,25 @@
         // Đáo
     }
     :global {
+        .ant-table-content {
+            min-height: 250px;
+        }
         .ant-pagination-next {
             margin-right: 16px;
         }
         .ant-pagination-options {
             display: none;
+        }
+        .ant-pagination-item-link {
+            background-color: #ffffff !important;
+        }
+        .ant-pagination-item {
+            font-size: 15px;
+            font-weight: 600;
+            background-color: #ffffff;
+        }
+        .ant-pagination-item-active {
+            border: 2px solid #1677ff;
         }
     }
 }

@@ -131,11 +131,6 @@ function Statistical() {
 				<div className={styles.contentLeft}>
 					<ModalAddNew />
 					<SelectOption />
-					{
-						isLoading && (
-							<Spin style={{ marginTop: '2px', marginLeft: '12px' }} />
-						)
-					}
 				</div>
 				<div className={styles.contentRight}>
 					<OpenChart />
@@ -143,6 +138,7 @@ function Statistical() {
 			</div>
 			<Table
 				total={total}
+				isLoading={isLoading}
 				pageNumber={pageNumber}
 				setIsCallApi={setIsCallApi}
 				setIsLoading={setIsLoading}
