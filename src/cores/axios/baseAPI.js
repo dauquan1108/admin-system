@@ -27,9 +27,9 @@ const baseAPI = {
         return axiosClient.post(url, config?.data, validationConfig(config));
     },
 
-    [TYPE_HANDLE.UPDATE]: (url, data = {}, config = { params: {}, headers: {} }) => {
+    [TYPE_HANDLE.UPDATE]: (url, config = { params: {}, headers: {} }) => {
         isStringInStore(url);
-        return axiosClient.put(url, data, validationConfig(config));
+        return axiosClient.put(`${url}/${config?.data?.id}`, config?.data, validationConfig(config));
     },
 
     [TYPE_HANDLE.REMOTE]: (url, config) => {

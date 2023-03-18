@@ -53,5 +53,4 @@ Object.values(data).map((val) => {
     updateFileReducerRoot(val);
 });
 
-// shell.exec('npm start');
-shell.exec('exit');
+shell.exec('npm run dev');

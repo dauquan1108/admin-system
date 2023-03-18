@@ -8,7 +8,7 @@ import ROUTES from './utils/const/namerouter';
 // const route
 const Login = React.lazy(() => import('./components/Screen/Login'));
 const Main = React.lazy(() => import('./components/Main'));
-const TodoApp = React.lazy(() => import('./components/Todo/TodoApp'));
+const TodoApp = React.lazy(() => import('./components/AppTodo'));
 
 function App() {
 	return (

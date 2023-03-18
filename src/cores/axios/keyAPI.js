@@ -1,6 +1,5 @@
 const API_KEY = {
     "transaction": "transaction",
-    "user": "user",
     "todo": "todo"
 };
 
