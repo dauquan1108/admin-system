@@ -4,7 +4,6 @@ import {
 } from "@reduxjs/toolkit";
 
 // reducer
-import todosReducer from "./todos";
 import backgroundImg from "./backgroundImg";
 
 import transaction from './transaction';
@@ -22,10 +21,9 @@ const reducers = {
 }
 
 const rootReducer = combineReducers({
-    todos: todosReducer,
     backgroundImg,
     ...reducers,
-})
+});
 
 const sagaMiddleware = createSaga();
 

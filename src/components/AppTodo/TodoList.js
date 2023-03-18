@@ -39,7 +39,7 @@ function TodoList() {
 
   function getList(page) {
     const data = {};
-    const params = { limit: 10, page }
+    const params = { limit: 5, page }
     const headers = {};
     dispath.dispatchCore(dispath.TYPE.Todo, dispath.METHOD.GET_LIST, data, params, headers, onGetSuccess, onGetFail); // GET_LIST
   }
@@ -62,7 +62,7 @@ function TodoList() {
     dispath.dispatchCore(dispath.TYPE.Todo, dispath.METHOD.ADD, data, {}, {}, onAddSuccess, onAddFail); // ADD
   };
 
-  const remove = id => {
+  const remove = (id) => {
     dispath.dispatchCore(dispath.TYPE.Todo, dispath.METHOD.REMOTE, { id }); // REMOTE
   };
 
@@ -99,9 +99,14 @@ function TodoList() {
           </LoadingLazy>
         ) : <ul>{todosList}</ul>
       }
-      <div className="center-btn">
-        <button class="button-1" role="button" onClick={nextPage}>Xem thêm {`${count}/${total}`}</button>
-      </div>
+      {
+        count !== total && (
+          <div className="center-btn">
+            <button class="button-1" role="button" onClick={nextPage} >Xem thêm {`${count}/${total}`}</button>
+          </div>
+        )
+      }
+
     </div >
   );
 }
