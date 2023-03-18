@@ -129,7 +129,7 @@ function TableComponent(props) {
 			dataIndex: "money",
 			render: (value, row) => {
 				// bank_money ( Phí ngân hàng thu) = money  * (percentBank /  100 )
-				const bank_money = (value * (row.percentBank /  100 )).toFixed(2);
+				const bank_money = (value * (row.percentBank /  100 )).toFixed(0);
 				const bankMoney = convertMoney(bank_money);
 				return (
 					<span>{`${bankMoney || 0} vnđ`}</span>
@@ -152,7 +152,7 @@ function TableComponent(props) {
 			dataIndex: "money",
 			render: (value, row) => {
 				//  customer_money (Phí thu khách) = money  * (percentCustomer /  100 )
-				const feesClient = (value * (row.percentCustomer /  100)).toFixed(2);
+				const feesClient = (value * (row.percentCustomer /  100)).toFixed(0);
 				const feesClientNew = convertMoney(feesClient);
 				return (
 					<span>{`${feesClientNew || 0} vnđ`}</span>
@@ -167,7 +167,7 @@ function TableComponent(props) {
 				// Lãi = bank_money - customer_money;
 				const bankMoney = value * (row.percentBank /  100 );
 				const feesClient = value * (row.percentCustomer /  100);
-				const interestRate = (feesClient- bankMoney).toFixed(2);
+				const interestRate = (feesClient- bankMoney).toFixed(0);
 				const interestRateNew = convertMoney(interestRate);
 				return (
 					<span>{`${interestRateNew || 0} vnđ`}</span>

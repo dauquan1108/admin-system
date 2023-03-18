@@ -19,38 +19,38 @@ import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Modal, message, Button } from 'antd';
 import { WarningOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
 
 // Component
 import useModalAddNew from "../useModalAddNew";
 import AutoCompleteCustom from "../AutoCompleteCustom";
+import InputComponent from "../../Shared/InputComponent";
+import InputNumberComponent from "../../Shared/InputNumberComponent";
+import InputTextAreaComponent from "../../Shared/InputTextAreaComponent";
+import InputComponentAccountName from "../../Shared/InputComponentAccountName";
 
 // Shared
-import SelectComponent from "../../Shared/SelectComponent";
 import { typeName } from '../../Shared/Synthetic';
+import SelectComponent from "../../Shared/SelectComponent";
 import DatePickerComponent from '../../Shared/DatePickerComponent';
 
 // Util
 import { API_URL } from "../../../../../utils/Config";
 
-// action-saga
-import { addTransaction } from '../../../../../cores/actions-sagas/transaction'
+// hooks custom
+import useDispatchCore from "cores/hooks/useDispathCore";
+
 
 // Style
 import styles from './Styles/index.module.scss';
 
 // image
 import close from '../../../../Img/close.png';
-import InputComponentAccountName from "../../Shared/InputComponentAccountName";
-import InputComponent from "../../Shared/InputComponent";
-import InputNumberComponent from "../../Shared/InputNumberComponent";
-import InputTextAreaComponent from "../../Shared/InputTextAreaComponent";
 
 const { confirm } = Modal;
 
 function ModalAddNew(props) {
 	const { isModal, onCloseModal } = props;
-	const dispatch = useDispatch();
+	const dispath = useDispatchCore();
 
 	const {
 		data,
@@ -80,12 +80,18 @@ function ModalAddNew(props) {
 		onCloseModal();
 	};
 
+	const onFinally = (status) => {
+		setConfirmLoading(status);
+	};
+
 	const onSuccess = () => {
 		onCancelModal();
+		onFinally(false);
 		message.success('Thêm mới khách hàng thành công',5 );
 	};
 
 	const onError = () => {
+		onFinally(false);
 		confirm({
 			okText: 'Thử lại',
 			icon: <WarningOutlined style={{ color: 'red', fontSize: 35 }} />,
@@ -97,14 +103,9 @@ function ModalAddNew(props) {
 		});
 	};
 
-	const onFinally = () => {
-		setConfirmLoading(false);
-	};
-
 	const onCallApi = () => {
-		setConfirmLoading(true);
-		callApiAdd();
-		// dispatch(addTransaction(data, [onSuccess]))
+		onFinally(true);
+		dispath.dispatchCore(dispath.TYPE.Transaction, dispath.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
 	};
 
 	const callApiAdd = () => {
