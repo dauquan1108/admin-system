@@ -24,12 +24,16 @@ export function* doMergeAdd(nameAPI, data) {
  * doMergeGetList: Sử dụng để đưa bắn action type phù hợp để merge vào store tương ứng
  * @param {*} obj mô phỏng obj = { HasTodo: {}, Todo: {}}
  */
-export function* doMergeGetList(obj) {
+export function* doMergeGetList(obj, limit) {
     const keys = Object.keys(obj).reverse(); // Note: dữ liệu được merge lên store cần merge dữ liệu object trước
     for (let i in keys) {
         yield put({
             type: `${keys[i]}/${TYPE_HANDLE.GET_LIST}`, // Mô phỏng: HasTodo/getList
-            payload: obj[keys[i]] // Mô phỏng: payload: HasTodo 
+            // Mô phỏng: payload: HasTodo 
+            payload: {
+                ...obj[keys[i]],
+                limit
+            }
         })
     }
 };
@@ -60,7 +64,8 @@ export function* doMergeUpdate(nameAPI, data) {
 function* doSwitchHandleToStore(method, data, nameAPI) {
     switch (method) {
         case TYPE_HANDLE.GET_LIST:
-            yield fork(doMergeGetList, data['data']);
+            const { limit } = data;
+            yield fork(doMergeGetList, data['data'], limit);
             break;
         case TYPE_HANDLE.ADD:
             yield fork(doMergeAdd, nameAPI, data)
@@ -85,7 +90,7 @@ function* workerCore(method = TYPE_HANDLE.GET_LIST, nameAPI, config = {}, callba
         const { data = null, status = 404 } = yield baseAPI[method](nameAPI, config);
         switch (status) {
             case 200:
-                yield fork(doSwitchHandleToStore, method, { ...data, ...config?.data }, nameAPI);
+                yield fork(doSwitchHandleToStore, method, { ...data, ...config?.data, ...config?.params }, nameAPI);
                 callback[0](data['data']);
                 break;
             case 404:

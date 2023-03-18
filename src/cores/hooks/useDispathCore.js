@@ -6,7 +6,7 @@ import TYPE_HANDLE from 'cores/utils/constants/TYPE_HANDLE';
 
 function useDispatchCore() {
     const dispatch = useDispatch();
-    const dispatchCore = (name, method, data = {}, params = {}, headers = {}, onSuccess = null, onFail = null) => {
+    const dispatchCore = (name, method, data = {}, params = { limit: 10, page: 1 }, headers = {}, onSuccess = null, onFail = null) => {
         if (Object.values(TYPE_STORE).includes(name)) {
             dispatch({
                 type: TYPE_HANDLE_ACTION[name][method], payload: {

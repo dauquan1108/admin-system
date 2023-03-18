@@ -11,7 +11,6 @@ import backgroundImg from "./backgroundImg";
 
 import transaction from './transaction';
 import todo from './todo';
-import mong from './mong';
 // [Tự động import reducers vào đây]
 
 import createSaga from "redux-saga";
@@ -21,7 +20,6 @@ import rootSagas from "cores/sagas";
 const reducers = {
     ...transaction,
     ...todo,
-    ...mong,
     // [Tự động thêm reducer vào đây]
 }
 

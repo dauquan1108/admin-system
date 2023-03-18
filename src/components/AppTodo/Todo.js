@@ -10,14 +10,17 @@ function Todo({ todo, remove, update, toggleComplete }) {
   const toggleFrom = () => {
     setIsEditing(!isEditing);
   };
+
   const handleUpdate = evt => {
     evt.preventDefault();
     update(todo._id, task);
     toggleFrom();
   };
+
   const handleChange = evt => {
     setTask(evt.target.value);
   };
+
   const toggleCompleted = evt => {
     toggleComplete(evt.target.id);
   };

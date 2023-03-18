@@ -51,10 +51,8 @@ function* watcherRemove() {
 };
 
 function* watcherUpdate() {
-    console.log('xxx: ', type[TYPE_HANDLE.UPDATE])
     yield takeEvery(type[TYPE_HANDLE.UPDATE], function* (action) {
         const { type, payload } = action;
-        console.log(payload);
         yield fork(workerCore, TYPE_HANDLE.UPDATE, nameAPI(type), payload?.config, payload.callback);
     });
 };

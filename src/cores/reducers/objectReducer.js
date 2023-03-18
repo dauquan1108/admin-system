@@ -6,7 +6,7 @@ const objectReducer = {
         reducer: (state, action) => {
             const { _id, ...data } = action.payload;
             return produce(state, (draftState) => {
-                draftState[_id] = { ...data }
+                draftState[_id] = { ...data, _id }
             });
         },
     },

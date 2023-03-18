@@ -23,11 +23,12 @@ const hasObjectReducer = {
     },
     [TYPE_HANDLE.GET_LIST]: {
         reducer: (state, action) => {
-            const { count, total, itemIds } = action.payload;
+            const { count, total, itemIds, limit } = action.payload;
             if (state.count != count) {
                 return produce(state, (draftState) => {
                     draftState.total = total;
-                    draftState.count = draftState.count + count;
+                    const newCount = draftState.count + limit;
+                    draftState.count = newCount > total ? total : newCount;
                     draftState.itemIds = [...new Set(draftState.itemIds.concat(itemIds))];
                 });
             }

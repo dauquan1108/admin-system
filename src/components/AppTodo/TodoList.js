@@ -15,17 +15,13 @@ import LoadingLazy from "components/Loading/Loading";
 import "./TodoList.css";
 
 function TodoList() {
-  // const [todos, setTodos] = useState([
-  //   { id: uuid(), task: "task 1", completed: false },
-  //   { id: uuid(), task: "task 2", completed: true }
-  // ]);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingAdd, setIsLoadingAdd] = useState(false);
 
-
   const dispath = useDispatchCore();
   const todos = useSelector(store => store[dispath.TYPE.Todo])
-  const itemIds = useSelector(store => store[dispath.TYPE.HasTodo]).itemIds;
+  const { itemIds, total, count } = useSelector(store => store[dispath.TYPE.HasTodo]);
 
   function onGetSuccess() {
     setIsLoading(false);
@@ -41,11 +37,20 @@ function TodoList() {
     setIsLoadingAdd(false);
   }
 
-  React.useEffect(() => {
+  function getList(page) {
     const data = {};
-    const params = { limit: 4, page: 1 }
+    const params = { limit: 10, page }
     const headers = {};
     dispath.dispatchCore(dispath.TYPE.Todo, dispath.METHOD.GET_LIST, data, params, headers, onGetSuccess, onGetFail); // GET_LIST
+  }
+
+  function nextPage() {
+    setPage((prePage) => prePage + 1);
+    getList(page + 1);
+  }
+
+  React.useEffect(() => {
+    getList(1)
   }, [])
 
   const create = newTodo => {
@@ -94,7 +99,9 @@ function TodoList() {
           </LoadingLazy>
         ) : <ul>{todosList}</ul>
       }
-
+      <div className="center-btn">
+        <button class="button-1" role="button" onClick={nextPage}>Xem thêm {`${count}/${total}`}</button>
+      </div>
     </div >
   );
 }

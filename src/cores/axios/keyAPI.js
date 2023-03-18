@@ -1,7 +1,6 @@
 const API_KEY = {
     "transaction": "transaction",
-    "todo": "todo",
-    "mong": "mong"
+    "todo": "todo"
 };
 
 export default API_KEY;
