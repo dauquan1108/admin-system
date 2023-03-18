@@ -13,7 +13,7 @@
  */
 
 import React from 'react';
-import { message } from "antd";
+import { message, Tooltip } from "antd";
 import { useSelector } from "react-redux";
 import { CameraOutlined } from "@ant-design/icons";
 
@@ -45,9 +45,11 @@ function MenuLeftTop(props) {
 		    <div className={styles.wrapMenuLeftTop}>
 			    <div className={styles.wrapAvatar}>
 				    <Avatar url={dataUser && dataUser.avatar || ''} size={100} />
-				    <div className={styles.iconCamera} onClick={onclickIconCamera}>
-					    <CameraOutlined style={{ fontSize: '18px' }} />
-				    </div>
+				    <Tooltip placement="bottom" title="Chỉnh sửa thông tin cá nhân">
+					    <div className={styles.iconCamera} onClick={onclickIconCamera}>
+						    <CameraOutlined style={{ fontSize: '18px' }} />
+					    </div>
+				    </Tooltip>
 			    </div>
 			    <span className={styles.name}>
 			    {dataUser && dataUser.name || ''}

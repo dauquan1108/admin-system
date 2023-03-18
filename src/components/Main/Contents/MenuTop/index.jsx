@@ -13,7 +13,7 @@
  */
 
 import React from 'react';
-import { message } from "antd";
+import { message, Tooltip } from "antd";
 
 // Style
 import styles from './Styles/index.module.scss';
@@ -28,7 +28,9 @@ function MenuTop(props) {
 
     return(
 	    <div className={styles.menuTop}>
-		    <img src={notification} alt='iconNotification' onClick={onclickNotify} className={styles.iconNotify} />
+		    <Tooltip placement="bottom" title="Thông báo">
+		        <img src={notification} alt='iconNotification' onClick={onclickNotify} className={styles.iconNotify} />
+		    </Tooltip>
 	    </div>
     );
 }

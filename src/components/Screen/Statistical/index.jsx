@@ -14,7 +14,8 @@
 
 import React from 'react';
 import axios from "axios";
-import { Spin, message } from 'antd';
+import { Button, message, Tooltip } from 'antd';
+import { SyncOutlined } from "@ant-design/icons";
 
 // Component
 import Table from "./Table";
@@ -131,6 +132,9 @@ function Statistical() {
 				<div className={styles.contentLeft}>
 					<ModalAddNew />
 					<SelectOption />
+					<Tooltip placement="bottom" title='Làm mới'>
+						<Button type="primary" className={styles.contentLeftBtnRefresh} icon={<SyncOutlined />} />
+					</Tooltip>
 				</div>
 				<div className={styles.contentRight}>
 					<OpenChart />

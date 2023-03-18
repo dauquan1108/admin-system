@@ -13,10 +13,10 @@
  */
 
 import React from 'react';
-import { message } from "antd";
 import classNames from "classnames";
 // import PropTypes from 'prop-types';
-import { SnippetsOutlined, SyncOutlined, MoreOutlined } from "@ant-design/icons";
+import { message, Tooltip } from "antd";
+import { SnippetsOutlined, SyncOutlined } from "@ant-design/icons";
 
 // Component
 import ItemCustomerFeeManagement from "./ItemCustomerFeeManagement";
@@ -46,12 +46,16 @@ function CustomerFeeManagement(props) {
 			          Quản lý % phí thu khách
 		        </span>
 		        <div className={styles.contentTopWrapIcon}>
-			        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
-				        <img src={option} alt='' style={{ width: '15px', height: '15px' }} />
-			        </div>
-			        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
-				        <SyncOutlined />
-			        </div>
+			        <Tooltip placement="bottom" title="Cập nhật thông tin">
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
+					        <img src={option} alt='' style={{ width: '15px', height: '15px' }} />
+				        </div>
+			        </Tooltip>
+			        <Tooltip placement="bottom" title="Làm mới">
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
+					        <SyncOutlined />
+				        </div>
+			        </Tooltip>
 			        <div className={styles.icon}>
 				        <SnippetsOutlined style={{ color: '#fcac87' }} />
 			        </div>

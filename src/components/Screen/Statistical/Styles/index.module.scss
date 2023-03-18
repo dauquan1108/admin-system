@@ -11,6 +11,9 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            .contentLeftBtnRefresh {
+                margin-left: 10px;
+            }
         }
         .contentRight {}
     }

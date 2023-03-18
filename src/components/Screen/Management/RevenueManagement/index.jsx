@@ -17,7 +17,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import classNames from "classnames";
-import { message } from "antd";
+import { message, Tooltip } from "antd";
 import { PieChartOutlined, SyncOutlined } from "@ant-design/icons";
 
 // Style
@@ -35,9 +35,11 @@ function RevenueManagement(props) {
 		            Quản lý doanh thu
 	            </span>
 		        <div className={styles.contentTopWrapIcon}>
-			        <div className={classNames(styles.icon, styles.iconSync)} onClick={onclickReset}>
-				        <SyncOutlined />
-			        </div>
+			        <Tooltip placement="bottom" title="Làm mới">
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onclickReset}>
+					        <SyncOutlined />
+				        </div>
+			        </Tooltip>
 			        <div className={styles.icon}>
 				        <PieChartOutlined style={{ color: '#8a77ea' }} />
 			        </div>

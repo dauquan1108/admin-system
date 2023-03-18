@@ -15,7 +15,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
-import { Button, message } from 'antd';
+import { Button, message, Tooltip } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 
 // Component
@@ -43,7 +43,9 @@ function ItemStaff(props) {
 	        </div>
 	        <div className={styles.wrapRight}>
 		        <Button type="primary" onClick={onClickEdit}>Chỉnh sửa</Button>
-		        <MoreOutlined className={styles.iconOption} onClick={onClickEdit} />
+		        <Tooltip placement="bottom" title="Thông tin chi tiết">
+		            <MoreOutlined className={styles.iconOption} onClick={onClickEdit} />
+		        </Tooltip>
 	        </div>
         </div>
     );

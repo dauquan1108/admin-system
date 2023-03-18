@@ -13,7 +13,7 @@
  */
 
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 // Component
@@ -35,9 +35,11 @@ function WrapModalAddNew() {
 
     return(
         <div className={styles.wrapModalAddNew}>
-	        <Button type="primary" onClick={onShowModal} icon={<PlusCircleOutlined />}>
-		        Thêm mới
-	        </Button>
+	        <Tooltip placement="bottom" title="Thêm mới khách hàng">
+		        <Button type="primary" onClick={onShowModal} icon={<PlusCircleOutlined />}>
+			        Thêm mới
+		        </Button>
+	        </Tooltip>
 	        <Modal isModal={isModal} onCloseModal={onCloseModal} />
         </div>
     );
