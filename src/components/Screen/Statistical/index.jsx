@@ -78,38 +78,13 @@ function Statistical() {
 		callApiGetListData(pageSize, pageNumber);
 	}, [isCallApi]);
 
-
-	const callApiGetListData = (pageSize, pageNumber) => {
-		if (refPageNumber.current !== pageNumber) {
-			refPageNumber.current = pageNumber;
-			const params = { limit: pageSize, pageNumber };
+	const callApiGetListData = (pageSize, page) => {
+		if (refPageNumber.current !== page) {
+			refPageNumber.current = page;
+			const params = { limit: pageSize, page };
 			dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.GET_LIST, {}, params, {}, onFinally, onFinally);
-			// axios({
-			// 	method: "get",
-			// 	url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
-			// }).then((response) => {
-			// 	if (response.status === 200) {
-			// 		const { data } = response.data;
-			// 		const { HasTransaction, Transaction } = data;
-			// 		HasTransaction && Transaction && onSuccess(Transaction, HasTransaction);
-			// 	}
-			// }).catch((error) => {
-			// 	throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
-			// }).finally(() => {
-			// 	onFinally();
-			// });
 		}
 	};
-
-	// const listDataSource = () => {
-	// 	const { pageNumber } = isCallApi;
-	// 	if (!dataSource.hasOwnProperty(pageNumber)) {
-	// 		const { pageSize, pageNumber } = isCallApi;
-	// 		callApiGetListData(pageSize, pageNumber);
-	// 	} else {
-	// 		return dataSource[pageNumber];
-	// 	}
-	// };
 
 	const onDeleteItemSuccess = (valueNew, page) => {
 		const dataSourceNew = dataSource;
