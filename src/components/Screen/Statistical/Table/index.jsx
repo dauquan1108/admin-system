@@ -14,6 +14,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from "react-redux";
 import locales from "antd/es/locale/vi_VN";
 import { WarningFilled } from '@ant-design/icons';
 import { Button, Popconfirm, Space, Tag, Table, ConfigProvider, Spin } from "antd";
@@ -21,6 +22,9 @@ import { Button, Popconfirm, Space, Tag, Table, ConfigProvider, Spin } from "ant
 // Component
 import ModalNote from '../ModalNote';
 import useModalAddNew from "../ModalAddNew/useModalAddNew";
+
+// Hooks custom
+import useDispatchCore from "../../../../cores/hooks/useDispathCore";
 
 // Shared
 import { convertDMY } from "../Shared/Time";
@@ -36,7 +40,6 @@ import styles from "./Styles/index.module.scss";
 
 function TableComponent(props) {
 	const {
-		total,
 		isLoading,
 		dataSource,
 		pageNumber,
@@ -47,6 +50,10 @@ function TableComponent(props) {
 	} = props;
 
 	const { getColumnSearchProps } = Search();
+
+	const dispatch = useDispatchCore();
+
+	const hasTransaction = useSelector(store => store[dispatch.TYPE.HasTransaction]);
 
 	// Đóng mở Modal
 	const [dataInvoice, setDataInvoice] = React.useState({});
@@ -126,13 +133,10 @@ function TableComponent(props) {
 		{
 			title: "Phí ngân hàng thu",
 			key: "bankMoney",
-			dataIndex: "money",
-			render: (value, row) => {
-				// bank_money ( Phí ngân hàng thu) = money  * (percentBank /  100 )
-				const bank_money = (value * (row.percentBank /  100 )).toFixed(0);
-				const bankMoney = convertMoney(bank_money);
+			dataIndex: "bankMoney",
+			render: (value) => {
 				return (
-					<span>{`${bankMoney || 0} vnđ`}</span>
+					<span>{`${value} vnđ`}</span>
 				);
 			}
 		},
@@ -149,28 +153,20 @@ function TableComponent(props) {
 		{
 			title: "Phí thu khách",
 			key: "feesClient",
-			dataIndex: "money",
-			render: (value, row) => {
-				//  customer_money (Phí thu khách) = money  * (percentCustomer /  100 )
-				const feesClient = (value * (row.percentCustomer /  100)).toFixed(0);
-				const feesClientNew = convertMoney(feesClient);
+			dataIndex: "feesClient",
+			render: (value) => {
 				return (
-					<span>{`${feesClientNew || 0} vnđ`}</span>
+					<span>{`${value} vnđ`}</span>
 				);
 			}
 		},
 		{
 			title: "Tiền lãi",
 			key: "interestRate",
-			dataIndex: "money",
-			render: (value, row) => {
-				// Lãi = bank_money - customer_money;
-				const bankMoney = value * (row.percentBank /  100 );
-				const feesClient = value * (row.percentCustomer /  100);
-				const interestRate = (feesClient- bankMoney).toFixed(0);
-				const interestRateNew = convertMoney(interestRate);
+			dataIndex: "interestRate",
+			render: (value) => {
 				return (
-					<span>{`${interestRateNew || 0} vnđ`}</span>
+					<span>{`${value} vnđ`}</span>
 				);
 			}
 		},
@@ -253,6 +249,8 @@ function TableComponent(props) {
 		</div>
 	);
 
+	const total = hasTransaction.total || 0;
+
     return(
     	<React.Fragment>
 		    <ConfigProvider locale={locales}>
@@ -279,7 +277,6 @@ function TableComponent(props) {
 }
 
 TableComponent.propTypes = {
-	total: PropTypes.number,
 	isLoading: PropTypes.bool,
 	pageNumber: PropTypes.number,
 	dataSource: PropTypes.array,
@@ -291,7 +288,6 @@ TableComponent.propTypes = {
 };
 
 TableComponent.defaultProps = {
-	total: 0,
 	dataSource: [],
 	isLoading: false,
 	dataSourceOrigin: {},

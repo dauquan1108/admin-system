@@ -50,7 +50,7 @@ const { confirm } = Modal;
 
 function ModalAddNew(props) {
 	const { isModal, onCloseModal } = props;
-	const dispath = useDispatchCore();
+	const dispatch = useDispatchCore();
 
 	const {
 		data,
@@ -105,25 +105,25 @@ function ModalAddNew(props) {
 
 	const onCallApi = () => {
 		onFinally(true);
-		dispath.dispatchCore(dispath.TYPE.Transaction, dispath.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
+		dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
 	};
 
-	const callApiAdd = () => {
-		axios({
-			method: "post",
-			url: API_URL,
-			data: {...data},
-		}).then((response) => {
-			if (response.status === 200) {
-				onSuccess();
-			}
-		}).catch((error) => {
-			onError();
-			throw new Error("Thêm khách hàng mới thất bại ======== [[ Error ]] ==========>:", error);
-		}).finally(() => {
-			onFinally();
-		});
-	};
+	// const callApiAdd = () => {
+	// 	axios({
+	// 		method: "post",
+	// 		url: API_URL,
+	// 		data: {...data},
+	// 	}).then((response) => {
+	// 		if (response.status === 200) {
+	// 			onSuccess();
+	// 		}
+	// 	}).catch((error) => {
+	// 		onError();
+	// 		throw new Error("Thêm khách hàng mới thất bại ======== [[ Error ]] ==========>:", error);
+	// 	}).finally(() => {
+	// 		onFinally();
+	// 	});
+	// };
 
 	const onOkModal = () => {
 		const { devicePost, accountName, workTimestamp, cardNumber, money, percentBank, percentCustomer, type } = data;

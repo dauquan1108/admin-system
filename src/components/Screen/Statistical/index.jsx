@@ -14,8 +14,9 @@
 
 import React from 'react';
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { Button, message, Tooltip } from 'antd';
-import { SyncOutlined } from "@ant-design/icons";
+// import { SyncOutlined } from "@ant-design/icons";
 
 // Component
 import Table from "./Table";
@@ -23,14 +24,19 @@ import OpenChart from "./OpenChart";
 import ModalAddNew from "./ModalAddNew";
 import SelectOption from "./SelectOption";
 
+// Selector
+import { mySelector } from "../../../cores/selector";
+
 // Styles
 import styles from './Styles/index.module.scss';
 
 // Utils
 import { API_URL } from "../../../utils/Config";
 
+// Hooks custom
+import useDispatchCore from "../../../cores/hooks/useDispathCore";
+
 function Statistical() {
-	const [hasTransaction, setHasTransaction] = React.useState({});
 	const [dataSource, setDataSource] = React.useState( {});
 	const [isLoading, setIsLoading] = React.useState(true);
 
@@ -38,58 +44,72 @@ function Statistical() {
 
 	const refPageNumber = React.useRef(null);
 
-	const onSuccess = (Transaction, HasTransaction) => {
-		setHasTransaction(HasTransaction);
-		const listItem = {};
-		const listDataItem = [];
-		const { pageNumber } = isCallApi;
-		const listData = {...Transaction}
-		if (Object.keys(listData).length) {
-			for (const property in listData) {
-				if (listData.hasOwnProperty(property)) {
-					const itemInvoice = listData[property];
-					itemInvoice.key = itemInvoice._id;
-					listDataItem.push(itemInvoice);
-				}
-			}
-		}
-		listItem[pageNumber] = listDataItem;
-		setDataSource({...dataSource, ...listItem});
-	};
+	const dispatch = useDispatchCore();
+
+	const { selectorTransaction } = useSelector(mySelector);
+
+	console.log('selectorTransaction: ========== test ======>', selectorTransaction); // Log QuanDX fix bug
+
+
+	// const onSuccess = (Transaction) => {
+	// 	const listItem = {};
+	// 	const listDataItem = [];
+	// 	const { pageNumber } = isCallApi;
+	// 	const listData = {...Transaction}
+	// 	if (Object.keys(listData).length) {
+	// 		for (const property in listData) {
+	// 			if (listData.hasOwnProperty(property)) {
+	// 				const itemInvoice = listData[property];
+	// 				itemInvoice.key = itemInvoice._id;
+	// 				listDataItem.push(itemInvoice);
+	// 			}
+	// 		}
+	// 	}
+	// 	listItem[pageNumber] = listDataItem;
+	// 	setDataSource({...dataSource, ...listItem});
+	// };
 
 	const onFinally = () => {
 		setIsLoading(false);
 	};
 
+	React.useEffect(() => {
+		const { pageSize, pageNumber } = isCallApi;
+		callApiGetListData(pageSize, pageNumber);
+	}, [isCallApi]);
+
+
 	const callApiGetListData = (pageSize, pageNumber) => {
 		if (refPageNumber.current !== pageNumber) {
 			refPageNumber.current = pageNumber;
-			axios({
-				method: "get",
-				url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
-			}).then((response) => {
-				if (response.status === 200) {
-					const { data } = response.data;
-					const { HasTransaction, Transaction } = data;
-					HasTransaction && Transaction && onSuccess(Transaction, HasTransaction);
-				}
-			}).catch((error) => {
-				throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
-			}).finally(() => {
-				onFinally();
-			});
+			const params = { limit: pageSize, pageNumber };
+			dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.GET_LIST, {}, params, {}, onFinally, onFinally);
+			// axios({
+			// 	method: "get",
+			// 	url: `${API_URL}?limit=${pageSize}&&page=${pageNumber}`,
+			// }).then((response) => {
+			// 	if (response.status === 200) {
+			// 		const { data } = response.data;
+			// 		const { HasTransaction, Transaction } = data;
+			// 		HasTransaction && Transaction && onSuccess(Transaction, HasTransaction);
+			// 	}
+			// }).catch((error) => {
+			// 	throw new Error("Lấy danh sách dữ bảng thống kê thất bại ======== [[ Error ]] =====>:", error);
+			// }).finally(() => {
+			// 	onFinally();
+			// });
 		}
 	};
 
-	const listDataSource = () => {
-		const { pageNumber } = isCallApi;
-		if (!dataSource.hasOwnProperty(pageNumber)) {
-			const { pageSize, pageNumber } = isCallApi;
-			callApiGetListData(pageSize, pageNumber);
-		} else {
-			return dataSource[pageNumber];
-		}
-	};
+	// const listDataSource = () => {
+	// 	const { pageNumber } = isCallApi;
+	// 	if (!dataSource.hasOwnProperty(pageNumber)) {
+	// 		const { pageSize, pageNumber } = isCallApi;
+	// 		callApiGetListData(pageSize, pageNumber);
+	// 	} else {
+	// 		return dataSource[pageNumber];
+	// 	}
+	// };
 
 	const onDeleteItemSuccess = (valueNew, page) => {
 		const dataSourceNew = dataSource;
@@ -102,6 +122,7 @@ function Statistical() {
 	};
 
 	const callApiDeleteItem = (id, valueNew, page) => {
+		// dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.REMOTE, { id }, {}, {}, );
 		axios({
 			method: "delete",
 			url: `${API_URL}/${id}`,
@@ -122,9 +143,11 @@ function Statistical() {
 		callApiDeleteItem(id, valueNew, page);
 	};
 
-	const total = hasTransaction.total || 0;
-
 	const { pageNumber } = isCallApi;
+
+	// const onClickRefresh = () => {
+	// 	callApiGetListData(1, pageNumber);
+	// };
 
 	return(
 		<div className={styles.wrapInvoice}>
@@ -132,21 +155,20 @@ function Statistical() {
 				<div className={styles.contentLeft}>
 					<ModalAddNew />
 					<SelectOption />
-					<Tooltip placement="bottom" title='Làm mới'>
-						<Button type="primary" className={styles.contentLeftBtnRefresh} icon={<SyncOutlined />} />
-					</Tooltip>
+					{/*<Tooltip placement="bottom" title='Làm mới' onClick={onClickRefresh}>*/}
+					{/*	<Button type="primary" className={styles.contentLeftBtnRefresh} icon={<SyncOutlined />} />*/}
+					{/*</Tooltip>*/}
 				</div>
 				<div className={styles.contentRight}>
 					<OpenChart />
 				</div>
 			</div>
 			<Table
-				total={total}
 				isLoading={isLoading}
 				pageNumber={pageNumber}
 				setIsCallApi={setIsCallApi}
 				setIsLoading={setIsLoading}
-				dataSource={listDataSource()}
+				dataSource={selectorTransaction}
 				dataSourceOrigin={dataSource}
 				onDeleteItemDataSource={onDeleteItemDataSource}
 			/>
