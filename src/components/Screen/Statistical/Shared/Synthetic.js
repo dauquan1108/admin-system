@@ -25,6 +25,7 @@ const typeName = {
 	interestRate: 'interestRate', // Lãi
 	extends: 'extends',  // Note
 	type: 'type', // Hình thức
+	limitCard: 'limitCard', // Hạn mức
 }
 
 export { typeName };

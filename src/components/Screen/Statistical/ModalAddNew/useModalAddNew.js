@@ -53,6 +53,7 @@ const initializationValue = {
 	[typeName.accountName]: '', // Chủ thẻ
 	[typeName.cardNumber]: '', // Số thẻ
 	[typeName.money]: 0, // Số tiền
+	[typeName.limitCard]: 0, // Hạn mức
 	[typeName.percentBank]: 0, // % Phí ngân hàng
 	[typeName.percentCustomer]: 0, // % Phí thu khách
 	[typeName.type]: provinceDataType[0], // Hình thức

@@ -13,7 +13,7 @@
  */
 
 import React from 'react';
-import { Select } from 'antd';
+import { Select, Tag } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 
 // Style
@@ -43,7 +43,9 @@ function SelectOption() {
 
     return(
         <div className={styles.wrapSelectOption}>
-	        <span className={styles.title}>Doanh thu</span>
+	        <Tag color={'geekblue'} className={styles.title}>
+		        Doanh thu
+	        </Tag>
 	        <Select
 		        suffixIcon={<CaretDownOutlined />}
 		        size="middle"
@@ -54,7 +56,7 @@ function SelectOption() {
 		        }}
 		        options={options}
 	        />
-	        { text && <span className={styles.text}>{text} vnđ</span> }
+	        { text && <Tag color='geekblue' className={styles.text}>{text} vnđ</Tag> }
         </div>
     );
 }

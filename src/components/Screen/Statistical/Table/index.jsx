@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import locales from "antd/es/locale/vi_VN";
 import { WarningFilled } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Tag, Table, ConfigProvider, Spin } from "antd";
+import { Popconfirm, Space, Tag, Table, ConfigProvider, Spin, Tooltip, message } from "antd";
 
 // Component
 import ModalNote from '../ModalNote';
@@ -33,7 +33,9 @@ import { convertDMY } from "../Shared/Time";
 import Search from "../Shared/useSearch";
 
 // Img
-import note from "../../../Img/notes.png";
+import iconEye from "../../../Img/eye.png";
+import iconEdit from "../../../Img/edit.png";
+import iconDelete from "../../../Img/delete.png";
 
 // Style
 import styles from "./Styles/index.module.scss";
@@ -63,10 +65,15 @@ function TableComponent(props) {
 		setDataInvoice(record);
 	};
 
+	const onClickEdit = () => {
+		message.success('Chức năng đang phát triển',5 );
+	};
+
 	const onClickDeleteItem = (id) => {
 		// TODO: Xóa Item khỏi danh sách
-		const newData = dataSource.filter((item) => item.key !== id);
-		onDeleteItemDataSource && onDeleteItemDataSource(id, newData, pageNumber);
+		message.success('Chức năng đang phát triển',5 );
+		// const newData = dataSource.filter((item) => item.key !== id);
+		// onDeleteItemDataSource && onDeleteItemDataSource(id, newData, pageNumber);
 	};
 
 	const convertMoney = (money) => {
@@ -77,104 +84,13 @@ function TableComponent(props) {
 
 	const columns = [
 		{
-			key: "devicePost",
-			dataIndex: "devicePost",
-			title: "Tên thiết bị",
-			...getColumnSearchProps("devicePost", "tên thiết bị"),
-			sortDirections: ["descend", "ascend"],
-			width: 180,
-			fixed: "left"
-			// sorter: (a, b) => a.devicePost.length - b.devicePost.length,
-		},
-		{
-			key: "workTimestamp",
-			dataIndex: "workTimestamp",
-			title: "Ngày làm",
-			render: (value) => {
-				const workTimestamp = convertDMY(value);
-				return (
-					<span>
-						{workTimestamp}
-					</span>
-				);
-			},
-			// fixed: "left",
-			// sorter: true
-		},
-		// {
-		// 	title: "Chủ thẻ",
-		// 	dataIndex: "accountName",
-		// 	key: "accountName",
-		// 	...getColumnSearchProps("accountName", "chủ thẻ"),
-		// 	sorter: (a, b) => a.accountName.length - b.accountName.length,
-		// 	sortDirections: ["descend", "ascend"]
-		// },
-		// {
-		// 	title: "Số thẻ",
-		// 	dataIndex: "cardNumber",
-		// 	key: "cardNumber",
-		// },
-		{
-			key: "money",
-			dataIndex: "money",
-			title: "Số tiền nhận từ khách",
-			render: (value) => <span>{`${convertMoney(value) || 0} vnđ`}</span>
-		},
-		{
-			key: "percentBank",
-			dataIndex: "percentBank",
-			title: "% Phí ngân hàng",
-			render: (value) => (
-				<span>
-					{`${value || 0} %`}
-				</span>
-			),
-		},
-		{
-			title: "Phí ngân hàng thu",
-			key: "bankMoney",
-			dataIndex: "bankMoney",
-			render: (value) => {
-				return (
-					<span>{`${value} vnđ`}</span>
-				);
-			}
-		},
-		{
-			key: "percentCustomer",
-			dataIndex: "percentCustomer",
-			title: "% Phí thu khách",
-			render: (value) => (
-				<span>
-					{`${value} %`}
-				</span>
-			),
-		},
-		{
-			title: "Phí thu khách",
-			key: "feesClient",
-			dataIndex: "feesClient",
-			render: (value) => {
-				return (
-					<span>{`${value} vnđ`}</span>
-				);
-			}
-		},
-		{
-			title: "Tiền lãi",
-			key: "interestRate",
-			dataIndex: "interestRate",
-			render: (value) => {
-				return (
-					<span>{`${value} vnđ`}</span>
-				);
-			}
-		},
-		{
 			key: "type",
 			dataIndex: "type",
 			title: "Hình thức",
 			align: "center",
+			fixed: "left",
+			width: 120,
+			visible: true, // hiển thị cột Hình thức
 			render: (_, { type }) => (
 				<Tag color={ type.length > 5 ? "geekblue" : "green"} key={type}>
 					{type.toUpperCase()}
@@ -194,35 +110,138 @@ function TableComponent(props) {
 
 		},
 		{
-			Key: "extends",
-			dataIndex: "extends",
-			title: "Note",
-			align: "center",
-			render: (_, record) => (
-				<Space size="middle">
-					<a onClick={() => onClickNote(record)}>
-						<img src={note} alt='note' width="22px" />
-					</a>
-				</Space>
+			key: "workTimestamp",
+			dataIndex: "workTimestamp",
+			title: "Ngày làm",
+			width: 120,
+			render: (value) => {
+				const workTimestamp = convertDMY(value);
+				return (
+					<span>
+						{workTimestamp}
+					</span>
+				);
+			},
+			fixed: "left",
+			visible: true, // hiển thị cột Ngày làm
+			// sorter: true
+		},
+		{
+			key: "devicePost",
+			dataIndex: "devicePost",
+			title: "Tên thiết bị",
+			...getColumnSearchProps("devicePost", "tên thiết bị"),
+			sortDirections: ["descend", "ascend"],
+			width: 180,
+			fixed: "left",
+			visible: true, // hiển thị cột Tên thiết bị,
+
+			// sorter: (a, b) => a.devicePost.length - b.devicePost.length,
+		},
+		// {
+		// 	title: "Chủ thẻ",
+		// 	dataIndex: "accountName",
+		// 	key: "accountName",
+		// 	...getColumnSearchProps("accountName", "chủ thẻ"),
+		// 	sorter: (a, b) => a.accountName.length - b.accountName.length,
+		// 	sortDirections: ["descend", "ascend"]
+		// },
+		// {
+		// 	title: "Số thẻ",
+		// 	dataIndex: "cardNumber",
+		// 	key: "cardNumber",
+		// },
+		{
+			key: "money",
+			dataIndex: "money",
+			title: "Số tiền làm cho khách",
+			// render: (value) => <Tag color="geekblue">{`${convertMoney(value) || 0} vnđ`}</Tag>
+			render: (value) => <span>{`${convertMoney(value)} vnđ`}</span>,
+			visible: true, // hiển thị cột Name
+		},
+		{
+			key: "percentBank",
+			dataIndex: "percentBank",
+			title: "% Phí ngân hàng",
+			visible: false, // ẩn cột percentBank
+			render: (value) => (
+				<span>
+					{`${value} %`}
+				</span>
 			),
+		},
+		{
+			title: "Phí ngân hàng thu",
+			key: "bankMoney",
+			dataIndex: "bankMoney",
+			visible: true, // hiển thị cột Phí ngân hàng thu
+			render: (value, row) => {
+				return (
+					<span>{`${value} vnđ, (${row.percentBank} %)`}</span>
+				);
+			}
+		},
+		{
+			key: "percentCustomer",
+			dataIndex: "percentCustomer",
+			title: "% Phí thu khách",
+			visible: false, // ẩn thị cột % Phí thu khách
+			render: (value) => (
+				<span>
+					{`${value} %`}
+				</span>
+			),
+		},
+		{
+			title: "Phí thu khách",
+			key: "feesClient",
+			dataIndex: "feesClient",
+			visible: true, // hiển thị cột Phí thu khách
+			render: (value, row) => {
+				return (
+					<span>{`${value} vnđ, (${row.percentCustomer} %)`}</span>
+				);
+			}
+		},
+		{
+			title: "Tiền lãi",
+			key: "interestRate",
+			dataIndex: "interestRate",
+			visible: true, // hiển thị cột Tiền lãi
+			render: (value) => {
+				return (
+					<span>{`${value} vnđ`}</span>
+				);
+			}
 		},
 		{
 			key: "operation",
 			dataIndex: "operation",
-			title: "Xóa thông tin",
+			title: "Option",
 			align: "center",
 			fixed: "right",
-			width: 120,
+			width: 180,
+			visible: true, // hiển thị cột Option
 			render: (_, record) =>
 				dataSource.length >= 1 ? (
-					<Popconfirm
-						okText="Có"
-						cancelText="Không"
-						title="Bạn có chắc muốn xóa ?"
-						onConfirm={() => onClickDeleteItem(record.key)}
-					>
-						<Button type="link" danger style={{ fontSize: '15px', fontWeight: '600' }}>Xóa</Button>
-					</Popconfirm>
+					<Space size="middle">
+						<Tooltip title='Xem chi tiết'>
+							<img src={iconEye} alt='icon eye' className={styles.icon} onClick={() => onClickNote(record)} />
+						</Tooltip>
+						<Tooltip title='Chỉnh sửa thông tin'>
+							<img src={iconEdit} alt='icon eye' className={styles.icon} onClick={onClickEdit} />
+						</Tooltip>
+						<Popconfirm
+							okText="Có"
+							cancelText="Không"
+							title="Bạn có chắc muốn xóa ?"
+							onConfirm={() => onClickDeleteItem(record.key)}
+						>
+							<Tooltip title='Xóa'>
+								<img src={iconDelete} alt='icon eye' className={styles.icon} />
+							</Tooltip>
+						</Popconfirm>
+					</Space>
 				) : null
 		},
 	];
@@ -256,13 +275,14 @@ function TableComponent(props) {
 		    <ConfigProvider locale={locales}>
 			    <Table
 				    pageSize={10}
-				    columns={columns}
-				    scroll={{x: 2000}}
+				    // columns={columns}
+				    columns={columns.filter((column) => column.visible)}
+				    scroll={{x: 1400}}
 				    dataSource={dataSource}
 				    className={styles.wrapTable}
 				    locale={!isLoading && !dataSource.length && locale}
 				    loading={{ indicator: showLoading(), spinning: isLoading }}
-				    rowClassName={(record) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
+				    // rowClassName={(record) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
 				    pagination={{
 					    onChange: cancel,
 					    defaultCurrent: 1,

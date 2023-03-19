@@ -34,7 +34,7 @@ import SelectComponent from "../../Shared/SelectComponent";
 import DatePickerComponent from '../../Shared/DatePickerComponent';
 
 // Util
-import { API_URL } from "../../../../../utils/Config";
+// import { API_URL } from "../../../../../utils/Config";
 
 // hooks custom
 import useDispatchCore from "cores/hooks/useDispathCore";
@@ -126,8 +126,8 @@ function ModalAddNew(props) {
 	// };
 
 	const onOkModal = () => {
-		const { devicePost, accountName, workTimestamp, cardNumber, money, percentBank, percentCustomer, type } = data;
-		if (devicePost && workTimestamp && accountName && cardNumber && money && percentBank && percentCustomer && type && data.extends) {
+		const { devicePost, accountName, workTimestamp, cardNumber, money, limitCard,percentBank, percentCustomer, type } = data;
+		if (devicePost && workTimestamp && accountName && cardNumber && money && percentBank && percentCustomer && type) {
 			onCallApi();
 		} else {
 			setDisabled(true);
@@ -139,11 +139,10 @@ function ModalAddNew(props) {
 				${!accountName ? 'Chủ thẻ, ' : ''}
 				${!cardNumber ? 'Số thẻ, ' : ''}
 				${!money ? 'Số tiền, ' : ''}
+				${!limitCard ? 'Hạn mức, ' : ''}
 				${!percentBank ? '% Phí ngân hàng, ' : ''}
 				${!percentCustomer ? '% Phí thu khách, ' : ''}
-				${!type ? 'Hình thức, ' : ''}			
-				${!data.extends ? 'Note': ''}.			
-				`
+				${!type ? 'Hình thức.' : ''}`
 			});
 		}
 	};
@@ -239,14 +238,28 @@ function ModalAddNew(props) {
 				</div>
 			</div>
 
-			<div className={styles.wrapContent}>
-				<span className={styles.titleText}>Số tiền nhận từ khách:</span>
-				<InputNumberComponent
-					typeName={typeName.money}
-					setDisabled={setDisabled}
-					onChangeInput={onChangeInput}
-					placeholder="Vui lòng nhập số tiền được nhận từ khách..."
-				/>
+			<div className={styles.wrap}>
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
+					<span className={styles.titleText}>Số tiền  làm cho khách:</span>
+					<InputNumberComponent
+						data={data}
+						typeName={typeName.money}
+						setDisabled={setDisabled}
+						onChangeInput={onChangeInput}
+						placeholder="Vui lòng nhập số tiền làm cho khách..."
+					/>
+				</div>
+
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
+					<span className={styles.titleText}>Hạn mức:</span>
+					<InputNumberComponent
+						data={data}
+						setDisabled={setDisabled}
+						onChangeInput={onChangeInput}
+						typeName={typeName.limitCard}
+						placeholder="Vui lòng nhập hạn mức..."
+					/>
+				</div>
 			</div>
 
 			<div className={styles.wrap}>
@@ -263,7 +276,7 @@ function ModalAddNew(props) {
 				</div>
 
 				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<samp className={styles.titleText}>Số thẻ:</samp>
+					<samp className={styles.titleText}>Số thẻ là [4 số cuối của thẻ]:</samp>
 					<InputComponent
 						data={data}
 						maxLength={50}

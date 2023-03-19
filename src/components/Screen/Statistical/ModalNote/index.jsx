@@ -15,7 +15,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
-import { Modal, Button } from 'antd';
+import { Modal, Button, Tag } from 'antd';
 
 // Style
 import styles from './Styles/index.module.scss';
@@ -37,7 +37,6 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 		return `${day}/${month}/${year}`;
 	};
 
-
 	const convertMoney = (value) => {
 		const moneyNew = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 		return `${moneyNew} vnđ`;
@@ -52,14 +51,15 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 
 	const name = dataInvoice.name || "";
 	const cardNumber = dataInvoice.cardNumber || "";
+
 	const amountOfMoney = dataInvoice.money || "0 vnđ";
 
 	const amountOfMoneyNew = convertMoney(amountOfMoney)
 	const percentBank =  dataInvoice.percentBank || "";
-	const bankFees = dataInvoice.bankFees || "0 vnđ";
+	const bankMoney = dataInvoice.bankMoney;
 	const percentCustomer = dataInvoice.percentCustomer || "";
-	const fees = dataInvoice.fees || "0 vnđ";
-	const interestRate = dataInvoice.interestRate || "0 vnđ";
+	const feesClient = dataInvoice.feesClient;
+	const interestRate = dataInvoice.interestRate;
 	const note = dataInvoice.extends || "";
 	const type = dataInvoice.type || "";
 
@@ -79,61 +79,72 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 			    </Button>
 		    }
 	    >
-		    <div className={styles.wrapText}>
-			    Tên thiết bị:
-			    <span className={styles.contentText}> {devicePost}</span>
+		    <div className={styles.wrap}>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Hình thức:
+				    <Tag className={styles.contentText} color={ type.length > 5 ? "geekblue" : "green"}>{type}</Tag>
+			    </div>
+
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Tên thiết bị:
+				    <span className={classNames(styles.contentText, styles.textColor)}> {devicePost}</span>
+			    </div>
 		    </div>
 
 		    <div className={styles.wrap}>
 			    <div className={classNames(styles.wrapText, styles.flex_1)}>
 				    Thời gian làm:
-				    <span className={styles.contentText}> {workTimestamp}</span>
+				    <span className={classNames(styles.contentText, styles.textColor)}> {workTimestamp}</span>
 			    </div>
 			    <div className={classNames(styles.wrapText, styles.flex_1)}>
 				    Thời gian nhập lên hệ thống:
-				    <span className={styles.contentText}> {timestampNew}</span>
+				    <span className={classNames(styles.contentText, styles.textColor)}> {timestampNew}</span>
 			    </div>
 		    </div>
 
 
 		    {/*<p className={styles.wrapText}>Chủ thẻ:*/}
-			{/*    <span className={styles.contentText}> {name}</span>*/}
+			{/*    <span className={classNames(styles.contentText, styles.textColor)}> {name}</span>*/}
 			{/*</p>*/}
 		    {/*<p className={styles.wrapText}>Mã số thẻ:*/}
-			{/*    <span className={styles.contentText}> {cardNumber}</span>*/}
+			{/*    <span className={classNames(styles.contentText, styles.textColor)}> {cardNumber}</span>*/}
 			{/*</p>*/}
-		    <div className={styles.wrapText}>Số tiền nhận từ khách:
-			    <span className={styles.contentText}> {amountOfMoneyNew}</span>
-			</div>
+		    <div className={styles.wrap}>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Số tiền làm khách:
+				    <span className={classNames(styles.contentText, styles.textColor)}> {amountOfMoneyNew}</span>
+				</div>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Số tiền lãi:
+				    <span className={classNames(styles.contentText, styles.textColor)}> {interestRate} vnđ</span>
+			    </div>
+		    </div>
 
 		    <div className={styles.wrap}>
 			    <div className={classNames(styles.wrapText, styles.flex_1)}>
 			        % Phí ngân hàng:
-				    <span className={styles.contentText}> {percentBank} %</span>
+				    <span className={classNames(styles.contentText, styles.textColor)}> {percentBank} %</span>
 			    </div>
+			    <div  className={classNames(styles.wrapText, styles.flex_1)}>
+			        Phí thu ngân hàng:
+				    <span className={classNames(styles.contentText, styles.textColor)}> {bankMoney} vnđ</span>
+			    </div>
+		    </div>
+
+		    <div className={styles.wrap}>
 			    <div className={classNames(styles.wrapText, styles.flex_1)}>
 				    % Phí thu khách:
-				    <span className={styles.contentText}> {percentCustomer} %</span>
+				    <span className={classNames(styles.contentText, styles.textColor)}> {percentCustomer} %</span>
+			    </div>
+			    <div className={classNames(styles.wrapText, styles.flex_1)}>
+				    Phí thu khách:
+				    <span className={classNames(styles.contentText, styles.textColor)}> {feesClient} vnđ</span>
 			    </div>
 		    </div>
-		    {/*<div className={styles.wrapText}>*/}
-			{/*    Phí thu:*/}
-			{/*    <span className={styles.contentText}> {fees}</span>*/}
-		    {/*</div>*/}
-		    {/*<p className={styles.wrapText}>Phí ngân hàng:*/}
-			{/*    <span className={styles.contentText}> {bankFees}</span>*/}
-			{/*</p>*/}
 
-		    {/*<p className={styles.wrapText}> Số tiền lãi:*/}
-			{/*    <span className={styles.contentText}> {interestRate}</span>*/}
-			{/*</p>*/}
-		    <div className={styles.wrapText}>
-			    Hình thức:
-			    <span className={styles.contentText}>{type}</span>
+		    <div className={classNames(styles.wrapText, styles.flex_1)}>Note:
+				<span className={classNames(styles.contentText, styles.textColor)}> {note}</span>
 		    </div>
-		    <p className={styles.wrapText}>Note:
-				<span className={styles.contentText}> {note}</span>
-		    </p>
 	    </Modal>
     );
 }

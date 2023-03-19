@@ -15,6 +15,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Img
+import a0 from '../../../src/components/Img/BackgroungImg/a0.jpg';
+import a0000 from '../../../src/components/Img/BackgroungImg/a0000.jpg';
+import a000 from '../../../src/components/Img/BackgroungImg/a000.jpg';
+import a00 from '../../../src/components/Img/BackgroungImg/a00.jpeg';
+// import a01 from '../../../src/components/Img/BackgroungImg/a01.jpeg';
 import a1 from '../../../src/components/Img/BackgroungImg/a1.jpg';
 import a2 from '../../../src/components/Img/BackgroungImg/a2.jpg';
 import a9 from '../../../src/components/Img/BackgroungImg/a9.jpg';
@@ -53,7 +58,9 @@ export const reducersBackgroundImg = createSlice({
 	name: "backgroundImg",
 	initialState: {
 		data: [
-			{ id: 0, img: a1, status: true },
+			{ id: 33, img: a000, status: true },
+			{ id: 32, img: a00, status: false },
+			{ id: 0, img: a1, status: false },
 			{ id: 1, img: a2, status: false },
 			{ id: 2, img: a10, status: false },
 			{ id: 3, img: a9, status: false },

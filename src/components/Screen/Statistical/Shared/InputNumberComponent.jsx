@@ -19,8 +19,12 @@ import { InputNumber } from "antd";
 // Style
 import styles from "./Styles/index.module.scss";
 
+// Shared
+import { typeName as typeNames } from "./Synthetic";
+
 function InputNumberComponent(props) {
 	const {
+		data,
 		style,
 		typeName,
 		placeholder,
@@ -45,9 +49,14 @@ function InputNumberComponent(props) {
 
 	const onBlurInput = () => {
 		const valueInputNumber = refValueInputNumber.current;
+		const { money, limitCard } = data;
 		if (!valueInputNumber) {
 			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
+			setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
+		} else if (typeName === typeNames.limitCard && money > valueInputNumber) {
+			setCheckError('Số tiền hạn mức phải lớn hơn số tiền làm cho khách.');
+		} else if (typeName === typeNames.money && limitCard < valueInputNumber) {
+			setCheckError('Số tiền hạn mức không được phép bé hơn số tiền làm cho khách.');
 		} else  {
 			onChangeInput(valueInputNumber, typeName);
 		}
@@ -74,6 +83,7 @@ function InputNumberComponent(props) {
 }
 
 InputNumberComponent.propTypes = {
+	data: PropTypes.object,
 	style: PropTypes.object,
 	typeName: PropTypes.string,
 	placeholder: PropTypes.string,
@@ -82,6 +92,7 @@ InputNumberComponent.propTypes = {
 };
 
 InputNumberComponent.defaultProps = {
+	data: {},
 	style: {},
 	placeholder: 'Vui lòng nhập',
 };

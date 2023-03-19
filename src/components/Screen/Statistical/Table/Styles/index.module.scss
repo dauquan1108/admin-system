@@ -7,6 +7,12 @@
     .unique {
         // Đáo
     }
+
+    .icon {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
     :global {
         .ant-pagination-next {
             margin-right: 16px;

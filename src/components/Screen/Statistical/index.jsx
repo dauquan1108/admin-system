@@ -40,16 +40,13 @@ function Statistical() {
 	const [dataSource, setDataSource] = React.useState( {});
 	const [isLoading, setIsLoading] = React.useState(true);
 
-	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 10 });
+	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 8 });
 
 	const refPageNumber = React.useRef(null);
 
 	const dispatch = useDispatchCore();
 
 	const { selectorTransaction } = useSelector(mySelector);
-
-	console.log('selectorTransaction: ========== test ======>', selectorTransaction); // Log QuanDX fix bug
-
 
 	// const onSuccess = (Transaction) => {
 	// 	const listItem = {};
@@ -135,7 +132,7 @@ function Statistical() {
 					{/*</Tooltip>*/}
 				</div>
 				<div className={styles.contentRight}>
-					<OpenChart />
+					{/*<OpenChart />*/}
 				</div>
 			</div>
 			<Table

@@ -26,10 +26,7 @@ const convertMoney = (money) => {
 
 // Selector để chuyển đổi dữ liệu đầu vào
 const transformData = createSelector([getData], (data) => {
-	console.log('data: ================>', data); // Log QuanDX fix bug
-
 	const litTransactionNew = [];
-
 	if (Object.keys(data).length) {
 		for (const property in data) {
 			if (data.hasOwnProperty(property)) {
