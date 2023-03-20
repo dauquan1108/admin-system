@@ -4,8 +4,6 @@ import {
 } from "@reduxjs/toolkit";
 
 // reducer
-import backgroundImg from "./backgroundImg";
-import userInformation from "./userInformation";
 import transaction from './transaction';
 import todo from './todo';
 // [Tự động import reducers vào đây]
@@ -21,8 +19,7 @@ const reducers = {
 }
 
 const rootReducer = combineReducers({
-    backgroundImg,
-	userInformation,
+    // userInformation,
     ...reducers,
 });
 
