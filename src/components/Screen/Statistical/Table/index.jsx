@@ -33,29 +33,54 @@ import { convertDMY } from "../Shared/Time";
 import Search from "../Shared/useSearch";
 
 // Img
-import iconEye from "../../../Img/eye.png";
+import iconEye from "../../../Img/eye_1.png";
 import iconEdit from "../../../Img/edit.png";
 import iconDelete from "../../../Img/delete.png";
 
 // Style
 import styles from "./Styles/index.module.scss";
 
+TableComponent.propTypes = {
+	isLoading: PropTypes.bool.isRequired,
+	page: PropTypes.number.isRequired,
+	limit: PropTypes.number.isRequired,
+	total: PropTypes.number.isRequired,
+	dataSource: PropTypes.array.isRequired,
+	setPagination: PropTypes.func,
+	setIsLoading: PropTypes.func,
+	getColumnSearchProps: PropTypes.func,
+	onDeleteItemDataSource: PropTypes.func,
+	pageDefaut: PropTypes.object,
+};
+
+TableComponent.defaultProps = {
+	pageDefaut: {
+		defaultCurrent: 1, // vị trí page được chọn
+		defaultPageSize: 7, // limit một lần lấy về và vẽ ra bao nhiêu
+	},
+	dataSource: [],
+	isLoading: false,
+	setPagination: () => null,
+	setIsLoading: () => null,
+	getColumnSearchProps: () => null,
+	onDeleteItemDataSource: () => null,
+};
+
 function TableComponent(props) {
 	const {
 		isLoading,
 		dataSource,
-		pageNumber,
+		page,
+		limit,
+		total,
 		setIsLoading,
-		setIsCallApi,
-		dataSourceOrigin,
+		setPagination,
+		// dataSourceOrigin,
 		onDeleteItemDataSource,
+		pageDefaut,
 	} = props;
 
 	const { getColumnSearchProps } = Search();
-
-	const dispatch = useDispatchCore();
-
-	const hasTransaction = useSelector(store => store[dispatch.TYPE.HasTransaction]);
 
 	// Đóng mở Modal
 	const [dataInvoice, setDataInvoice] = React.useState({});
@@ -66,21 +91,21 @@ function TableComponent(props) {
 	};
 
 	const onClickEdit = () => {
-		message.success('Chức năng đang phát triển',5 );
+		message.success('Chức năng đang phát triển', 5);
 	};
 
 	const onClickDeleteItem = (id) => {
 		// TODO: Xóa Item khỏi danh sách
-		message.success('Chức năng đang phát triển',5 );
+		message.success('Chức năng đang phát triển', 5);
 		// const newData = dataSource.filter((item) => item.key !== id);
-		// onDeleteItemDataSource && onDeleteItemDataSource(id, newData, pageNumber);
+		// onDeleteItemDataSource && onDeleteItemDataSource(id, newData, page);
 	};
 
 	const convertMoney = (money) => {
-	    return (money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		return (money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	};
 
-	const { provinceDataType } = useModalAddNew();
+	// const { provinceDataType } = useModalAddNew();
 
 	const columns = [
 		{
@@ -89,31 +114,28 @@ function TableComponent(props) {
 			title: "Hình thức",
 			align: "center",
 			fixed: "left",
-			width: 120,
 			visible: true, // hiển thị cột Hình thức
 			render: (_, { type }) => (
-				<Tag color={ type.length > 5 ? "geekblue" : "green"} key={type}>
+				<Tag color={type.length > 5 ? "geekblue" : "green"} key={type}>
 					{type.toUpperCase()}
 				</Tag>
 			),
-			filters: [
-				{
-					text: provinceDataType[0],
-					value: provinceDataType[0],
-				},
-				{
-					text: provinceDataType[1],
-					value: provinceDataType[1],
-				},
-			],
-			onFilter: (value, record) => record.type.indexOf(value) === 0,
-
+			// filters: [
+			// 	{
+			// 		text: provinceDataType[0],
+			// 		value: provinceDataType[0],
+			// 	},
+			// 	{
+			// 		text: provinceDataType[1],
+			// 		value: provinceDataType[1],
+			// 	},
+			// ],
+			// onFilter: (value, record) => record.type.indexOf(value) === 0,
 		},
 		{
 			key: "workTimestamp",
 			dataIndex: "workTimestamp",
 			title: "Ngày làm",
-			width: 120,
 			render: (value) => {
 				const workTimestamp = convertDMY(value);
 				return (
@@ -132,43 +154,68 @@ function TableComponent(props) {
 			title: "Tên thiết bị",
 			...getColumnSearchProps("devicePost", "tên thiết bị"),
 			sortDirections: ["descend", "ascend"],
-			width: 180,
 			fixed: "left",
 			visible: true, // hiển thị cột Tên thiết bị,
 
 			// sorter: (a, b) => a.devicePost.length - b.devicePost.length,
 		},
-		// {
-		// 	title: "Chủ thẻ",
-		// 	dataIndex: "accountName",
-		// 	key: "accountName",
-		// 	...getColumnSearchProps("accountName", "chủ thẻ"),
-		// 	sorter: (a, b) => a.accountName.length - b.accountName.length,
-		// 	sortDirections: ["descend", "ascend"]
-		// },
-		// {
-		// 	title: "Số thẻ",
-		// 	dataIndex: "cardNumber",
-		// 	key: "cardNumber",
-		// },
+		{
+			title: "Chủ thẻ",
+			dataIndex: "fullname",
+			key: "fullname",
+			// ...getColumnSearchProps("fullname", "Chủ thẻ"),
+			// sorter: (a, b) => a.fullname.length - b.fullname.length,
+			// sortDirections: ["descend", "ascend"]
+			render: (fullname) => {
+				return <b><i>{fullname}</i></b>
+			},
+		},
+		{
+			title: "Số thẻ",
+			dataIndex: "cardNumber",
+			key: "cardNumber",
+		},
 		{
 			key: "money",
 			dataIndex: "money",
 			title: "Số tiền làm cho khách",
-			// render: (value) => <Tag color="geekblue">{`${convertMoney(value) || 0} vnđ`}</Tag>
-			render: (value) => <span>{`${convertMoney(value)} vnđ`}</span>,
+			with: '250px',
+			render: (value) => <Tag color="#2db7f5"><b>{`${convertMoney(value) || 0} đ`}</b></Tag>,
+			// render: (value) => <span>{`${convertMoney(value)} đ`}</span>,
 			visible: true, // hiển thị cột Name
 		},
+		// {
+		// 	key: "percentBank",
+		// 	dataIndex: "percentBank",
+		// 	title: "% Phí ngân hàng",
+		// 	visible: false, // ẩn cột percentBank
+		// 	render: (value) => (
+		// 		<span>
+		// 			{`${value} %`}
+		// 		</span>
+		// 	),
+		// },
+		// {
+		// 	key: "percentCustomer",
+		// 	dataIndex: "percentCustomer",
+		// 	title: "% Phí thu khách",
+		// 	visible: false, // ẩn thị cột % Phí thu khách
+		// 	render: (value) => (
+		// 		<span>
+		// 			{`${value} %`}
+		// 		</span>
+		// 	),
+		// },
 		{
-			key: "percentBank",
-			dataIndex: "percentBank",
-			title: "% Phí ngân hàng",
-			visible: false, // ẩn cột percentBank
-			render: (value) => (
-				<span>
-					{`${value} %`}
-				</span>
-			),
+			title: "Phí thu khách",
+			key: "feesClient",
+			dataIndex: "feesClient",
+			visible: true, // hiển thị cột Phí thu khách
+			render: (value, row) => {
+				return (
+					<Tag color={'#4fba69'}>{`${value} đ   (${row.percentCustomer} %)`}</Tag>
+				);
+			}
 		},
 		{
 			title: "Phí ngân hàng thu",
@@ -177,29 +224,11 @@ function TableComponent(props) {
 			visible: true, // hiển thị cột Phí ngân hàng thu
 			render: (value, row) => {
 				return (
-					<span>{`${value} vnđ, (${row.percentBank} %)`}</span>
-				);
-			}
-		},
-		{
-			key: "percentCustomer",
-			dataIndex: "percentCustomer",
-			title: "% Phí thu khách",
-			visible: false, // ẩn thị cột % Phí thu khách
-			render: (value) => (
-				<span>
-					{`${value} %`}
-				</span>
-			),
-		},
-		{
-			title: "Phí thu khách",
-			key: "feesClient",
-			dataIndex: "feesClient",
-			visible: true, // hiển thị cột Phí thu khách
-			render: (value, row) => {
-				return (
-					<span>{`${value} vnđ, (${row.percentCustomer} %)`}</span>
+					<Tag color={'#f50'}>
+						<b>
+							{`${value}đ   (${row.percentBank} %)`}
+						</b>
+					</Tag>
 				);
 			}
 		},
@@ -207,10 +236,12 @@ function TableComponent(props) {
 			title: "Tiền lãi",
 			key: "interestRate",
 			dataIndex: "interestRate",
-			visible: true, // hiển thị cột Tiền lãi
+			align: "center",
+			fixed: "right",
+			visible: true, // hiển thị cột Option
 			render: (value) => {
 				return (
-					<span>{`${value} vnđ`}</span>
+					<Tag color={'#87d068'}><b>{`${value} đ`}</b></Tag>
 				);
 			}
 		},
@@ -246,19 +277,19 @@ function TableComponent(props) {
 		},
 	];
 
-	const cancel = (pageNumber, pageSize) => {
-		setIsCallApi && setIsCallApi({ pageNumber, pageSize });
-		if (dataSourceOrigin && !dataSourceOrigin.hasOwnProperty(pageNumber)) {
-			setIsLoading && setIsLoading(true);
-		}
+	const changePage = (page, limit) => {
+		setPagination && setPagination({ page, limit });
+		// if (dataSourceOrigin && !dataSourceOrigin.hasOwnProperty(page)) {
+		setIsLoading && setIsLoading(true);
+		// }
 	};
 
 	const locale = {
 		emptyText: (
 			<span>
 				<WarningFilled style={{ fontSize: '25px', marginRight: '10px', color: '#f8b310' }} />
-                Chưa có dữ liệu.
-            </span>
+				Chưa có dữ liệu.
+			</span>
 		)
 	};
 
@@ -268,53 +299,33 @@ function TableComponent(props) {
 		</div>
 	);
 
-	const total = hasTransaction.total || 0;
+	return (
+		<React.Fragment>
+			<ConfigProvider locale={locales}>
+				<Table
+					columns={columns}
+					scroll={{ x: 1400 }}
+					dataSource={dataSource}
+					className={styles.wrapTable}
+					locale={!isLoading && !dataSource.length && locale}
+					loading={{ indicator: showLoading(), spinning: isLoading }}
+					// rowClassName={(record) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
+					pagination={{
+						onChange: changePage,
 
-    return(
-    	<React.Fragment>
-		    <ConfigProvider locale={locales}>
-			    <Table
-				    pageSize={10}
-				    // columns={columns}
-				    columns={columns.filter((column) => column.visible)}
-				    scroll={{x: 1400}}
-				    dataSource={dataSource}
-				    className={styles.wrapTable}
-				    locale={!isLoading && !dataSource.length && locale}
-				    loading={{ indicator: showLoading(), spinning: isLoading }}
-				    // rowClassName={(record) => (record.type === provinceDataType[0] ? styles.withdrawMoney : styles.unique)}
-				    pagination={{
-					    onChange: cancel,
-					    defaultCurrent: 1,
-					    total: total
-				    }}
-				    // showSorterTooltip={{ title: 'Click để sắp xếp giảm dần' }}
-			    />
-		    </ConfigProvider>
-		    <ModalNote open={Object.values(dataInvoice).length !== 0} setOpen={onClickNote} dataInvoice={dataInvoice} />
-	    </React.Fragment>
-    );
+						pageSize: limit,
+
+						total: total,
+						current: page,
+
+						...pageDefaut
+					}}
+				// showSorterTooltip={{ title: 'Click để sắp xếp giảm dần' }}
+				/>
+			</ConfigProvider>
+			<ModalNote open={Object.values(dataInvoice).length !== 0} setOpen={onClickNote} dataInvoice={dataInvoice} />
+		</React.Fragment>
+	);
 }
-
-TableComponent.propTypes = {
-	isLoading: PropTypes.bool,
-	pageNumber: PropTypes.number,
-	dataSource: PropTypes.array,
-	dataSourceOrigin: PropTypes.object,
-	setIsCallApi: PropTypes.func,
-	setIsLoading: PropTypes.func,
-	getColumnSearchProps: PropTypes.func,
-	onDeleteItemDataSource: PropTypes.func,
-};
-
-TableComponent.defaultProps = {
-	dataSource: [],
-	isLoading: false,
-	dataSourceOrigin: {},
-	setIsCallApi: () => null,
-	setIsLoading: () => null,
-	getColumnSearchProps: () => null,
-	onDeleteItemDataSource: () => null,
-};
 
 export default React.memo(TableComponent);

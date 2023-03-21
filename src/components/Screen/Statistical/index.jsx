@@ -25,7 +25,7 @@ import ModalAddNew from "./ModalAddNew";
 import SelectOption from "./SelectOption";
 
 // Selector
-import { mySelector } from "../../../cores/selector";
+import selectorTransaction from "cores/selector/selectorTransaction";
 
 // Styles
 import styles from './Styles/index.module.scss';
@@ -37,77 +37,45 @@ import { API_URL } from "../../../utils/Config";
 import useDispatchCore from "../../../cores/hooks/useDispathCore";
 
 function Statistical() {
-	const [dataSource, setDataSource] = React.useState( {});
+	const [_, setDataSource] = React.useState({});
 	const [isLoading, setIsLoading] = React.useState(true);
 
-	const [isCallApi, setIsCallApi] = React.useState({ pageNumber: 1, pageSize: 8 });
+	const [{ limit, page }, setPagination] = React.useState({ page: 1, limit: 7 });
 
-	const refPageNumber = React.useRef(null);
+	// const refpage = React.useRef(null);
 
 	const dispatch = useDispatchCore();
-
-	const { selectorTransaction } = useSelector(mySelector);
-
-	// const onSuccess = (Transaction) => {
-	// 	const listItem = {};
-	// 	const listDataItem = [];
-	// 	const { pageNumber } = isCallApi;
-	// 	const listData = {...Transaction}
-	// 	if (Object.keys(listData).length) {
-	// 		for (const property in listData) {
-	// 			if (listData.hasOwnProperty(property)) {
-	// 				const itemInvoice = listData[property];
-	// 				itemInvoice.key = itemInvoice._id;
-	// 				listDataItem.push(itemInvoice);
-	// 			}
-	// 		}
-	// 	}
-	// 	listItem[pageNumber] = listDataItem;
-	// 	setDataSource({...dataSource, ...listItem});
-	// };
+	const { total, dataSource } = useSelector(selectorTransaction);
 
 	const onFinally = () => {
 		setIsLoading(false);
 	};
 
 	React.useEffect(() => {
-		const { pageSize, pageNumber } = isCallApi;
-		callApiGetListData(pageSize, pageNumber);
-	}, [isCallApi]);
+		getList(limit, page);
+	}, [limit, page]);
 
-	const callApiGetListData = (pageSize, page) => {
-		if (refPageNumber.current !== page) {
-			refPageNumber.current = page;
-			const params = { limit: pageSize, page };
-			dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.GET_LIST, {}, params, {}, onFinally, onFinally);
-		}
+	// const getList = (limit, page) => {
+	const getList = () => {
+		// if (refpage.current !== page) {
+		// refpage.current = page;
+		const params = { limit, page };
+		dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.GET_LIST, {}, params, {}, onFinally, onFinally);
+		// }
 	};
 
 	const onDeleteItemSuccess = (valueNew, page) => {
 		const dataSourceNew = dataSource;
 		dataSourceNew[page] = valueNew;
-		setDataSource({...dataSourceNew});
+		setDataSource({ ...dataSourceNew });
 	};
 
 	const onDeleteItemError = () => {
 		message.error('Chức năng xóa không thành công vui lòng thử lại.', 5);
 	};
 
-	const callApiDeleteItem = (id, valueNew, page) => {
-		// dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.REMOTE, { id }, {}, {}, );
-		axios({
-			method: "delete",
-			url: `${API_URL}/${id}`,
-		}).then((response) => {
-			if (response.status === 200) {
-				onDeleteItemSuccess(valueNew, page);
-			}
-		}).catch((error) => {
-			onDeleteItemError();
-			throw new Error("Xóa item thất bại ======== [[ Error ]] =====>:", error);
-		}).finally(() => {
-			onFinally();
-		});
+	const callApiDeleteItem = (id) => {
+		dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.REMOTE, { id }, {}, {},);
 	};
 
 	const onDeleteItemDataSource = (id, valueNew, page) => {
@@ -115,13 +83,7 @@ function Statistical() {
 		callApiDeleteItem(id, valueNew, page);
 	};
 
-	const { pageNumber } = isCallApi;
-
-	// const onClickRefresh = () => {
-	// 	callApiGetListData(1, pageNumber);
-	// };
-
-	return(
+	return (
 		<div className={styles.wrapInvoice}>
 			<div className={styles.invoiceHeader}>
 				<div className={styles.contentLeft}>
@@ -132,20 +94,21 @@ function Statistical() {
 					{/*</Tooltip>*/}
 				</div>
 				<div className={styles.contentRight}>
-					{/*<OpenChart />*/}
+					<OpenChart />
 				</div>
 			</div>
 			<Table
 				isLoading={isLoading}
-				pageNumber={pageNumber}
-				setIsCallApi={setIsCallApi}
+				page={page}
+				limit={limit}
+				total={total}
+				setPagination={setPagination}
 				setIsLoading={setIsLoading}
-				dataSource={selectorTransaction}
-				dataSourceOrigin={dataSource}
+				dataSource={dataSource}
 				onDeleteItemDataSource={onDeleteItemDataSource}
 			/>
 		</div>
-    );
+	);
 }
 
 export default React.memo(Statistical);

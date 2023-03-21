@@ -24,7 +24,7 @@ const hasObjectReducer = {
         reducer: (state, action) => {
             return produce(state, (draftState) => {
                 draftState.total += 1;
-                draftState.count += 1;
+                draftState.count = draftState.itemIds.lenght + 1;
                 draftState.itemIds = [action.payload.fakeId, ...draftState.itemIds];
             });
         },
@@ -44,10 +44,10 @@ const hasObjectReducer = {
             const { count, total, itemIds, limit } = action.payload;
             if (state.count != count) {
                 return produce(state, (draftState) => {
+                    const itemIdsNew = [...new Set(draftState.itemIds.concat(itemIds))];
                     draftState.total = total;
-                    const newCount = draftState.count + limit;
-                    draftState.count = newCount > total ? total : newCount;
-                    draftState.itemIds = [...new Set(draftState.itemIds.concat(itemIds))];
+                    draftState.count = itemIdsNew.length;
+                    draftState.itemIds = itemIdsNew;
                 });
             }
         },

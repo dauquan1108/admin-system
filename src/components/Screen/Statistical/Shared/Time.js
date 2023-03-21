@@ -18,7 +18,7 @@ const dateFormatList = ["DD/MM/YYYY"];
 const today = () => {
 	const dates = new Date();
 	return (
-		("0" + dates.getDate()).slice(-2) + "/" + ("0" + (dates.getMonth() + 1)).slice(-2) + "/" +dates.getFullYear()
+		("0" + dates.getDate()).slice(-2) + "/" + ("0" + (dates.getMonth() + 1)).slice(-2) + "/" + dates.getFullYear()
 	);
 };
 
@@ -42,7 +42,10 @@ const convertDMY = (timeStamp) => {
 	const day = ("0" + date.getDate()).slice(-2);
 	const month = ("0" + (date.getMonth() + 1)).slice(-2);
 	const year = date.getFullYear();
-	return (`${day}/${month}/${year}`);
+	const hours = ("0" + date.getHours()).slice(-2);
+	const minutes = ("0" + date.getMinutes()).slice(-2);
+	return (`${day}/${month}/${year} ${hours}:${minutes}`);
 };
+
 
 export { dateFormatList, today, convertMDY, convertTimeStamp, convertDMY };
