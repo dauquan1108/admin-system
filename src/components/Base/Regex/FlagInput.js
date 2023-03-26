@@ -13,7 +13,8 @@
  */
 
 const flagInput = {
-    TYPE_PASSWORD: 'Password',
+	TYPE_CONFIRM_PASSWORD: 'ConfirmPassword',
+	TYPE_PASSWORD: 'Password',
     TYPE_EMAIL: 'Email',
     SUCCESS: 'Success', // Thành công
 };

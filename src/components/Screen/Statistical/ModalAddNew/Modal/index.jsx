@@ -14,7 +14,7 @@
 
 import React from 'react';
 import "dayjs/locale/vi";
-import axios from "axios";
+// import axios from "axios";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 import { Modal, message, Button } from 'antd';
@@ -27,6 +27,9 @@ import InputComponent from "../../Shared/InputComponent";
 import InputNumberComponent from "../../Shared/InputNumberComponent";
 import InputTextAreaComponent from "../../Shared/InputTextAreaComponent";
 import InputComponentAccountName from "../../Shared/InputComponentAccountName";
+
+// Base
+import ModalBase from "../../../../Base/Modal";
 
 // Shared
 import { typeName } from '../../Shared/Synthetic';
@@ -42,9 +45,6 @@ import useDispatchCore from "cores/hooks/useDispathCore";
 
 // Style
 import styles from './Styles/index.module.scss';
-
-// image
-import close from '../../../../Img/close.png';
 
 const { confirm } = Modal;
 
@@ -148,7 +148,7 @@ function ModalAddNew(props) {
 	};
 
 	return(
-		<Modal
+		<ModalBase
 			centered
 			width={900}
 			open={isModal}
@@ -159,7 +159,6 @@ function ModalAddNew(props) {
 			title="Thêm mới khách hàng"
 			confirmLoading={confirmLoading}
 			wrapClassName={styles.modalAddNew}
-			closeIcon={<img src={close} alt="" width='12px' />}
 			footer={[
 				<Button
 					key="cancel"
@@ -298,7 +297,7 @@ function ModalAddNew(props) {
 					style={{ marginBottom: '25px' }}
 				/>
 			</div>
-		</Modal>
+		</ModalBase>
     );
 }
 

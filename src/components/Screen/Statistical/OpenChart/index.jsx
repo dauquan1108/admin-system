@@ -13,18 +13,18 @@
  */
 
 import React from 'react';
+import { Button } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Modal } from 'antd';
 
 // Component
 import ChartColumn from "../../../ChartsColumn";
+import ChartPercent from "../../../ChartPercent";
+
+// Base
+import ModalBase from "../../../Base/Modal";
 
 // Style
 import styles from './Styles/index.module.scss';
-
-// image
-import close from '../../../Img/close.png';
-import ChartPercent from "../../../ChartPercent";
 
 function OpenChart() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -45,7 +45,7 @@ function OpenChart() {
             <Button type="primary" onClick={showModal} icon={<PlusCircleOutlined />}>
                 Mở giao diện sơ đồ
             </Button>
-            <Modal
+            <ModalBase
                 title="Sơ đồ"
                 centered
                 width={800}
@@ -55,11 +55,10 @@ function OpenChart() {
                 onCancel={onClose}
                 open={isModalOpen}
                 wrapClassName={styles.wrapModalAdd}
-                closeIcon={<img src={close} alt="" width='12px' />}
             >
             <ChartColumn />
             <ChartPercent />
-            </Modal>
+            </ModalBase>
         </div>
     );
 }

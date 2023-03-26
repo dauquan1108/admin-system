@@ -20,7 +20,7 @@ import REGEX_BASE from './regexBase';
  * @returns {boolean}
  */
 
-function validateEmail(email = '') {
+const validateEmail = (email = '') => {
     if (typeof email === 'string' && email.length > 0) {
         // eslint-disable-next-line no-unused-vars,no-useless-escape
         const re = REGEX_BASE.REGEX_EMAIL;
@@ -29,4 +29,4 @@ function validateEmail(email = '') {
     return true;
 }
 
-export default validateEmail;
+export { validateEmail };

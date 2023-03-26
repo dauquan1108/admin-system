@@ -14,14 +14,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from "antd";
+import classNames from "classnames";
+
+// Base
+import ModalBase from "../../../../Base/Modal";
 
 // Style
 import styles from './Styles/index.module.scss';
-
-// Img
-import close from "../../../../Img/close.png";
-import classNames from "classnames";
 
 function UpdateUserInformation(props) {
 	const { open, onCloneModal } = props;
@@ -36,13 +35,11 @@ function UpdateUserInformation(props) {
 	};
 
     return(
-	    <Modal
+	    <ModalBase
 		    open={open}
 		    width={600}
 		    onCancel={onCloneModal}
 		    title={active ? "Cập nhật avatar" : "Cập nhật thông tin cá nhân"}
-		    wrapClassName={styles.modalUpdateUserInformation}
-		    closeIcon={<img src={close} alt="" width='12px' />}
 		    footer={null}
 	    >
 		    <div className={styles.wrapBtn}>
@@ -54,7 +51,7 @@ function UpdateUserInformation(props) {
 				</span>
 		    </div>
 		    <div className={styles.content} />
-	    </Modal>
+	    </ModalBase>
     );
 }
 

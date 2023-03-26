@@ -15,13 +15,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
-import { Modal, Button, Tag } from 'antd';
+import { Button, Tag } from 'antd';
+
+// Base
+import ModalBase from "../../../Base/Modal";
 
 // Style
 import styles from './Styles/index.module.scss';
-
-// image
-import close from '../../../Img/close.png';
 
 function ModalNote({ open, setOpen, dataInvoice }) {
 
@@ -64,11 +64,10 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 	const type = dataInvoice.type || "";
 
 	return(
-	    <Modal
+	    <ModalBase
 		    title="Thông tin chi tiết"
 		    centered
 		    open={open}
-		    closeIcon={<img src={close} alt="" width='12px' />}
 		    width={680}
 		    onOk={onClick}
 		    onCancel={onClick}
@@ -145,7 +144,7 @@ function ModalNote({ open, setOpen, dataInvoice }) {
 		    <div className={classNames(styles.wrapText, styles.flex_1)}>Note:
 				<span className={classNames(styles.contentText, styles.textColor)}> {note}</span>
 		    </div>
-	    </Modal>
+	    </ModalBase>
     );
 }
 

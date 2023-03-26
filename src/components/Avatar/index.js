@@ -32,7 +32,7 @@ function Avatar(props) {
 }
 
 Avatar.propTypes = {
-	url: PropTypes.string,
+	url: PropTypes.string.isRequired,
 	className: PropTypes.string,
 
 	size: PropTypes.number,
@@ -40,7 +40,7 @@ Avatar.propTypes = {
 
 Avatar.defaultProps = {
 	url: '',
-	size: 40,
+	size: 40, // Todo: QuanDX kích thước avatar mặc định là 40 X 40
 };
 
 export default Avatar;

@@ -1,12 +1,40 @@
 .wrap {
     display: flex;
     flex-direction: column;
+    .contentTop {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        //justify-content: space-between;
+        margin-bottom: 10px;
 
-    .title {
-        color: #3e314e;
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 20px;
+        .title {
+            color: #3e314e;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .icon {
+            color: #fff;
+            padding: 10px;
+            margin-left: 20px;
+            border-radius: 50%;
+            background-color: #4096ff;
+            box-shadow: 0 0 11px -3px rgba(0,0,0,0.1);
+
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .iconSync {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .iconSync:hover {
+            color: white;
+            background-color: #0f172a;
+        }
     }
     .contentList {
         max-height: 42vh;

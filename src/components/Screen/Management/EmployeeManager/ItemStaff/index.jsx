@@ -35,11 +35,11 @@ function ItemStaff(props) {
         <div className={classNames(styles.wrap, className)}>
 	        <div className={styles.wrapLeft}>
 		        <Avatar url={value.avatar || ""} className={styles.avatar} />
-		        <span className={styles.name}>{value.name}</span>
+		        <span className={styles.name}>{value.name || 'Chưa có dữ liệu'}</span>
 	        </div>
 	        <div className={styles.wrapContent}>
-		        <span>{value.position}</span>
-		        <span>{value.phone}</span>
+		        <span>{value.position || 'Chưa có dữ liệu'}</span>
+		        <span>{value.phone || 'Chưa có dữ liệu'}</span>
 	        </div>
 	        <div className={styles.wrapRight}>
 		        <Button type="primary" onClick={onClickEdit}>Chỉnh sửa</Button>
