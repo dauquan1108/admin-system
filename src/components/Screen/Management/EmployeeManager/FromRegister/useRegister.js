@@ -40,7 +40,7 @@ function useRegister() {
             return 'Email không được để trống.';
         }
         if (!validateEmail(inputValue(refInputEmail))) {
-            return 'Vui lòng kiểm tra lại Email.';
+            return 'Email không đúng định dạng vui lòng kiểm tra lại.';
         }
         return SUCCESS;
     };
@@ -79,7 +79,8 @@ function useRegister() {
     };
 
     const onBlurInput = (type) => {
-        setMessageError({ ...messageError, [type]: checkItemInput(type) });
+    	// Todo: QuanDX rào chức năng check lỗi khi blur khỏi input
+        // setMessageError({ ...messageError, [type]: checkItemInput(type) });
     };
 
 	const onClearAllMessageError= () => {

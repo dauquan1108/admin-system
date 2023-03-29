@@ -13,10 +13,18 @@
  */
 
 const flagInput = {
+	// From Đăng nhập, Đăng ký, Update mật khẩu.
 	TYPE_CONFIRM_PASSWORD: 'ConfirmPassword',
 	TYPE_PASSWORD: 'Password',
     TYPE_EMAIL: 'Email',
     SUCCESS: 'Success', // Thành công
+
+	// From thông tin cá nhân
+	TYPE_PHONE: 'Phone', // Số điện thoại
+	TYPE_FULL_NAME: 'FullName', // Họ và tên
+	TYPE_DATE_BIRTH: 'DateBirth', // ngày sinh
+	TYPE_EXTEND: 'Extend', // ngày sinh
+	TYPE_SEX: 'Sex', // Giới tính
 };
 
 export { flagInput };

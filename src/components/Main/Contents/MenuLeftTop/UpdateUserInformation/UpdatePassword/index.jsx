@@ -133,7 +133,7 @@ function FromRegister(props) {
 				    messageError={messageError}
 				    placeholder='Xác nhận lại mật khẩu đã nhập'
 			    />
-			    <button className={styles['from-register-modal-btn']} onClick={onLogin}>Đăng ký</button>
+			    <button className={styles['from-register-modal-btn']}  onClick={onLogin}>Đăng ký</button>
 		    </div>
 	    </ModalBase>
     );

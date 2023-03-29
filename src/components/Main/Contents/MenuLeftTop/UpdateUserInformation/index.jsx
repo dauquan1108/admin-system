@@ -16,22 +16,45 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 
+// Component
+import UpdatePassword from "./UpdatePassword/UpdatePassword";
+import PersonalInformation from "./PersonalInformation/PersonalInformation";
+
 // Base
 import ModalBase from "../../../../Base/Modal";
 
 // Style
 import styles from './Styles/index.module.scss';
 
+const item = ['Chỉnh sửa avatar', 'Chỉnh sửa thông tin cá nhân', 'Cập nhật mật khẩu'];
+
 function UpdateUserInformation(props) {
 	const { open, onCloneModal } = props;
 
-	const [active, setActive] = React.useState(true);
+	const [active, setActive] = React.useState(item[0]);
 
-	const onClickEditAvatar = () => {
-		setActive(true);
+	const onClickTab = (tabItem) => {
+		setActive(tabItem);
 	};
-	const onClickEditUserInformation = () => {
-		setActive(false);
+
+	const showTitle = () => {
+		if (active === item[1]) {
+			return item[1];
+		}
+		if (active === item[2]) {
+			return item[2];
+		}
+		return item[0];
+	};
+
+	const showContent = () => {
+		if (active === item[1]) {
+			return <PersonalInformation />;
+		}
+		if (active === item[2]) {
+			return <UpdatePassword />;
+		}
+		return <PersonalInformation />;
 	};
 
     return(
@@ -39,18 +62,25 @@ function UpdateUserInformation(props) {
 		    open={open}
 		    width={600}
 		    onCancel={onCloneModal}
-		    title={active ? "Cập nhật avatar" : "Cập nhật thông tin cá nhân"}
+		    title={showTitle()}
 		    footer={null}
 	    >
 		    <div className={styles.wrapBtn}>
-				<span className={classNames(styles.text, active && styles.textActive)} onClick={onClickEditAvatar}>
-					Chỉnh sửa avatar
+				<span className={classNames(styles.text, styles.flex_1, active === item[0] && styles.textActive)} onClick={() => onClickTab(item[0])}>
+					{item[0]}
 				</span>
-			    <span className={classNames(styles.text, !active && styles.textActive)} onClick={onClickEditUserInformation}>
-					Chỉnh sửa thông tin cá nhân
+			    <span className={classNames(styles.text, styles.flex_2, styles.itemCenter, active === item[1] && styles.textActive)} onClick={() => onClickTab(item[1])}>
+					{item[1]}
+				</span>
+			    <span className={classNames(styles.text, styles.flex_1, active === item[2] && styles.textActive)} onClick={() => onClickTab(item[2])}>
+					{item[2]}
 				</span>
 		    </div>
-		    <div className={styles.content} />
+		    <div className={styles.content}>
+			    {
+				    showContent()
+			    }
+		    </div>
 	    </ModalBase>
     );
 }
