@@ -91,3 +91,29 @@
         color: red;
     }
 }
+
+
+.date-picker-wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .date-picker-title {
+        margin-right: 5px;
+        color: #4D4D4D;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 600;
+    }
+    .date-picker-text-error {
+        position: absolute;
+        bottom: 1px;
+
+        color: red;
+        font-size: 13px;
+        font-weight: 400;
+    }
+    .date-picker-obligatory {
+        color: red;
+    }
+}

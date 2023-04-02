@@ -20,7 +20,7 @@ import classNames from "classnames";
 // Style
 import styles from './Styles/index.module.scss';
 
-function AutoCompleteCustom(props) {
+function AutoCompleteUserCustom(props) {
 	const {
 		title,
 		typeName,
@@ -29,48 +29,57 @@ function AutoCompleteCustom(props) {
 		placeholder,
 		optionsData,
 		onChangeInput,
-		dataSelectDevicePost,
+		dataSelectUser,
+		onSelectAutoComplete,
 		...otherProps
 	} = props;
 
-	const [valueAutoComplete, setValueAutoComplete] = React.useState(() => {
-		const value = dataSelectDevicePost[typeName];
-		return value && value.toString() || '';
+	const [valueAutoComplete, setValueAutoComplete] = React.useState( {
+		valueInput: '',
+		status: false,
 	}); // Khởi tạo giá trị ban đầu cho AutoComplete
 
 	const [checkError, setCheckError] = React.useState('');
 
 	React.useLayoutEffect(() => {
-		if (dataSelectDevicePost && dataSelectDevicePost[typeName]) {
-			const value = dataSelectDevicePost[typeName];
-			setValueAutoComplete(value && value.toString() || '');
+		if (dataSelectUser && dataSelectUser[typeName]) {
+			const value = dataSelectUser[typeName];
+			setValueAutoComplete({
+				valueInput: value && value.toString() || '',
+				status: false,
+			});
 		}
-	}, [dataSelectDevicePost]);
+	}, [dataSelectUser]);
 
 
-	const onChange = (value) => {
-		setValueAutoComplete(value);
+	const onChangeUser = (value) => {
+		setValueAutoComplete({ valueInput: value , status: true });
 	};
 
 	const onblurAutoComplete = () => {
 		// Set data cho item
-		onChangeInput(valueAutoComplete, typeName);
+		const { status } = valueAutoComplete;
+		status && onChangeInput(valueAutoComplete.valueInput, typeName);
 
 		// const valueNew = refValue.current;
 		// if (valueNew === null || !valueNew) {
+		// 	setDisabled && setDisabled(true);
 		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
 		// } else if(!valueNew && !isText) {
+		// 	setDisabled && setDisabled(true);
 		// 	setCheckError('Dữ liệu nhập vào không được phép chứ "Text", vui lòng kiểm tra lại.');
 		// } else if(
 		// 	(data.percentCustomer && data.percentCustomer < valueNew && typeName === typeNames.percentBank)
 		// 	||
 		// 	(data.percentBank && data.percentBank > valueNew && typeName === typeNames.percentCustomer)
 		// ) {
+		// 	setDisabled && setDisabled(true);
 		// 	setCheckError('%phí thu khách phải lớn hơn hoặc bằng %phí ngân hàng.');
 		// } else {
 		// 	onChangeInput(valueNew, typeName);
 		// }
 	};
+
 	const onfocusAutoComplete = () => {
 		setCheckError('');
 	};
@@ -82,52 +91,56 @@ function AutoCompleteCustom(props) {
 	};
 
 	const handleSelect = (value, item) => {
-		setValueAutoComplete(value);
+		setValueAutoComplete({ valueInput: value, status: false });
+		onSelectAutoComplete(value, item);
 	};
 
     return(
-        <div className={classNames(styles['auto-complete-wrap'], className)}>
-			{title && <span className={styles['auto-complete-title']}>
+        <div className={classNames(styles['auto-complete-user-wrap'], className)}>
+			{title && <span className={styles['auto-complete-user-title']}>
 				{title}{!obligatory && ':'}
-				{obligatory && <span className={styles['auto-complete-obligatory']}>*</span>}
+				{obligatory && <span className={styles['auto-complete-user-obligatory']}>*</span>}
 			</span>
 			}
 	        <AutoComplete
 				allowClear
 				size="large"
-				value={valueAutoComplete}
+				value={valueAutoComplete.valueInput}
 				options={optionsData}
 				placeholder={placeholder}
 				status={checkError && 'error'}
 
-				onChange={onChange}
+				onChange={onChangeUser}
 				onSelect={handleSelect}
 				onBlur={onblurAutoComplete}
 		        filterOption={onFilterOption}
 		        onFocus={onfocusAutoComplete}
+
 				{...otherProps}
 	        />
-	        {checkError && <span className={styles['auto-complete-text-error']}>{checkError}</span>}
+	        {checkError && <span className={styles['auto-complete-user-text-error']}>{checkError}</span>}
         </div>
     );
 }
 
-AutoCompleteCustom.propTypes = {
+AutoCompleteUserCustom.propTypes = {
 	title: PropTypes.string,
-	typeName: PropTypes.string,
 	className: PropTypes.string,
+	typeName: PropTypes.string,
 	placeholder: PropTypes.string,
 	obligatory: PropTypes.bool,
 	optionsData: PropTypes.array,
+	dataSelectUser: PropTypes.object,
 	onChangeInput: PropTypes.func,
-	dataSelectDevicePost: PropTypes.object,
+	onSelectAutoComplete: PropTypes.func,
 };
 
-AutoCompleteCustom.defaultProps = {
-	optionsData: [],
+AutoCompleteUserCustom.defaultProps = {
 	obligatory: false,
-	dataSelectDevicePost: {},
+	optionsData: [],
+	dataSelectUser: {},
 	onChangeInput: () => null,
+	onSelectAutoComplete: () => null,
 };
 
-export default React.memo(AutoCompleteCustom);
+export default React.memo(AutoCompleteUserCustom);
