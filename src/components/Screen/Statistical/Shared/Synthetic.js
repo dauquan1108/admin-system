@@ -16,7 +16,8 @@ const typeName = {
 	devicePost: 'devicePost', // Tên máy Pos làm
 	workTimestamp: 'workTimestamp', // Ngày làm
 	accountName: 'accountName', // Chủ thẻ
-	cardNumber: 'cardNumber', // Số thẻ
+	cardNumber: 'cardNumber', // 4 cuối của thẻ
+	phoneNumber: 'phoneNumber', // Số điện thoại
 	money: 'money', // Số tiền
 	percentBank: 'percentBank', // % Phí ngân hàng
 	bankFees: 'bankFees', // Phí ngân hàng
@@ -25,6 +26,7 @@ const typeName = {
 	interestRate: 'interestRate', // Lãi
 	extends: 'extends',  // Note
 	type: 'type', // Hình thức
+	debit: 'debit', // Trạng thái thanh toán
 	limitCard: 'limitCard', // Hạn mức
 }
 

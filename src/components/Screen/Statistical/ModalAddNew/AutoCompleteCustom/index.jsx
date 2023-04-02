@@ -15,6 +15,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
+import classNames from "classnames";
 
 // Shared
 import { typeName as typeNames } from "../../Shared/Synthetic";
@@ -24,50 +25,56 @@ import styles from './Styles/index.module.scss';
 
 function AutoCompleteCustom(props) {
 	const {
-		data,
-		style,
-		isText,
+		title,
 		typeName,
 		placeholder,
 		optionsData,
+		obligatory,
 		setDisabled,
-		onChangeInput
+		className,
+		onChangeInput,
+		dataSelectDevicePost,
+		...otherProps
 	} = props;
+
+	const [value, setValue] = React.useState(() => {
+		const value = dataSelectDevicePost[typeName];
+		return value && value.toString() || '';
+	}); // Khởi tạo giá trị ban đầu cho AutoComplete
 
 	const [checkError, setCheckError] = React.useState('');
 
-	const refValue = React.useRef(null);
+	React.useLayoutEffect(() => {
+		if (dataSelectDevicePost && dataSelectDevicePost[typeName]) {
+			const value = dataSelectDevicePost[typeName];
+			setValue(value && value.toString() || '');
+		}
+	}, [dataSelectDevicePost]);
+
 
 	const onChange = (value) => {
-		let valueNew;
-		if (isText) {
-			valueNew = value;
-		} else {
-			valueNew = Number(value);
-		}
-		refValue.current = valueNew;
+		setValue(value);
 	};
 
 	const onblurAutoComplete = () => {
-		const valueNew = refValue.current;
-		if (valueNew === null || !valueNew) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
-		} else if(!valueNew && !isText) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu nhập vào không được phép chứ "Text", vui lòng kiểm tra lại.');
-		} else if(
-			(data.percentCustomer && data.percentCustomer < valueNew && typeName === typeNames.percentBank)
-			||
-			(data.percentBank && data.percentBank > valueNew && typeName === typeNames.percentCustomer)
-		) {
-			setDisabled && setDisabled(true);
-			setCheckError('%phí thu khách phải lớn hơn hoặc bằng %phí ngân hàng.');
-		} else {
-			onChangeInput(valueNew, typeName);
-		}
+		// const valueNew = refValue.current;
+		// if (valueNew === null || !valueNew) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
+		// } else if(!valueNew && !isText) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu nhập vào không được phép chứ "Text", vui lòng kiểm tra lại.');
+		// } else if(
+		// 	(data.percentCustomer && data.percentCustomer < valueNew && typeName === typeNames.percentBank)
+		// 	||
+		// 	(data.percentBank && data.percentBank > valueNew && typeName === typeNames.percentCustomer)
+		// ) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('%phí thu khách phải lớn hơn hoặc bằng %phí ngân hàng.');
+		// } else {
+		// 	onChangeInput(valueNew, typeName);
+		// }
 	};
-
 	const onfocusAutoComplete = () => {
 		setCheckError('');
 	};
@@ -78,39 +85,48 @@ function AutoCompleteCustom(props) {
 		}
 	};
 
-	const checkDisabled = (typeName === typeNames.percentCustomer) && !data.percentBank;
+	const handleSelect = (value, item) => {
+		setValue(value);
+	};
 
     return(
-        <div className={styles.wrapAutoComplete}>
+        <div className={classNames(styles['auto-complete-wrap'], className)}>
+			{title && <span className={styles['auto-complete-title']}>
+				{title}{!obligatory && ':'}
+				{obligatory && <span className={styles['auto-complete-obligatory']}>*</span>}
+			</span>
+			}
 	        <AutoComplete
-		        allowClear
-		        size="large"
-		        style={{...style}}
-		        onChange={onChange}
-		        options={optionsData}
-		        disabled={checkDisabled}
-		        placeholder={placeholder}
-		        onBlur={onblurAutoComplete}
+				allowClear
+				size="large"
+				value={value}
+				options={optionsData}
+				placeholder={placeholder}
+				status={checkError && 'error'}
+
+				onChange={onChange}
+				onSelect={handleSelect}
+				onBlur={onblurAutoComplete}
 		        filterOption={onFilterOption}
 		        onFocus={onfocusAutoComplete}
-		        status={checkError && 'error'}
+				{...otherProps}
 	        />
-	        {checkError && <span className={styles.textError}>{checkError}</span>}
+	        {checkError && <span className={styles['auto-complete-text-error']}>{checkError}</span>}
         </div>
     );
 }
 
 AutoCompleteCustom.propTypes = {
-	isText: PropTypes.bool,
-	data: PropTypes.object,
-	style: PropTypes.object,
+	title: PropTypes.string,
+	className: PropTypes.string,
+	obligatory: PropTypes.bool,
+	dataSelectDevicePost: PropTypes.object,
 	optionsData: PropTypes.array,
 };
 
 AutoCompleteCustom.defaultProps = {
-	data: {},
-	style: {},
-	isText: false,
+	dataSelectDevicePost: {},
+	obligatory: false,
 	optionsData: []
 };
 

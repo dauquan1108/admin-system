@@ -27,7 +27,10 @@ function InputTextAreaComponent(props) {
 		typeName,
 		maxLength,
 		setDisabled,
-		onChangeInput
+		onChangeInput,
+
+		title,
+		obligatory,
 	} = props;
 
 	const [checkError, setCheckError] = React.useState('');
@@ -48,17 +51,18 @@ function InputTextAreaComponent(props) {
 	};
 
 	const onBlurInput = () => {
-		const valueTextAreaNew = refValueTextArea.current;
-		if (!valueTextAreaNew) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
-		} else  {
-			onChangeInput(valueTextAreaNew, typeName);
-		}
+		// const valueTextAreaNew = refValueTextArea.current;
+		// if (!valueTextAreaNew) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
+		// } else  {
+		// 	onChangeInput(valueTextAreaNew, typeName);
+		// }
 	};
 
     return(
-        <React.Fragment>
+		<div className={styles['text-Area-wrap']}>
+			{title && <span className={styles['text-Area-title']}>{title}{obligatory && <span className={styles['text-Area-obligatory']}>*</span>}</span>}
 	        <TextArea
 		        rows={4}
 		        showCount
@@ -70,9 +74,9 @@ function InputTextAreaComponent(props) {
 		        status={checkError && "error"}
 	        />
 	        {
-		        checkError && <span className={styles.textError}>{checkError}</span>
+		        checkError && <span className={styles['text-Area-text-error']}>{checkError}</span>
 	        }
-        </React.Fragment>
+		</div>
     );
 }
 
@@ -82,10 +86,14 @@ InputTextAreaComponent.propTypes = {
 	maxLength: PropTypes.number,
 	setDisabled: PropTypes.func,
 	onChangeInput: PropTypes.func,
+
+	title: PropTypes.string,
+	obligatory: PropTypes.bool,
 };
 
 InputTextAreaComponent.defaultProps = {
 	style: {},
+	obligatory: false,
 };
 
 export default React.memo(InputTextAreaComponent);

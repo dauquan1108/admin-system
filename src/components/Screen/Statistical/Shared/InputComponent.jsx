@@ -52,16 +52,16 @@ function InputComponent(props) {
 	};
 
 	const onBlurInput = () => {
-		const valueNew = refValueInput.current.input.value;
-		if (!valueNew) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
-		} else if(!isCheckNumber(valueNew)) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu nhập vào không được phép chứa "Text".')
-		} else  {
-			onChangeInput(valueNew, typeName);
-		}
+		// const valueNew = refValueInput.current.input.value;
+		// if (!valueNew) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
+		// } else if(!isCheckNumber(valueNew)) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu nhập vào không được phép chứa "Text".')
+		// } else  {
+		// 	onChangeInput(valueNew, typeName);
+		// }
 	};
 
 	return(

@@ -35,7 +35,7 @@ function SelectComponent(props) {
 			size="large"
 			onBlur={onblurSelect}
 			onChange={onChangeTag}
-			style={{ ...style }}
+			style={{ width: '100%' }}
 			defaultValue={data[0]}
 			options={data.map((province) => ({
 				label: province,

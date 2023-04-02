@@ -23,7 +23,9 @@ import { WarningOutlined } from '@ant-design/icons';
 // Component
 import useModalAddNew from "../useModalAddNew";
 import AutoCompleteCustom from "../AutoCompleteCustom";
+import AutoCompleteUserCustom from "../AutoCompleteUserCustom";
 import InputComponent from "../../Shared/InputComponent";
+import InputSelectComponent from "../../Shared/inputSelectComponent";
 import InputNumberComponent from "../../Shared/InputNumberComponent";
 import InputTextAreaComponent from "../../Shared/InputTextAreaComponent";
 import InputComponentAccountName from "../../Shared/InputComponentAccountName";
@@ -61,8 +63,18 @@ function ModalAddNew(props) {
 		onDatePicker,
 		onChangeInput,
 		provinceDataType,
+		paymentDataStatus,
 		optionsDevicePost,
 		optionsPercentBank,
+
+		optionUser,
+		dataSelectUser,
+		optionUserPhoneNumber,
+		optionUserCardNumber,
+		onSelectAutoCompleteUser,
+
+		onSelectDevicePost,
+		dataSelectDevicePost,
 	} = useModalAddNew();
 
 	// Loading
@@ -126,25 +138,25 @@ function ModalAddNew(props) {
 	// };
 
 	const onOkModal = () => {
-		const { devicePost, accountName, workTimestamp, cardNumber, money, limitCard,percentBank, percentCustomer, type } = data;
-		if (devicePost && workTimestamp && accountName && cardNumber && money && percentBank && percentCustomer && type) {
-			onCallApi();
-		} else {
-			setDisabled(true);
-			Modal.warning({
-				title: 'Thông tin khách hàng không được để trống!',
-				content: `Vui lòng nhập đầy đủ: 
-				${!devicePost ? 'Tên thiết bị, ' : ''} 
-				${!workTimestamp ? 'Ngày làm, ' : ''}
-				${!accountName ? 'Chủ thẻ, ' : ''}
-				${!cardNumber ? 'Số thẻ, ' : ''}
-				${!money ? 'Số tiền, ' : ''}
-				${!limitCard ? 'Hạn mức, ' : ''}
-				${!percentBank ? '% Phí ngân hàng, ' : ''}
-				${!percentCustomer ? '% Phí thu khách, ' : ''}
-				${!type ? 'Hình thức.' : ''}`
-			});
-		}
+		// const { devicePost, accountName, workTimestamp, cardNumber, money, limitCard,percentBank, percentCustomer, type } = data;
+		// if (devicePost && workTimestamp && accountName && cardNumber && money && percentBank && percentCustomer && type) {
+		// 	onCallApi();
+		// } else {
+		// 	setDisabled(true);
+		// 	Modal.warning({
+		// 		title: 'Thông tin khách hàng không được để trống!',
+		// 		content: `Vui lòng nhập đầy đủ:
+		// 		${!devicePost ? 'Tên thiết bị, ' : ''}
+		// 		${!workTimestamp ? 'Ngày làm, ' : ''}
+		// 		${!accountName ? 'Chủ thẻ, ' : ''}
+		// 		${!cardNumber ? 'Số thẻ, ' : ''}
+		// 		${!money ? 'Số tiền, ' : ''}
+		// 		${!limitCard ? 'Hạn mức, ' : ''}
+		// 		${!percentBank ? '% Phí ngân hàng, ' : ''}
+		// 		${!percentCustomer ? '% Phí thu khách, ' : ''}
+		// 		${!type ? 'Hình thức.' : ''}`
+		// 	});
+		// }
 	};
 
 	return(
@@ -158,7 +170,7 @@ function ModalAddNew(props) {
 			onCancel={onCancelModal}
 			title="Thêm mới khách hàng"
 			confirmLoading={confirmLoading}
-			wrapClassName={styles.modalAddNew}
+			wrapClassName={styles['modal-add-new']}
 			footer={[
 				<Button
 					key="cancel"
@@ -173,7 +185,7 @@ function ModalAddNew(props) {
 					size='large'
 					type="primary"
 					onClick={onOkModal}
-					disabled={isDisabled || confirmLoading}
+					// disabled={isDisabled || confirmLoading}
 					loading={confirmLoading}
 				>
 					Lưu
@@ -181,122 +193,149 @@ function ModalAddNew(props) {
 			]}
 		>
 			<div className={styles.wrap}>
-				<div className={classNames(styles.wrapContent, styles._flex2, styles.contentLeft)}>
-					<span className={styles.titleText}>Tên thiết bị:</span>
-					<AutoCompleteCustom
-						isText
-						style={{ width: '100%' }}
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						typeName={typeName.devicePost}
-						optionsData={optionsDevicePost}
-						placeholder="Vui lòng nhập tên thiết bị..."
-					/>
-				</div>
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<span className={styles.titleText}>Ngày làm:</span>
+				<AutoCompleteUserCustom
+					obligatory
+					title='Chủ thẻ'
+					className={classNames(styles.wrapContent, styles.contentLeft, styles._flex4)}
+					onSelectAutoComplete={onSelectAutoCompleteUser}
+					dataSelectUser={dataSelectUser}
+
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					typeName={typeName.accountName}
+					optionsData={optionUser}
+					placeholder="Vui lòng nhập tên chủ thẻ..."
+				/>
+
+				<AutoCompleteUserCustom
+					obligatory
+					title='Số điện thoại'
+					className={classNames(styles.wrapContent, styles.contentLeft, styles._flex2)}
+					onSelectAutoComplete={onSelectAutoCompleteUser}
+					dataSelectUser={dataSelectUser}
+
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					typeName={typeName.phoneNumber}
+					optionsData={optionUserPhoneNumber}
+					placeholder="Vui lòng nhập số điện thoại..."
+				/>
+
+				<AutoCompleteUserCustom
+					obligatory
+					title='4 số cuối của thẻ'
+					className={classNames(styles.wrapContent, styles._flex2)}
+					onSelectAutoComplete={onSelectAutoCompleteUser}
+					dataSelectUser={dataSelectUser}
+
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					typeName={typeName.cardNumber}
+					optionsData={optionUserCardNumber}
+					placeholder="Nhập mã số thẻ..."
+				/>
+			</div>
+
+			<div className={styles.wrap}>
+				<InputNumberComponent
+					obligatory
+					title='Hạn mức'
+					dataSelectUser={dataSelectUser}
+					className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
+
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					typeName={typeName.limitCard}
+					placeholder="Vui lòng nhập hạn mức..."
+				/>
+				<InputNumberComponent
+					obligatory
+					title='Số tiền  làm cho khách'
+					className={classNames(styles.wrapContent, styles._flex1)}
+
+					typeName={typeName.money}
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					placeholder="Vui lòng nhập số tiền làm cho khách..."
+				/>
+			</div>
+
+			<div className={styles.wrap}>
+				<InputSelectComponent
+					obligatory
+					title='Tên thiết bị'
+					optionsData={optionsDevicePost}
+					placeholder="Vui lòng nhập tên thiết bị..."
+					onSelectDevicePost={onSelectDevicePost}
+					className={classNames(styles.wrapContent, styles._flex3, styles.contentLeft)}
+				/>
+
+				<AutoCompleteCustom
+					obligatory
+					title='% Phí ngân hàng'
+					dataSelectDevicePost={dataSelectDevicePost}
+					className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
+
+					data={data}
+					style={{ width: '100%' }}
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					typeName={typeName.percentBank}
+					optionsData={optionsPercentBank}
+					placeholder="% phí ngân hàng..."
+				/>
+
+				<AutoCompleteCustom
+					obligatory
+					title='% Phí thu khách'
+					dataSelectDevicePost={dataSelectDevicePost}
+					className={classNames(styles.wrapContent, styles._flex1)}
+
+					data={data}
+					style={{ width: '100%' }}
+					setDisabled={setDisabled}
+					onChangeInput={onChangeInput}
+					optionsData={optionsPercentBank}
+					typeName={typeName.percentCustomer}
+					placeholder="% phí thu khách..."
+				/>
+			</div>
+
+			<div className={styles.wrap}>
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
+					<span className={styles.titleText}>Ngày làm<span className={styles.textObligatory}>*</span></span>
 					<DatePickerComponent
 						style={{width: '100%'}}
 						onDatePicker={onDatePicker}
 					/>
 				</div>
-			</div>
 
-			<div className={styles.wrap}>
-				<div className={classNames(styles.wrapContent, styles._flex2, styles.contentLeft)}>
-					<span className={styles.titleText}>% Phí ngân hàng: </span>
-					<AutoCompleteCustom
-						data={data}
-						style={{ width: '100%' }}
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						typeName={typeName.percentBank}
-						optionsData={optionsPercentBank}
-						placeholder="Vui lòng nhập % phí ngân hàng..."
-					/>
-				</div>
-				<div className={classNames(styles.wrapContent, styles._flex2)}>
-					<span className={styles.titleText}>% Phí thu khách:</span>
-					<AutoCompleteCustom
-						data={data}
-						style={{ width: '100%' }}
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						optionsData={optionsPercentBank}
-						typeName={typeName.percentCustomer}
-						placeholder="Vui lòng nhập % phí thu khách..."
-					/>
-				</div>
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<span className={styles.titleText}>Hình thức:</span>
+				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
+					<span className={styles.titleText}>Hình thức<span className={styles.textObligatory}>*</span></span>
 					<SelectComponent
 						onSelect={onChangeTag}
 						data={provinceDataType}
-						style={{ width: '100%' }}
+					/>
+				</div>
+
+				<div className={classNames(styles.wrapContent, styles._flex1)}>
+					<span className={styles.titleText}>Trạng thái thanh toán<span className={styles.textObligatory}>*</span></span>
+					<SelectComponent
+						onSelect={onChangeTag}
+						data={paymentDataStatus}
 					/>
 				</div>
 			</div>
 
-			<div className={styles.wrap}>
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
-					<span className={styles.titleText}>Số tiền  làm cho khách:</span>
-					<InputNumberComponent
-						data={data}
-						typeName={typeName.money}
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						placeholder="Vui lòng nhập số tiền làm cho khách..."
-					/>
-				</div>
+			<InputTextAreaComponent
+				title='Note:'
+				maxLength={250}
+				setDisabled={setDisabled}
+				typeName={typeName.extends}
+				onChangeInput={onChangeInput}
+				style={{ marginBottom: '25px' }}
+			/>
 
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<span className={styles.titleText}>Hạn mức:</span>
-					<InputNumberComponent
-						data={data}
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						typeName={typeName.limitCard}
-						placeholder="Vui lòng nhập hạn mức..."
-					/>
-				</div>
-			</div>
-
-			<div className={styles.wrap}>
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
-					<span className={styles.titleText}>Chủ thẻ:</span>
-					<InputComponentAccountName
-						data={data}
-						maxLength={100}
-						setDisabled={setDisabled}
-						placeholder="Tên chủ thẻ..."
-						typeName={typeName.accountName}
-						onChangeInput={onChangeInput}
-					/>
-				</div>
-
-				<div className={classNames(styles.wrapContent, styles._flex1, styles.contentRight)}>
-					<samp className={styles.titleText}>Số thẻ là [4 số cuối của thẻ]:</samp>
-					<InputComponent
-						data={data}
-						maxLength={50}
-						placeholder="Mã số thẻ..."
-						setDisabled={setDisabled}
-						onChangeInput={onChangeInput}
-						typeName={typeName.cardNumber}
-					/>
-				</div>
-			</div>
-
-			<div>
-				<span className={styles.titleText}>Note:</span>
-				<InputTextAreaComponent
-					maxLength={250}
-					setDisabled={setDisabled}
-					typeName={typeName.extends}
-					onChangeInput={onChangeInput}
-					style={{ marginBottom: '25px' }}
-				/>
-			</div>
 		</ModalBase>
     );
 }

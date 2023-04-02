@@ -45,33 +45,33 @@ function InputComponentAccountName(props) {
 		const valueNew = value.toUpperCase();
 		setValueInput(valueNew);
 		const countValueNew = valueNew.length;
-		if (countValueNew === maxLength) {
-			setDisabled && setDisabled(true);
-			setCheckError(`Dữ liệu đã vượt quá số lượng cho phép nhập là: ${maxLength}`);
-		}
-		if (checkError) {
-			onFocusInput();
-		}
+		// if (countValueNew > maxLength) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError(`Dữ liệu đã vượt quá số lượng cho phép nhập là: ${maxLength}`);
+		// }
+		// if (checkError) {
+		// 	onFocusInput();
+		// }
 	};
 
 	const onBlurInput = () => {
-		if (!valueInput) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
-		} else  {
-			onChangeInput(valueInput, typeName);
-		}
+		// if (!valueInput) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
+		// } else  {
+		// 	onChangeInput(valueInput, typeName);
+		// }
 	};
 
     return(
         <React.Fragment>
 	        <Input
-		        showCount
+		        // showCount
 		        size="large"
 		        value={valueInput}
 		        onChange={onChange}
 		        onBlur={onBlurInput}
-		        maxLength={maxLength}
+		        // maxLength={maxLength}
 		        onFocus={onFocusInput}
 		        placeholder={placeholder}
 		        status={checkError && "error"}

@@ -15,32 +15,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { InputNumber } from "antd";
+import classNames from "classnames";
 
 // Style
 import styles from "./Styles/index.module.scss";
 
-// Shared
-import { typeName as typeNames } from "./Synthetic";
-
 function InputNumberComponent(props) {
 	const {
-		data,
-		style,
 		typeName,
 		placeholder,
 		setDisabled,
 		onChangeInput,
+
+		title,
+		obligatory,
+		className,
+		dataSelectUser,
+		...otherProps
 	} = props;
+
+	const [valueInputNumber, setValueInputNumber] = React.useState('');
 
 	const [checkError, setCheckError] = React.useState('');
 
-	const refValueInputNumber = React.useRef(null);
+	React.useLayoutEffect(() => {
+		const value = dataSelectUser && dataSelectUser[typeName];
+		if (value) {
+			setValueInputNumber(value.toString() || '');
+		}
+	}, [dataSelectUser]);
 
 	const onChangeInputNumber = (values) => {
-		refValueInputNumber.current = values;
-		if (checkError) {
-			setCheckError('');
-		}
+		setValueInputNumber(values);
 	};
 
 	const onFocusInputNumber = () =>  {
@@ -48,53 +54,63 @@ function InputNumberComponent(props) {
 	};
 
 	const onBlurInput = () => {
-		const valueInputNumber = refValueInputNumber.current;
-		const { money, limitCard } = data;
-		if (!valueInputNumber) {
-			setDisabled && setDisabled(true);
-			setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
-		} else if (typeName === typeNames.limitCard && money > valueInputNumber) {
-			setCheckError('Số tiền hạn mức phải lớn hơn số tiền làm cho khách.');
-		} else if (typeName === typeNames.money && limitCard < valueInputNumber) {
-			setCheckError('Số tiền hạn mức không được phép bé hơn số tiền làm cho khách.');
-		} else  {
-			onChangeInput(valueInputNumber, typeName);
-		}
+		// const valueInputNumber = refValueInputNumber.current;
+		// const { money, limitCard } = data;
+		// if (!valueInputNumber) {
+		// 	setDisabled && setDisabled(true);
+		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
+		// } else if (typeName === typeNames.limitCard && money > valueInputNumber) {
+		// 	setCheckError('Số tiền hạn mức phải lớn hơn số tiền làm cho khách.');
+		// } else if (typeName === typeNames.money && limitCard < valueInputNumber) {
+		// 	setCheckError('Số tiền hạn mức không được phép bé hơn số tiền làm cho khách.');
+		// } else  {
+		// 	onChangeInput(valueInputNumber, typeName);
+		// }
 	};
 
     return(
-	    <React.Fragment>
+	    <div className={classNames(styles['input-number-wrap'], className)}>
+			{title && <span className={styles['input-number-title']}>
+				{title}{!obligatory && ':'}
+				{obligatory && <span className={styles['input-number-obligatory']}>*</span>}
+			</span>
+			}
 		    <InputNumber
 			    size="large"
-			    onBlur={onBlurInput}
+				style={{ width: '100%' }}
 			    placeholder={placeholder}
-			    onFocus={onFocusInputNumber}
+
+				value={valueInputNumber}
+				onBlur={onBlurInput}
+				onFocus={onFocusInputNumber}
 			    onChange={onChangeInputNumber}
 			    status={checkError &&  "error"}
-			    style={{...style, width: '100%'}}
 			    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 			    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+				{...otherProps}
 		    />
 		    {
-			    checkError && <span className={styles.textError}>{checkError}</span>
+			    checkError && <span className={styles['input-number-text-error']}>{checkError}</span>
 		    }
-	    </React.Fragment>
+	    </div>
     );
 }
 
 InputNumberComponent.propTypes = {
-	data: PropTypes.object,
-	style: PropTypes.object,
 	typeName: PropTypes.string,
 	placeholder: PropTypes.string,
 	setDisabled: PropTypes.func,
 	onChangeInput: PropTypes.func,
+
+	obligatory: PropTypes.bool,
+	title: PropTypes.string,
+	className: PropTypes.string,
 };
 
 InputNumberComponent.defaultProps = {
-	data: {},
-	style: {},
 	placeholder: 'Vui lòng nhập',
+
+	obligatory: false,
 };
 
 export default React.memo(InputNumberComponent);
