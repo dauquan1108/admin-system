@@ -14,6 +14,7 @@
 
 import React from 'react';
 import classNames from "classnames";
+import { Button } from 'antd';
 
 // Component
 import useModalAddNew from "../../useModalAddNew";
@@ -51,10 +52,17 @@ function ContentModal() {
 
 		messageError,
 		setMessageError,
+		checkValidateAll,
 	} = useModalAddNew();
 
-	console.log('data: ================>', data); // Log QuanDX fix bug
-	console.log('messageError: ================>', messageError); // Log QuanDX fix bug
+	const onOkModal = () => {
+		console.log('data: ========data ngoai========>', data); // Log QuanDX fix bug
+		console.log('messageError: ================>', messageError); // Log QuanDX fix bug
+		setMessageError(checkValidateAll());
+	}
+
+	// console.log('data: =========Ben trong=======>', data); // Log QuanDX fix bug
+	// console.log('messageError: ================>', messageError); // Log QuanDX fix bug
 
     return(
        <div className={styles['content-modal-wrap']}>
@@ -194,6 +202,17 @@ function ContentModal() {
 		       onChangeInput={onChangeInput}
 		       style={{ marginBottom: '25px' }}
 	       />
+
+	        	<Button
+	        		key="ok"
+	       		size='large'
+	       		type="primary"
+	      		onClick={onOkModal}
+	        		// disabled={confirmLoading}
+	       		// loading={confirmLoading}
+	        	>
+	        		Lưu
+	        	</Button>
        </div>
     );
 }

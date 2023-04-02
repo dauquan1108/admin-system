@@ -109,6 +109,7 @@ function ModalAddNew(props) {
 	// };
 
 	const onOkModal = () => {
+		console.log('data: ========data ngoai========>', data); // Log QuanDX fix bug
 		console.log('messageError: ================>', messageError); // Log QuanDX fix bug
 		setMessageError(checkValidateAll());
 		// const { devicePost, accountName, workTimestamp, cardNumber, money, limitCard,percentBank, percentCustomer, type } = data;
@@ -143,26 +144,27 @@ function ModalAddNew(props) {
 			title="Thêm mới khách hàng"
 			confirmLoading={confirmLoading}
 			wrapClassName={styles['modal-add-new']}
-			footer={[
-				<Button
-					key="cancel"
-					type="primary"
-					danger size='large'
-					onClick={onCancelModal}
-				>
-					Đóng
-				</Button>,
-				<Button
-					key="ok"
-					size='large'
-					type="primary"
-					onClick={onOkModal}
-					// disabled={confirmLoading}
-					loading={confirmLoading}
-				>
-					Lưu
-				</Button>,
-			]}
+			footer={null}
+			// footer={[
+			// 	<Button
+			// 		key="cancel"
+			// 		type="primary"
+			// 		danger size='large'
+			// 		onClick={onCancelModal}
+			// 	>
+			// 		Đóng
+			// 	</Button>,
+			// 	<Button
+			// 		key="ok"
+			// 		size='large'
+			// 		type="primary"
+			// 		onClick={onOkModal}
+			// 		// disabled={confirmLoading}
+			// 		loading={confirmLoading}
+			// 	>
+			// 		Lưu
+			// 	</Button>,
+			// ]}
 		>
 			<ContentModal />
 		</ModalBase>

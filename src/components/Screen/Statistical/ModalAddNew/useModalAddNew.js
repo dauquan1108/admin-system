@@ -90,42 +90,38 @@ const optionsPercentBank = [
 	{id: '5', value: '2'},
 ];
 
-const initializationValue = {
-	customerId: "000000000",
-	[typeName.accountName]: '', // Chủ thẻ
-	[typeName.phoneNumber]: '', // Số điện thoại
-	[typeName.cardNumber]: '', // 4 Số cuối thẻ
-	[typeName.limitCard]: 0, // Hạn mức
-	[typeName.money]: 0, // Số tiền
-	[typeName.devicePost]: '', // Tên thiết bị
-	[typeName.percentBank]: 0, // % Phí ngân hàng
-	[typeName.percentCustomer]: 0, // % Phí thu khách
-	[typeName.type]: provinceDataType[0], // Hình thức
-	[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
-	[typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
-	[typeName.extends]: '', // Note
-};
-
 function useModalAddNew() {
 	// Data from
-	const [data, setData] = React.useState(() => {
-		return initializationValue
+	const [data, setData] = React.useState({
+		customerId: "000000000",
+		[typeName.accountName]: '', // Chủ thẻ
+		[typeName.phoneNumber]: '', // Số điện thoại
+		[typeName.cardNumber]: '', // 4 Số cuối thẻ
+		[typeName.limitCard]: 0, // Hạn mức
+		[typeName.money]: 0, // Số tiền
+		[typeName.devicePost]: '', // Tên thiết bị
+		[typeName.percentBank]: 0, // % Phí ngân hàng
+		[typeName.percentCustomer]: 0, // % Phí thu khách
+		[typeName.type]: provinceDataType[0], // Hình thức
+		[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
+		[typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
+		[typeName.extends]: '', // Note
 	});
 
 	// Thông báo lỗi các trường
 	const [messageError, setMessageError] = React.useState({
-		accountName: '', // Chủ thẻ
-		phoneNumber: '', // Số điện thoại
-		cardNumber: '', // 4 Số cuối thẻ
-		limitCard: '', // Hạn mức
-		money: '', // Số tiền
-		devicePost: '', // Tên thiết bị
-		percentBank: '', // % Phí ngân hàng
-		percentCustomer: '', // % Phí thu khách
-		type: '',  // Hình thức
-		debit: '',  // Trạng thái thanh toán
-		workTimestamp: '', // Ngày làm
-		extends: '', // Note
+		[typeName.accountName]: '', // Chủ thẻ
+		[typeName.phoneNumber]: '', // Số điện thoại
+		[typeName.cardNumber]: '', // 4 Số cuối thẻ
+		[typeName.limitCard]: '', // Hạn mức
+		[typeName.money]: '', // Số tiền
+		[typeName.devicePost]: '', // Tên thiết bị
+		[typeName.percentBank]: '', // % Phí ngân hàng
+		[typeName.percentCustomer]: '', // % Phí thu khách
+		[typeName.type]: '',  // Hình thức
+		[typeName.debit]: '',  // Trạng thái thanh toán
+		[typeName.workTimestamp]: '', // Ngày làm
+		[typeName.extends]: '', // Note
 	});
 
 	// Khi người dùng tìm kiếm tên, số ĐT, 4 số cuối
@@ -165,16 +161,18 @@ function useModalAddNew() {
 		});
 	};
 
-	const { SUCCESS } = flagInput;
+	// const { SUCCESS } = flagInput;
+
 
 	const checkValidateAccountName = () => {
-		const { accountName } = data;
-		console.log('accountName: ================>', accountName); // Log QuanDX fix bug
-		if (!accountName) {
-			return 'Tên chủ thẻ không được để trống!';
-		}
+		// const { accountName, phoneNumber } = data;
+		console.log('data: ================>', data); // Log QuanDX fix bug
+
+		// if (!accountName) {
+		// 	return 'Tên chủ thẻ không được để trống!';
+		// }
 		// Chủ thẻ
-		return SUCCESS;
+		return '';
 	};
 
 	const checkValidatePhoneNumber = () => {
