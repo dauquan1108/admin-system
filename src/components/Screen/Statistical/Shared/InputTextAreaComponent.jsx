@@ -16,6 +16,9 @@ import React from 'react';
 import { Input } from "antd";
 import PropTypes from 'prop-types';
 
+// Base
+import { flagInput } from "../../../Base/Regex/FlagInput";
+
 // Style
 import styles from "./Styles/index.module.scss";
 
@@ -29,11 +32,13 @@ function InputTextAreaComponent(props) {
 		maxLength,
 		obligatory,
 		onChangeInput,
+		messageError,
 		...otherProps
 	} = props;
 
+	const { SUCCESS } = flagInput;
+
 	const [valueTextArea, setValueTextArea] = React.useState('');
-	const [checkError, setCheckError] = React.useState('');
 
 	const onChange = (e) => {
 		const { value } = e.target;
@@ -41,14 +46,17 @@ function InputTextAreaComponent(props) {
 	};
 
 	const onfocusTextArea = () => {
-		setCheckError('');
+
 	};
 
 	const onBlurInput = () => {
 		onChangeInput(valueTextArea, typeName);
 	};
 
-    return(
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
+	return(
 		<div className={styles['text-Area-wrap']}>
 			{title && <span className={styles['text-Area-title']}>{title}{obligatory && <span className={styles['text-Area-obligatory']}>*</span>}</span>}
 	        <TextArea
@@ -59,11 +67,11 @@ function InputTextAreaComponent(props) {
 		        style={{ ...style }}
 		        maxLength={maxLength}
 		        onFocus={onfocusTextArea}
-		        status={checkError && "error"}
+		        status={showError && "error"}
 		        {...otherProps}
 	        />
 	        {
-		        checkError && <span className={styles['text-Area-text-error']}>{checkError}</span>
+		        showError && <span className={styles['text-Area-text-error']}>{messageErrorText}</span>
 	        }
 		</div>
     );
@@ -71,17 +79,18 @@ function InputTextAreaComponent(props) {
 
 InputTextAreaComponent.propTypes = {
 	style: PropTypes.object,
+	messageError: PropTypes.object,
 	typeName: PropTypes.string,
 	maxLength: PropTypes.number,
 	setDisabled: PropTypes.func,
 	onChangeInput: PropTypes.func,
-
 	title: PropTypes.string,
 	obligatory: PropTypes.bool,
 };
 
 InputTextAreaComponent.defaultProps = {
 	style: {},
+	messageError: {},
 	obligatory: false,
 };
 

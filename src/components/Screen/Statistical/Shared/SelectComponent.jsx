@@ -17,7 +17,7 @@ import { Select } from 'antd';
 import PropTypes from 'prop-types';
 
 function SelectComponent(props) {
-	const { data, typeName, onChangeInput, ...otherProps } = props;
+	const { data, disabled, typeName, onChangeInput, ...otherProps } = props;
 
 	const onChangeTag = (value) => {
 		onChangeInput(value, typeName);
@@ -25,6 +25,7 @@ function SelectComponent(props) {
 
 	return(
     	<Select
+		    disabled={disabled}
 			size="large"
 			onChange={onChangeTag}
 			style={{ width: '100%' }}
@@ -39,6 +40,7 @@ function SelectComponent(props) {
 }
 
 SelectComponent.propTypes = {
+	disabled: PropTypes.bool,
 	data: PropTypes.array,
 	typeName: PropTypes.string,
 	onChangeInput: PropTypes.func,
@@ -46,6 +48,7 @@ SelectComponent.propTypes = {
 
 SelectComponent.defaultProps = {
 	data: [],
+	disabled: false,
 	onChangeInput: () => null,
 };
 

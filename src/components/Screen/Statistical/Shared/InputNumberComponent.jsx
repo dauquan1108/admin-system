@@ -17,6 +17,9 @@ import PropTypes from 'prop-types';
 import { InputNumber } from "antd";
 import classNames from "classnames";
 
+// Base
+import { flagInput } from "../../../Base/Regex/FlagInput";
+
 // Style
 import styles from "./Styles/index.module.scss";
 
@@ -27,15 +30,16 @@ function InputNumberComponent(props) {
 		className,
 		obligatory,
 		placeholder,
-		setDisabled,
+		messageError,
+		onfocusInput,
 		onChangeInput,
 		dataSelectUser,
 		...otherProps
 	} = props;
 
-	const [valueInputNumber, setValueInputNumber] = React.useState('');
+	const { SUCCESS } = flagInput;
 
-	const [checkError, setCheckError] = React.useState('');
+	const [valueInputNumber, setValueInputNumber] = React.useState('');
 
 	React.useLayoutEffect(() => {
 		const value = dataSelectUser && dataSelectUser[typeName];
@@ -49,26 +53,16 @@ function InputNumberComponent(props) {
 	};
 
 	const onFocusInputNumber = () =>  {
-		setCheckError('');
+		onfocusInput(typeName);
 	};
 
 	const onBlurInput = () => {
 		// Set data cho item
 		onChangeInput(valueInputNumber, typeName);
-
-		// const valueInputNumber = refValueInputNumber.current;
-		// const { money, limitCard } = data;
-		// if (!valueInputNumber) {
-		// 	setDisabled && setDisabled(true);
-		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
-		// } else if (typeName === typeNames.limitCard && money > valueInputNumber) {
-		// 	setCheckError('Số tiền hạn mức phải lớn hơn số tiền làm cho khách.');
-		// } else if (typeName === typeNames.money && limitCard < valueInputNumber) {
-		// 	setCheckError('Số tiền hạn mức không được phép bé hơn số tiền làm cho khách.');
-		// } else  {
-		// 	onChangeInput(valueInputNumber, typeName);
-		// }
 	};
+
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
 	    <div className={classNames(styles['input-number-wrap'], className)}>
@@ -86,13 +80,13 @@ function InputNumberComponent(props) {
 				onBlur={onBlurInput}
 				onFocus={onFocusInputNumber}
 			    onChange={onChangeInputNumber}
-			    status={checkError &&  "error"}
+			    status={showError &&  "error"}
 			    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
 			    formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 				{...otherProps}
 		    />
 		    {
-			    checkError && <span className={styles['input-number-text-error']}>{checkError}</span>
+			    showError && <span className={styles['input-number-text-error']}>{messageErrorText}</span>
 		    }
 	    </div>
     );
@@ -101,9 +95,9 @@ function InputNumberComponent(props) {
 InputNumberComponent.propTypes = {
 	typeName: PropTypes.string,
 	placeholder: PropTypes.string,
-	setDisabled: PropTypes.func,
+	onfocusInput: PropTypes.func,
 	onChangeInput: PropTypes.func,
-
+	messageError: PropTypes.object,
 	obligatory: PropTypes.bool,
 	title: PropTypes.string,
 	className: PropTypes.string,
@@ -111,8 +105,10 @@ InputNumberComponent.propTypes = {
 
 InputNumberComponent.defaultProps = {
 	placeholder: 'Vui lòng nhập',
-
+	messageError: {},
 	obligatory: false,
+	onfocusInput: () => null,
+	onChangeInput: () => null,
 };
 
 export default React.memo(InputNumberComponent);

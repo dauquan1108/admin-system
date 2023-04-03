@@ -12,11 +12,11 @@
  * @modifier abc@bkav.com on xx/xx/xxxx đã chỉnh sửa abcxyx (Chỉ các thay đổi quan trọng mới cần ghi lại note này)
  */
 
-const isCheckNumberDecimal = (number) => {
+const validationNumberDecimal = (number) => {
 	if (typeof number !== 'number') {
 		return false;
 	}
 	return /^\d+(\.\d+)?$/.test(number) && Number(number) > 0;
 };
 
-export { isCheckNumberDecimal };
+export default validationNumberDecimal;

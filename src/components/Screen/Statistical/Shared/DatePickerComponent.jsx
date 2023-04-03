@@ -19,6 +19,9 @@ import { DatePicker } from 'antd';
 import classNames from "classnames";
 import locale from "antd/es/date-picker/locale/vi_VN";
 
+// Base
+import { flagInput } from "../../../Base/Regex/FlagInput";
+
 // Shared
 import { convertMDY, convertTimeStamp, dateFormatList, today } from "./Time";
 
@@ -26,15 +29,22 @@ import { convertMDY, convertTimeStamp, dateFormatList, today } from "./Time";
 import styles from './Styles/index.module.scss';
 
 function DatePickerComponent(props) {
-	const {title, obligatory, placeholder, typeName, onChangeInput, className } = props;
-
+	const { title, obligatory, placeholder, typeName, onChangeInput, className, messageError, onfocusInput } = props;
+	const { SUCCESS } = flagInput;
 	const onChangeDatePicker = (date, dateString) => {
 		const dataStringMDY = convertMDY(dateString);
 		const valueDate = convertTimeStamp(dataStringMDY);
 		onChangeInput(dateString ? valueDate : '', typeName);
 	};
 
-    return(
+	const onfocusDatePicker = () => {
+		onfocusInput(typeName);
+	};
+
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
+	return(
     	<div className={classNames(styles['date-picker-wrap'], className)}>
 		    {title && <span className={styles['date-picker-title']}>
 				{title}{!obligatory && ':'}
@@ -47,7 +57,9 @@ function DatePickerComponent(props) {
 			    style={{ width: '100%' }}
 			    format={dateFormatList}
 			    placeholder={placeholder}
+			    onFocus={onfocusDatePicker}
 			    onChange={onChangeDatePicker}
+			    status={showError &&  "error"}
 			    defaultValue={dayjs(today(), dateFormatList[0])}
 			    dateRender={(current) => {
 				    const style = {};
@@ -62,7 +74,7 @@ function DatePickerComponent(props) {
 				    );
 			    }}
 		    />
-		    {/*{checkError && <span className={styles['date-picker-text-error']}>{checkError}</span>}*/}
+		    {showError && <span className={styles['date-picker-text-error']}>{messageErrorText}</span>}
 	    </div>
     );
 }
@@ -74,12 +86,16 @@ DatePickerComponent.propTypes = {
 	placeholder: PropTypes.string,
 	obligatory: PropTypes.bool,
 	onChangeInput: PropTypes.func,
+	onfocusInput: PropTypes.func,
+	messageError: PropTypes.object,
 };
 
 DatePickerComponent.defaultProps = {
 	placeholder: 'Chọn ngày làm',
 	onChangeInput: () => null,
+	onfocusInput: () => null,
 	obligatory: false,
+	messageError: {},
 };
 
 export default React.memo(DatePickerComponent);

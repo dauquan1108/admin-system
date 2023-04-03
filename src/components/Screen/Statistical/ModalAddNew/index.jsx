@@ -19,11 +19,30 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 // Component
 import Modal from "./Modal";
 
+// hooks custom
+import useDispatchCore from "../../../../cores/hooks/useDispathCore";
+
 // Style
 import styles from './Styles/index.module.scss';
 
 function WrapModalAddNew() {
+	const dispatch = useDispatchCore();
 	const [isModal, setIsModal] = React.useState(false);
+
+	const onSuccess = () => {
+		console.log('1: ================>', 1); // Log QuanDX fix bug
+	};
+
+	const onError = () => {
+		console.log('2: ================>', 2); // Log QuanDX fix bug
+	};
+
+	// Call API Lấy danh sách thiết bị
+	React.useLayoutEffect(() => {
+		console.log('3333: ================>', 3333); // Log QuanDX fix bug
+		const params = { limit: 100, page: 1 };
+		// dispatch.dispatchCore(dispatch.TYPE.device, dispatch.METHOD.GET_LIST, {}, params, {}, onSuccess, onError); // get danh sách thiết bị
+	}, []);
 
 	const onShowModal = () => {
 		setIsModal(true);

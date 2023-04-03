@@ -26,6 +26,7 @@ const typeName = {
 	interestRate: 'interestRate', // Lãi
 	extends: 'extends',  // Note
 	type: 'type', // Hình thức
+	paymentOption: 'paymentOption', // Hình thức đáo
 	debit: 'debit', // Trạng thái thanh toán
 	limitCard: 'limitCard', // Hạn mức
 }

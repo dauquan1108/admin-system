@@ -17,12 +17,15 @@ import React from 'react';
 // Base
 import { flagInput } from "../../../Base/Regex/FlagInput";
 import validationName from "../../../Base/Regex/validationName";
+import validationNumberDecimal from "../../../Base/Regex/validationNumberDecimal";
 
 // Shared
 import { typeName } from "../Shared/Synthetic";
 import { convertTimeStamp } from "../Shared/Time";
 
 const provinceDataType = ['Đáo', 'Rút tiền'];
+
+const paymentOption = ['Chưa rút', 'Đã rút'];
 
 const paymentDataStatus = ['Chưa thanh toán', 'Đã thanh toán'];
 
@@ -104,6 +107,7 @@ function useModalAddNew() {
 		[typeName.percentBank]: 0, // % Phí ngân hàng
 		[typeName.percentCustomer]: 0, // % Phí thu khách
 		[typeName.type]: provinceDataType[0], // Hình thức
+		[typeName.paymentOption]: paymentOption[0], // Hình thức đáo
 		[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
 		[typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
 		[typeName.extends]: '', // Note
@@ -120,6 +124,7 @@ function useModalAddNew() {
 		[typeName.percentBank]: '', // % Phí ngân hàng
 		[typeName.percentCustomer]: '', // % Phí thu khách
 		[typeName.type]: '',  // Hình thức
+		[typeName.paymentOption]: '', // Hình thức đáo
 		[typeName.debit]: '',  // Trạng thái thanh toán
 		[typeName.workTimestamp]: '', // Ngày làm
 		[typeName.extends]: '', // Note
@@ -133,6 +138,10 @@ function useModalAddNew() {
 
 	const onChangeInput = (value, type) => {
 		setData({ ...data, [typeName[type]]: value })
+	};
+
+	const onfocusInput = (type) => {
+		setMessageError({ ...messageError, [typeName[type]]: '' })
 	};
 
 	// Todo QuanDX: chọn tên chủ thẻ.
@@ -165,77 +174,150 @@ function useModalAddNew() {
 	const { SUCCESS } = flagInput;
 
 	const checkValidateAccountName = () => {
+		// Tên chủ thẻ
 		const { accountName } = data;
-		// debugger;
 		if (!accountName) {
 			return 'Tên chủ thẻ không được để trống!';
-		} else if (validationName(accountName)) {
-			return 'Tên chủ thẻ không đúng vui lòng kiểm tra lại!';
-		} else {
-			return SUCCESS;
 		}
-		// setMessageError({ ...messageError, [typeName.accountName]: textMessenger});
+
+		if(!validationName(accountName)) {
+			return 'Tên chủ thẻ không đúng vui lòng kiểm tra lại!';
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidatePhoneNumber = () => {
+		// Số điện thoại
 		const { phoneNumber } = data;
-		// debugger;
-		if (!phoneNumber) {
-			return 'Số điện thoại không được để trống!';
-		} else {
-			return SUCCESS;
+		const phoneNumber_ = Number(phoneNumber);
+
+		if (!phoneNumber_) {
+			return 'Số điện thoại không đúng vui lòng kiểm tra lại!';
 		}
-		// setMessageError({ ...messageError, [typeName.phoneNumber]: textMessenger});
+
+		return SUCCESS;
 	};
 
 	const checkValidateCardNumber = () => {
 		// 4 Số cuối thẻ
-		return '';
+		const { cardNumber } = data;
+		const cardNumber_ = Number(cardNumber);
+
+		if (!cardNumber_) {
+			return '4 Số cuối của thẻ không đúng vui lòng kiểm tra lại!';
+		}
+
+		if (cardNumber.length !== 4) {
+			return '4 Số cuối của thẻ phải là 4 chữ số!';
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidateLimitCard = () => {
 		// Hạn mức
-		return '';
+		const { limitCard, money } = data;
+		const limitCard_ = Number(limitCard);
+		if (!limitCard_) {
+			return 'Số hạn mức không đúng vui lòng kiểm tra lại!'
+		}
+
+		// const money_ = Number(money);
+		// if (limitCard_ < money_) {
+		// 	return 'Số tiền hạn mức phải lớn hơn số tiền làm cho khách!';
+		// }
+
+		return SUCCESS;
 	};
 
 	const checkValidateMoney = () => {
 		// Số tiền
-		return '';
+		const { limitCard, money } = data;
+		const limitCard_ = Number(limitCard);
+		const money_ = Number(money);
+		if (!money_) {
+			return 'Số tiền không đúng vui lòng kiểm tra lại!'
+		}
+
+		if (limitCard_ && money_ && limitCard_ < money_) {
+			return 'Số tiền làm cho khách đã lớn hơn số tiền hạn mức!';
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidateDevicePost = () => {
 		// Tên thiết bị
-		return '';
+		return SUCCESS;
 	};
 
 	const checkValidatePercentBank = () => {
 		// % Phí ngân hàng
-		return '';
+		const { percentBank } = data;
+		const percentBank_ = Number(percentBank);
+
+		if (!percentBank_) {
+			return '% Phí ngân hàng không đúng vui lòng kiểm tra lại!'
+		}
+
+		if (!validationNumberDecimal(percentBank_)) {
+			return '% Phí ngân hàng không đúng định dạng "1,2... hoặc 1" vui lòng kiểm tra lại!';
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidatePercentCustomer = () => {
 		// % Phí thu khách
-		return '';
+		const { percentBank, percentCustomer } = data;
+		const percentBank_ = Number(percentBank);
+		const percentCustomer_ = Number(percentCustomer);
+
+		if (!percentCustomer_) {
+			return '% Phí thu khách không đúng vui lòng kiểm tra lại!'
+		}
+
+		if (percentBank_ && percentCustomer_ && percentBank_ > percentCustomer_) {
+			return '% Phí thu khách phải lớn hơn hoặc bằng % Phí ngân hàng vui lòng kiểm tra lại!'
+		}
+
+		if (!validationNumberDecimal(percentCustomer_)) {
+			return '% Phí thu khách không đúng định dạng "1,2... hoặc 1" vui lòng kiểm tra lại!';
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidateType = () => {
 		// Hình thức
-		return '';
+		return SUCCESS;
+	};
+
+	const checkValidatePaymentOption = () => {
+		// Hình thức đáo
+		return SUCCESS;
 	};
 
 	const checkValidateDebit = () => {
 		// Trạng thái thanh toán
-		return '';
+		return SUCCESS;
 	};
 
 	const checkValidateWorkTimestamp = () => {
 		// Ngày làm
-		return '';
+		const { workTimestamp } = data;
+
+		if (!workTimestamp) {
+			return 'Ngày làm không được để trống!'
+		}
+
+		return SUCCESS;
 	};
 
 	const checkValidateNote = () => {
 		// Note
-		return '';
+		return SUCCESS;
 	};
 
 	const checkValidateAll = () => {
@@ -249,6 +331,7 @@ function useModalAddNew() {
 			percentBank: checkValidatePercentBank(),
 			percentCustomer: checkValidatePercentCustomer(),
 			type: checkValidateType(),
+			paymentOption: checkValidatePaymentOption(),
 			debit: checkValidateDebit(),
 			workTimestamp: checkValidateWorkTimestamp(),
 			extends: checkValidateNote(),
@@ -263,20 +346,18 @@ function useModalAddNew() {
 		paymentDataStatus,
 		optionsDevicePost,
 		optionsPercentBank,
-
-
 		optionUser,
 		optionUserPhoneNumber,
 		optionUserCardNumber,
 		dataSelectUser,
 		onSelectAutoCompleteUser,
-
 		onSelectDevicePost,
 		dataSelectDevicePost,
-
 		messageError,
 		setMessageError,
 		checkValidateAll,
+		onfocusInput,
+		paymentOption,
 	});
 }
 

@@ -17,6 +17,9 @@ import PropTypes from 'prop-types';
 import { AutoComplete } from 'antd';
 import classNames from "classnames";
 
+// Base
+import { flagInput } from "../../../../Base/Regex/FlagInput";
+
 // Style
 import styles from './Styles/index.module.scss';
 
@@ -28,17 +31,18 @@ function AutoCompleteCustom(props) {
 		obligatory,
 		placeholder,
 		optionsData,
+		messageError,
+		onfocusInput,
 		onChangeInput,
 		dataSelectDevicePost,
 		...otherProps
 	} = props;
+	const { SUCCESS } = flagInput;
 
 	const [valueAutoComplete, setValueAutoComplete] = React.useState(() => {
 		const value = dataSelectDevicePost[typeName];
 		return value && value.toString() || '';
 	}); // Khởi tạo giá trị ban đầu cho AutoComplete
-
-	const [checkError, setCheckError] = React.useState('');
 
 	React.useLayoutEffect(() => {
 		if (dataSelectDevicePost && dataSelectDevicePost[typeName]) {
@@ -55,24 +59,9 @@ function AutoCompleteCustom(props) {
 	const onblurAutoComplete = () => {
 		// Set data cho item
 		onChangeInput(valueAutoComplete, typeName);
-
-		// const valueNew = refValue.current;
-		// if (valueNew === null || !valueNew) {
-		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.');
-		// } else if(!valueNew && !isText) {
-		// 	setCheckError('Dữ liệu nhập vào không được phép chứ "Text", vui lòng kiểm tra lại.');
-		// } else if(
-		// 	(data.percentCustomer && data.percentCustomer < valueNew && typeName === typeNames.percentBank)
-		// 	||
-		// 	(data.percentBank && data.percentBank > valueNew && typeName === typeNames.percentCustomer)
-		// ) {
-		// 	setCheckError('%phí thu khách phải lớn hơn hoặc bằng %phí ngân hàng.');
-		// } else {
-		// 	onChangeInput(valueNew, typeName);
-		// }
 	};
 	const onfocusAutoComplete = () => {
-		setCheckError('');
+		onfocusInput(typeName);
 	};
 
 	const onFilterOption = (inputValue, option) => {
@@ -84,6 +73,9 @@ function AutoCompleteCustom(props) {
 	const handleSelect = (value, item) => {
 		setValueAutoComplete(value);
 	};
+
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
         <div className={classNames(styles['auto-complete-wrap'], className)}>
@@ -98,7 +90,7 @@ function AutoCompleteCustom(props) {
 				value={valueAutoComplete}
 				options={optionsData}
 				placeholder={placeholder}
-				status={checkError && 'error'}
+				status={showError && 'error'}
 
 				onChange={onChange}
 				onSelect={handleSelect}
@@ -107,7 +99,7 @@ function AutoCompleteCustom(props) {
 		        onFocus={onfocusAutoComplete}
 				{...otherProps}
 	        />
-	        {checkError && <span className={styles['auto-complete-text-error']}>{checkError}</span>}
+	        {showError && <span className={styles['auto-complete-text-error']}>{messageErrorText}</span>}
         </div>
     );
 }
@@ -118,16 +110,20 @@ AutoCompleteCustom.propTypes = {
 	className: PropTypes.string,
 	placeholder: PropTypes.string,
 	obligatory: PropTypes.bool,
-	optionsData: PropTypes.array,
+	optionsData: PropTypes.array.isRequired,
 	onChangeInput: PropTypes.func,
+	onfocusInput: PropTypes.func,
+	messageError: PropTypes.object,
 	dataSelectDevicePost: PropTypes.object,
 };
 
 AutoCompleteCustom.defaultProps = {
 	optionsData: [],
 	obligatory: false,
+	messageError: {},
 	dataSelectDevicePost: {},
 	onChangeInput: () => null,
+	onfocusInput: () => null,
 };
 
 export default React.memo(AutoCompleteCustom);

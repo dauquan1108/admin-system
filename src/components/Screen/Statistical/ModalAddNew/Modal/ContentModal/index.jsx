@@ -42,19 +42,17 @@ function ContentModal(props) {
 		paymentDataStatus,
 		optionsDevicePost,
 		optionsPercentBank,
-
 		optionUser,
 		dataSelectUser,
 		optionUserPhoneNumber,
 		optionUserCardNumber,
 		onSelectAutoCompleteUser,
-
 		onSelectDevicePost,
 		dataSelectDevicePost,
-
+		paymentOption,
 		messageError,
-		setMessageError,
 		checkValidateAll,
+		onfocusInput,
 	} = useModalAddNew();
 
 
@@ -63,10 +61,10 @@ function ContentModal(props) {
 	};
 
 	const onOkModal = () => {
-		console.log('data: ======== Bên trong ========>', data); // Log QuanDX fix bug
-		console.log('messageError: ================>', messageError); // Log QuanDX fix bug
-		setMessageError(checkValidateAll());
-	}
+		checkValidateAll();
+	};
+
+	const disabledPaymentOption = data && data.type && data.type === provinceDataType[1];
 
     return(
        <div className={styles['content-modal-wrap']}>
@@ -77,6 +75,8 @@ function ContentModal(props) {
 			       className={classNames(styles.wrapContent, styles.contentLeft, styles._flex4)}
 			       onSelectAutoComplete={onSelectAutoCompleteUser}
 			       dataSelectUser={dataSelectUser}
+			       messageError={messageError}
+			       onfocusInput={onfocusInput}
 
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.accountName}
@@ -90,7 +90,8 @@ function ContentModal(props) {
 			       className={classNames(styles.wrapContent, styles.contentLeft, styles._flex2)}
 			       onSelectAutoComplete={onSelectAutoCompleteUser}
 			       dataSelectUser={dataSelectUser}
-
+			       messageError={messageError}
+			       onfocusInput={onfocusInput}
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.phoneNumber}
 			       optionsData={optionUserPhoneNumber}
@@ -103,7 +104,8 @@ function ContentModal(props) {
 			       className={classNames(styles.wrapContent, styles._flex2)}
 			       onSelectAutoComplete={onSelectAutoCompleteUser}
 			       dataSelectUser={dataSelectUser}
-
+			       messageError={messageError}
+			       onfocusInput={onfocusInput}
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.cardNumber}
 			       optionsData={optionUserCardNumber}
@@ -115,18 +117,20 @@ function ContentModal(props) {
 		       <InputNumberComponent
 			       obligatory
 			       title='Hạn mức'
+			       onfocusInput={onfocusInput}
+			       messageError={messageError}
 			       dataSelectUser={dataSelectUser}
 			       className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
-
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.limitCard}
 			       placeholder="Vui lòng nhập hạn mức..."
 		       />
 		       <InputNumberComponent
 			       obligatory
+			       messageError={messageError}
 			       title='Số tiền  làm cho khách'
 			       className={classNames(styles.wrapContent, styles._flex1)}
-
+			       onfocusInput={onfocusInput}
 			       typeName={typeName.money}
 			       onChangeInput={onChangeInput}
 			       placeholder="Vui lòng nhập số tiền làm cho khách..."
@@ -146,10 +150,11 @@ function ContentModal(props) {
 		       <AutoCompleteCustom
 			       obligatory
 			       title='% Phí ngân hàng'
+			       messageError={messageError}
 			       dataSelectDevicePost={dataSelectDevicePost}
 			       className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
-
 			       style={{ width: '100%' }}
+			       onfocusInput={onfocusInput}
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.percentBank}
 			       optionsData={optionsPercentBank}
@@ -159,10 +164,11 @@ function ContentModal(props) {
 		       <AutoCompleteCustom
 			       obligatory
 			       title='% Phí thu khách'
+			       messageError={messageError}
 			       dataSelectDevicePost={dataSelectDevicePost}
 			       className={classNames(styles.wrapContent, styles._flex1)}
-
 			       style={{ width: '100%' }}
+			       onfocusInput={onfocusInput}
 			       onChangeInput={onChangeInput}
 			       optionsData={optionsPercentBank}
 			       typeName={typeName.percentCustomer}
@@ -174,8 +180,9 @@ function ContentModal(props) {
 		       <DatePickerComponent
 			       obligatory
 			       title='Ngày làm'
+			       onfocusInput={onfocusInput}
 			       className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
-
+			       messageError={messageError}
 			       typeName={typeName.workTimestamp}
 			       style={{ width: '100%' }}
 			       onChangeInput={onChangeInput}
@@ -186,6 +193,15 @@ function ContentModal(props) {
 			       <SelectComponent
 				       data={provinceDataType}
 				       typeName={typeName.type}
+				       onChangeInput={onChangeInput}
+			       />
+		       </div>
+		       <div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
+			       <span className={styles.titleText}>Hình thức đáo<span className={styles.textObligatory}>*</span></span>
+			       <SelectComponent
+				       disabled={disabledPaymentOption}
+				       data={paymentOption}
+				       typeName={typeName.paymentOption}
 				       onChangeInput={onChangeInput}
 			       />
 		       </div>
@@ -231,10 +247,12 @@ function ContentModal(props) {
 }
 
 ContentModal.propTypes = {
+	data: PropTypes.object,
 	onCloseModal: PropTypes.func,
 };
 
 ContentModal.defaultProps = {
+	data: {},
 	onCloseModal: () => null,
 };
 
