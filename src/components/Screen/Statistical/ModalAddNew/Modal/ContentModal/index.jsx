@@ -13,8 +13,9 @@
  */
 
 import React from 'react';
-import classNames from "classnames";
 import { Button } from 'antd';
+import PropTypes from 'prop-types';
+import classNames from "classnames";
 
 // Component
 import useModalAddNew from "../../useModalAddNew";
@@ -32,7 +33,8 @@ import InputTextAreaComponent from "../../../Shared/InputTextAreaComponent";
 // Style
 import styles from "./Styles/index.module.scss";
 
-function ContentModal() {
+function ContentModal(props) {
+	const { onCloseModal } = props;
 	const {
 		data,
 		onChangeInput,
@@ -55,14 +57,16 @@ function ContentModal() {
 		checkValidateAll,
 	} = useModalAddNew();
 
+
+	const onCancelModal = () => {
+		onCloseModal();
+	};
+
 	const onOkModal = () => {
-		console.log('data: ========data ngoai========>', data); // Log QuanDX fix bug
+		console.log('data: ======== Bên trong ========>', data); // Log QuanDX fix bug
 		console.log('messageError: ================>', messageError); // Log QuanDX fix bug
 		setMessageError(checkValidateAll());
 	}
-
-	// console.log('data: =========Ben trong=======>', data); // Log QuanDX fix bug
-	// console.log('messageError: ================>', messageError); // Log QuanDX fix bug
 
     return(
        <div className={styles['content-modal-wrap']}>
@@ -202,19 +206,36 @@ function ContentModal() {
 		       onChangeInput={onChangeInput}
 		       style={{ marginBottom: '25px' }}
 	       />
-
-	        	<Button
-	        		key="ok"
-	       		size='large'
-	       		type="primary"
-	      		onClick={onOkModal}
-	        		// disabled={confirmLoading}
-	       		// loading={confirmLoading}
-	        	>
-	        		Lưu
-	        	</Button>
+		   <div className={styles.wrapBtn}>
+			   <Button
+				   key="ok"
+				   size='large'
+				   type="primary"
+				   onClick={onOkModal}
+				   // disabled={confirmLoading}
+				   // loading={confirmLoading}
+			   >
+				   Lưu
+			   </Button>
+			   <Button
+				   key="cancel"
+				   type="primary"
+				   danger size='large'
+				   onClick={onCancelModal}
+			   >
+				   Đóng
+			   </Button>
+		   </div>
        </div>
     );
 }
+
+ContentModal.propTypes = {
+	onCloseModal: PropTypes.func,
+};
+
+ContentModal.defaultProps = {
+	onCloseModal: () => null,
+};
 
 export default React.memo(ContentModal);

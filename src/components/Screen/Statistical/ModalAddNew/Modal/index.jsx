@@ -111,7 +111,7 @@ function ModalAddNew(props) {
 	const onOkModal = () => {
 		console.log('data: ========data ngoai========>', data); // Log QuanDX fix bug
 		console.log('messageError: ================>', messageError); // Log QuanDX fix bug
-		setMessageError(checkValidateAll());
+		setMessageError(checkValidateAll);
 		// const { devicePost, accountName, workTimestamp, cardNumber, money, limitCard,percentBank, percentCustomer, type } = data;
 		// if (devicePost && workTimestamp && accountName && cardNumber && money && percentBank && percentCustomer && type) {
 		// 	onCallApi();
@@ -138,35 +138,13 @@ function ModalAddNew(props) {
 			width={900}
 			open={isModal}
 			destroyOnClose
-			onOk={onOkModal}
 			maskClosable={false}
 			onCancel={onCancelModal}
 			title="Thêm mới khách hàng"
-			confirmLoading={confirmLoading}
 			wrapClassName={styles['modal-add-new']}
 			footer={null}
-			// footer={[
-			// 	<Button
-			// 		key="cancel"
-			// 		type="primary"
-			// 		danger size='large'
-			// 		onClick={onCancelModal}
-			// 	>
-			// 		Đóng
-			// 	</Button>,
-			// 	<Button
-			// 		key="ok"
-			// 		size='large'
-			// 		type="primary"
-			// 		onClick={onOkModal}
-			// 		// disabled={confirmLoading}
-			// 		loading={confirmLoading}
-			// 	>
-			// 		Lưu
-			// 	</Button>,
-			// ]}
 		>
-			<ContentModal />
+			{ isModal && <ContentModal onCloseModal={onCloseModal} /> }
 		</ModalBase>
     );
 }
@@ -178,6 +156,7 @@ ModalAddNew.propTypes = {
 
 ModalAddNew.defaultProps = {
 	isModal: false,
+	onCloseModal: () => null,
 };
 
 export default React.memo(ModalAddNew);

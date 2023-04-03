@@ -37,4 +37,14 @@
     ._flex4 {
         flex: 4;
     }
+    .wrapBtn {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        :global {
+            .ant-btn-primary {
+                margin-left: 20px;
+            }
+        }
+    }
 }

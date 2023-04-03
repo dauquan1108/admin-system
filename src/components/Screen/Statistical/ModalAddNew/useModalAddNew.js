@@ -16,6 +16,7 @@ import React from 'react';
 
 // Base
 import { flagInput } from "../../../Base/Regex/FlagInput";
+import validationName from "../../../Base/Regex/validationName";
 
 // Shared
 import { typeName } from "../Shared/Synthetic";
@@ -161,23 +162,30 @@ function useModalAddNew() {
 		});
 	};
 
-	// const { SUCCESS } = flagInput;
-
+	const { SUCCESS } = flagInput;
 
 	const checkValidateAccountName = () => {
-		// const { accountName, phoneNumber } = data;
-		console.log('data: ================>', data); // Log QuanDX fix bug
-
-		// if (!accountName) {
-		// 	return 'Tên chủ thẻ không được để trống!';
-		// }
-		// Chủ thẻ
-		return '';
+		const { accountName } = data;
+		// debugger;
+		if (!accountName) {
+			return 'Tên chủ thẻ không được để trống!';
+		} else if (validationName(accountName)) {
+			return 'Tên chủ thẻ không đúng vui lòng kiểm tra lại!';
+		} else {
+			return SUCCESS;
+		}
+		// setMessageError({ ...messageError, [typeName.accountName]: textMessenger});
 	};
 
 	const checkValidatePhoneNumber = () => {
-		// Số điện thoại
-		return '';
+		const { phoneNumber } = data;
+		// debugger;
+		if (!phoneNumber) {
+			return 'Số điện thoại không được để trống!';
+		} else {
+			return SUCCESS;
+		}
+		// setMessageError({ ...messageError, [typeName.phoneNumber]: textMessenger});
 	};
 
 	const checkValidateCardNumber = () => {
@@ -212,7 +220,7 @@ function useModalAddNew() {
 
 	const checkValidateType = () => {
 		// Hình thức
-			return '';
+		return '';
 	};
 
 	const checkValidateDebit = () => {
@@ -230,20 +238,22 @@ function useModalAddNew() {
 		return '';
 	};
 
-	const checkValidateAll = () => ({
-		accountName: checkValidateAccountName(),
-		phoneNumber: checkValidatePhoneNumber(),
-		cardNumber: checkValidateCardNumber(),
-		limitCard: checkValidateLimitCard(),
-		money: checkValidateMoney(),
-		devicePost: checkValidateDevicePost(),
-		percentBank: checkValidatePercentBank(),
-		percentCustomer: checkValidatePercentCustomer(),
-		type: checkValidateType(),
-		debit: checkValidateDebit(),
-		workTimestamp: checkValidateWorkTimestamp(),
-		extends: checkValidateNote(),
-	});
+	const checkValidateAll = () => {
+		setMessageError({
+			accountName: checkValidateAccountName(),
+			phoneNumber:checkValidatePhoneNumber(),
+			cardNumber: checkValidateCardNumber(),
+			limitCard: checkValidateLimitCard(),
+			money: checkValidateMoney(),
+			devicePost: checkValidateDevicePost(),
+			percentBank: checkValidatePercentBank(),
+			percentCustomer: checkValidatePercentCustomer(),
+			type: checkValidateType(),
+			debit: checkValidateDebit(),
+			workTimestamp: checkValidateWorkTimestamp(),
+			extends: checkValidateNote(),
+		});
+	};
 
 	return({
 	    data,
