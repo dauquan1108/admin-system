@@ -16,62 +16,70 @@ import React from 'react';
 import dayjs from "dayjs";
 import PropTypes from 'prop-types';
 import { DatePicker } from 'antd';
+import classNames from "classnames";
 import locale from "antd/es/date-picker/locale/vi_VN";
 
 // Shared
 import { convertMDY, convertTimeStamp, dateFormatList, today } from "./Time";
 
-function DatePickerComponent(props) {
-	const { style, placeholder, onDatePicker } = props;
+// Style
+import styles from './Styles/index.module.scss';
 
-	const refDatePicker = React.useRef(null);
+function DatePickerComponent(props) {
+	const {title, obligatory, placeholder, typeName, onChangeInput, className } = props;
 
 	const onChangeDatePicker = (date, dateString) => {
 		const dataStringMDY = convertMDY(dateString);
-		const dataTimeStamp = convertTimeStamp(dataStringMDY);
-		refDatePicker.current = dataTimeStamp;
-	};
-
-	const onblurDatePicker = () => {
-		const timeStamp = refDatePicker.current;
-		onDatePicker(timeStamp);
+		const valueDate = convertTimeStamp(dataStringMDY);
+		onChangeInput(dateString ? valueDate : '', typeName);
 	};
 
     return(
-	    <DatePicker
-		    size="large"
-		    locale={locale}
-		    style={{...style}}
-		    onBlur={onblurDatePicker}
-		    format={dateFormatList}
-		    placeholder={placeholder}
-		    onChange={onChangeDatePicker}
-		    defaultValue={dayjs(today(), dateFormatList[0])}
-		    dateRender={(current) => {
-			    const style = {};
-			    if (current.date() === 1) {
-				    style.border = "1px solid #1890ff";
-				    style.borderRadius = "50%";
-			    }
-			    return (
-				    <div className="ant-picker-cell-inner" style={style}>
-					    {current.date()}
-				    </div>
-			    );
-		    }}
-	    />
+    	<div className={classNames(styles['date-picker-wrap'], className)}>
+		    {title && <span className={styles['date-picker-title']}>
+				{title}{!obligatory && ':'}
+			    {obligatory && <span className={styles['date-picker-obligatory']}>*</span>}
+			</span>
+		    }
+		    <DatePicker
+			    size="large"
+			    locale={locale}
+			    style={{ width: '100%' }}
+			    format={dateFormatList}
+			    placeholder={placeholder}
+			    onChange={onChangeDatePicker}
+			    defaultValue={dayjs(today(), dateFormatList[0])}
+			    dateRender={(current) => {
+				    const style = {};
+				    if (current.date() === 1) {
+					    style.border = "1px solid #1890ff";
+					    style.borderRadius = "50%";
+				    }
+				    return (
+					    <div className="ant-picker-cell-inner" style={style}>
+						    {current.date()}
+					    </div>
+				    );
+			    }}
+		    />
+		    {/*{checkError && <span className={styles['date-picker-text-error']}>{checkError}</span>}*/}
+	    </div>
     );
 }
 
 DatePickerComponent.propTypes = {
-	style: PropTypes.object,
-	onDatePicker: PropTypes.func,
+	title: PropTypes.string,
+	typeName: PropTypes.string,
+	className: PropTypes.string,
 	placeholder: PropTypes.string,
+	obligatory: PropTypes.bool,
+	onChangeInput: PropTypes.func,
 };
 
 DatePickerComponent.defaultProps = {
-	style: {},
 	placeholder: 'Chọn ngày làm',
+	onChangeInput: () => null,
+	obligatory: false,
 };
 
 export default React.memo(DatePickerComponent);

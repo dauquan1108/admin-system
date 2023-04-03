@@ -24,26 +24,20 @@ const { TextArea } = Input;
 function InputTextAreaComponent(props) {
 	const {
 		style,
+		title,
 		typeName,
 		maxLength,
-		setDisabled,
-		onChangeInput,
-
-		title,
 		obligatory,
+		onChangeInput,
+		...otherProps
 	} = props;
 
+	const [valueTextArea, setValueTextArea] = React.useState('');
 	const [checkError, setCheckError] = React.useState('');
-	const refValueTextArea = React.useRef(null);
 
 	const onChange = (e) => {
 		const { value } = e.target;
-		refValueTextArea.current = value;
-		const countValueNew = value.length;
-		if (countValueNew === maxLength) {
-			setDisabled && setDisabled(true);
-			setCheckError(`Dữ liệu đã vượt quá số lượng cho phép nhập là: ${maxLength}`);
-		}
+		setValueTextArea(value);
 	};
 
 	const onfocusTextArea = () => {
@@ -51,13 +45,7 @@ function InputTextAreaComponent(props) {
 	};
 
 	const onBlurInput = () => {
-		// const valueTextAreaNew = refValueTextArea.current;
-		// if (!valueTextAreaNew) {
-		// 	setDisabled && setDisabled(true);
-		// 	setCheckError('Dữ liệu không được để trống, vui lòng nhập.')
-		// } else  {
-		// 	onChangeInput(valueTextAreaNew, typeName);
-		// }
+		onChangeInput(valueTextArea, typeName);
 	};
 
     return(
@@ -72,6 +60,7 @@ function InputTextAreaComponent(props) {
 		        maxLength={maxLength}
 		        onFocus={onfocusTextArea}
 		        status={checkError && "error"}
+		        {...otherProps}
 	        />
 	        {
 		        checkError && <span className={styles['text-Area-text-error']}>{checkError}</span>

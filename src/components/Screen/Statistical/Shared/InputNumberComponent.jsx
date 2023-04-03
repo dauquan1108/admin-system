@@ -22,14 +22,13 @@ import styles from "./Styles/index.module.scss";
 
 function InputNumberComponent(props) {
 	const {
+		title,
 		typeName,
+		className,
+		obligatory,
 		placeholder,
 		setDisabled,
 		onChangeInput,
-
-		title,
-		obligatory,
-		className,
 		dataSelectUser,
 		...otherProps
 	} = props;
@@ -54,6 +53,9 @@ function InputNumberComponent(props) {
 	};
 
 	const onBlurInput = () => {
+		// Set data cho item
+		onChangeInput(valueInputNumber, typeName);
+
 		// const valueInputNumber = refValueInputNumber.current;
 		// const { money, limitCard } = data;
 		// if (!valueInputNumber) {

@@ -17,23 +17,15 @@ import { Select } from 'antd';
 import PropTypes from 'prop-types';
 
 function SelectComponent(props) {
-	const { data, onSelect, style } = props;
-
-	const refSelect = React.useRef(data[0]);
+	const { data, typeName, onChangeInput, ...otherProps } = props;
 
 	const onChangeTag = (value) => {
-		refSelect.current = value;
-	};
-
-	const onblurSelect = () => {
-		const value = refSelect.current;
-		onSelect(value);
+		onChangeInput(value, typeName);
 	};
 
 	return(
     	<Select
 			size="large"
-			onBlur={onblurSelect}
 			onChange={onChangeTag}
 			style={{ width: '100%' }}
 			defaultValue={data[0]}
@@ -41,19 +33,20 @@ function SelectComponent(props) {
 				label: province,
 				value: province,
 			}))}
+			{...otherProps}
 		/>
     );
 }
 
 SelectComponent.propTypes = {
 	data: PropTypes.array,
-	style: PropTypes.object,
-	onSelect: PropTypes.func,
+	typeName: PropTypes.string,
+	onChangeInput: PropTypes.func,
 };
 
 SelectComponent.defaultProps = {
 	data: [],
-	style: {},
+	onChangeInput: () => null,
 };
 
 export default React.memo(SelectComponent);
