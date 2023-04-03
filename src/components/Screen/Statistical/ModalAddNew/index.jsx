@@ -22,12 +22,20 @@ import Modal from "./Modal";
 // hooks custom
 import useDispatchCore from "../../../../cores/hooks/useDispathCore";
 
+// Selector
+import selectorDevice from "cores/selector/selectorDevice";
+
 // Style
 import styles from './Styles/index.module.scss';
+import {useSelector} from "react-redux";
 
 function WrapModalAddNew() {
 	const dispatch = useDispatchCore();
 	const [isModal, setIsModal] = React.useState(false);
+
+	const test = useSelector(selectorDevice);
+	
+	console.log('test: ================>', test); // Log QuanDX fix bug
 
 	const onSuccess = () => {
 		console.log('1: ================>', 1); // Log QuanDX fix bug
@@ -39,9 +47,8 @@ function WrapModalAddNew() {
 
 	// Call API Lấy danh sách thiết bị
 	React.useLayoutEffect(() => {
-		console.log('3333: ================>', 3333); // Log QuanDX fix bug
 		const params = { limit: 100, page: 1 };
-		// dispatch.dispatchCore(dispatch.TYPE.device, dispatch.METHOD.GET_LIST, {}, params, {}, onSuccess, onError); // get danh sách thiết bị
+		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, onSuccess, onError); // get danh sách thiết bị
 	}, []);
 
 	const onShowModal = () => {
