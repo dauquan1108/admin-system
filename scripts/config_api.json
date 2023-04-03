@@ -1,4 +1,5 @@
 {
     "transaction": "transaction",
-    "todo": "todo"
+    "todo": "todo",
+    "device": "device"
 }
