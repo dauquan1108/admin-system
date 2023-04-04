@@ -13,9 +13,10 @@
  */
 
 import React from 'react';
-import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
+import { Button, message } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 // Component
 import useModalAddNew from "../../useModalAddNew";
@@ -30,11 +31,18 @@ import InputNumberComponent from "../../../Shared/InputNumberComponent";
 import InputSelectComponent from "../../../Shared/inputSelectComponent";
 import InputTextAreaComponent from "../../../Shared/InputTextAreaComponent";
 
+// custom hooks
+import useDispatchCore from "../../../../../../cores/hooks/useDispathCore";
+
 // Style
 import styles from "./Styles/index.module.scss";
 
 function ContentModal(props) {
 	const { onCloseModal } = props;
+
+	// Loading
+	const [confirmLoading, setConfirmLoading] = React.useState(false);
+
 	const {
 		data,
 		onChangeInput,
@@ -53,15 +61,34 @@ function ContentModal(props) {
 		messageError,
 		checkValidateAll,
 		onfocusInput,
+		onCleanData,
 	} = useModalAddNew();
 
+	const dispatch = useDispatchCore();
 
 	const onCancelModal = () => {
 		onCloseModal();
 	};
 
+	const updateLoading = (status) => {
+		setConfirmLoading(status);
+	};
+
+	const onSuccess = () => {
+		updateLoading(false);
+		// onCleanData();
+		message.success('Thêm mới giao dịch thành công',5 );
+	};
+
+	const onFinally = () => {
+		updateLoading(false);
+		message.error('Thêm mới giao dịch thất bại',5 );
+	};
+
 	const onOkModal = () => {
-		checkValidateAll();
+		const isError = checkValidateAll();
+		isError && updateLoading(true);
+		isError && dispatch.dispatchCore(dispatch.TYPE.Transaction, dispatch.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
 	};
 
 	const disabledPaymentOption = data && data.type && data.type === provinceDataType[1];
@@ -77,7 +104,6 @@ function ContentModal(props) {
 			       dataSelectUser={dataSelectUser}
 			       messageError={messageError}
 			       onfocusInput={onfocusInput}
-
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.accountName}
 			       optionsData={optionUser}
@@ -197,7 +223,7 @@ function ContentModal(props) {
 			       />
 		       </div>
 		       <div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
-			       <span className={styles.titleText}>Hình thức đáo<span className={styles.textObligatory}>*</span></span>
+			       <span className={styles.titleText}>Trạng thái đáo<span className={styles.textObligatory}>*</span></span>
 			       <SelectComponent
 				       disabled={disabledPaymentOption}
 				       data={paymentOption}
@@ -228,10 +254,9 @@ function ContentModal(props) {
 				   size='large'
 				   type="primary"
 				   onClick={onOkModal}
-				   // disabled={confirmLoading}
-				   // loading={confirmLoading}
+				   disabled={confirmLoading}
 			   >
-				   Lưu
+				   {confirmLoading ? <LoadingOutlined/> : "Lưu"}
 			   </Button>
 			   <Button
 				   key="cancel"

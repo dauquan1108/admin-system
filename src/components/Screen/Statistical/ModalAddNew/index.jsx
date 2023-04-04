@@ -14,41 +14,32 @@
 
 import React from 'react';
 import { Button, Tooltip } from 'antd';
+import { useSelector } from "react-redux";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 // Component
 import Modal from "./Modal";
 
+// selector
+import selectorDevice from "../../../../cores/selector/selectorDevice";
+
 // hooks custom
 import useDispatchCore from "../../../../cores/hooks/useDispathCore";
 
-// Selector
-import selectorDevice from "cores/selector/selectorDevice";
-
 // Style
 import styles from './Styles/index.module.scss';
-import {useSelector} from "react-redux";
 
 function WrapModalAddNew() {
 	const dispatch = useDispatchCore();
 	const [isModal, setIsModal] = React.useState(false);
 
-	const test = useSelector(selectorDevice);
-	
-	console.log('test: ================>', test); // Log QuanDX fix bug
-
-	const onSuccess = () => {
-		console.log('1: ================>', 1); // Log QuanDX fix bug
-	};
-
-	const onError = () => {
-		console.log('2: ================>', 2); // Log QuanDX fix bug
-	};
+	// Danh sách thiết bị.
+	const optionsDevicePost = useSelector(selectorDevice);
 
 	// Call API Lấy danh sách thiết bị
 	React.useLayoutEffect(() => {
 		const params = { limit: 100, page: 1 };
-		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, onSuccess, onError); // get danh sách thiết bị
+		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
 	}, []);
 
 	const onShowModal = () => {
@@ -57,7 +48,7 @@ function WrapModalAddNew() {
 
 	const onCloseModal = () => {
 		setIsModal(false);
-	}
+	};
 
     return(
         <div className={styles.wrapModalAddNew}>
@@ -66,7 +57,7 @@ function WrapModalAddNew() {
 			        Thêm mới
 		        </Button>
 	        </Tooltip>
-	        <Modal isModal={isModal} onCloseModal={onCloseModal} />
+	        { optionsDevicePost.length > 0 && <Modal isModal={isModal} onCloseModal={onCloseModal}/> }
         </div>
     );
 }

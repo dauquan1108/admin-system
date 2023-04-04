@@ -38,7 +38,9 @@ function AutoCompleteUserCustom(props) {
 		onSelectAutoComplete,
 		...otherProps
 	} = props;
+
 	const { SUCCESS } = flagInput;
+
 	const [valueAutoComplete, setValueAutoComplete] = React.useState( {
 		valueInput: '',
 		status: false,

@@ -13,11 +13,15 @@
  */
 
 import React from 'react';
+import { useSelector } from "react-redux";
 
 // Base
 import { flagInput } from "../../../Base/Regex/FlagInput";
 import validationName from "../../../Base/Regex/validationName";
 import validationNumberDecimal from "../../../Base/Regex/validationNumberDecimal";
+
+// Selector
+import selectorDevice from "../../../../cores/selector/selectorDevice";
 
 // Shared
 import { typeName } from "../Shared/Synthetic";
@@ -28,19 +32,6 @@ const provinceDataType = ['Đáo', 'Rút tiền'];
 const paymentOption = ['Chưa rút', 'Đã rút'];
 
 const paymentDataStatus = ['Chưa thanh toán', 'Đã thanh toán'];
-
-const optionsDevicePost = [
-	{id: '1',value: 'Thiết bị 1', devicePost: 'Thiết bị 1', percentBank: 1.2, percentCustomer: 1.4 },
-	{id: '2', value: 'Thiết bị 2', devicePost: 'Thiết bị 2', percentBank: 1.2, percentCustomer: 1.6 },
-	{id: '3',  value: 'Thiết bị 3', devicePost: 'Thiết bị 3', percentBank: 1.2, percentCustomer: 1.4 },
-	{id: '4', value: 'Thiết bị 4', devicePost: 'Thiết bị 4', percentBank: 1.2, percentCustomer: 1.6 },
-	{id: '5', value: 'Thiết bị 5', devicePost: 'Thiết bị 5', percentBank: 1.2, percentCustomer: 1.6 },
-	{id: '6', value: 'Thiết bị 6', devicePost: 'Thiết bị 6', percentBank: 1.2, percentCustomer: 1.4 },
-	{id: '7', value: 'Thiết bị 7', devicePost: 'Thiết bị 7', percentBank: 1.2, percentCustomer: 1.6 },
-	{id: '8', value: 'Thiết bị 8', devicePost: 'Thiết bị 8', percentBank: 1.2, percentCustomer: 2 },
-	{id: '9', value: 'Thiết bị 9', devicePost: 'Thiết bị 9', percentBank: 1.2, percentCustomer: 1.4 },
-	{id: '10', value: 'Thiết bị 10', devicePost: 'Thiết bị 10', percentBank: 1.2, percentCustomer: 1.4 },
-];
 
 // Data chủ thẻ
 const optionUser = [
@@ -56,7 +47,6 @@ const optionUser = [
 	{id: '10', accountName: 'LƯỜNG TÚ ANH', value: 'LƯỜNG TÚ ANH (0010)', phoneNumber: '0387091110', cardNumber: '0010', limitCard: '50000000000'},
 ];
 
-
 // Data Số điện thoại
 const optionUserPhoneNumber = [
 	{id: '1', accountName: 'HỒ SỸ THẮNG', value: '0387091101', phoneNumber: '0387091101', cardNumber: '0001', limitCard: '50000000000'},
@@ -70,7 +60,6 @@ const optionUserPhoneNumber = [
 	{id: '9', accountName: 'ĐẬU THỊ NHẬT MINH', value: '0387091109', phoneNumber: '0387091109', cardNumber: '0009', limitCard: '100000000000'},
 	{id: '10', accountName: 'LƯỜNG TÚ ANH', value: '0387091110', phoneNumber: '0387091110', cardNumber: '0010', limitCard: '50000000000'},
 ];
-
 
 // Data Số điện thoại
 const optionUserCardNumber = [
@@ -95,6 +84,9 @@ const optionsPercentBank = [
 ];
 
 function useModalAddNew() {
+	// Danh sách thiết bị.
+	const optionsDevicePost = useSelector(selectorDevice);
+
 	// Data from
 	const [data, setData] = React.useState({
 		customerId: "000000000",
@@ -103,14 +95,14 @@ function useModalAddNew() {
 		[typeName.cardNumber]: '', // 4 Số cuối thẻ
 		[typeName.limitCard]: 0, // Hạn mức
 		[typeName.money]: 0, // Số tiền
-		[typeName.devicePost]: '', // Tên thiết bị
-		[typeName.percentBank]: 0, // % Phí ngân hàng
-		[typeName.percentCustomer]: 0, // % Phí thu khách
+		[typeName.devicePost]: optionsDevicePost[0].devicePost, // Tên thiết bị
+		[typeName.percentBank]: optionsDevicePost[0].percentBank, // % Phí ngân hàng
+		[typeName.percentCustomer]: optionsDevicePost[0].percentCustomer, // % Phí thu khách
 		[typeName.type]: provinceDataType[0], // Hình thức
 		[typeName.paymentOption]: paymentOption[0], // Hình thức đáo
 		[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
 		[typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
-		[typeName.extends]: '', // Note
+		[typeName.extends]: 'ok', // Note
 	});
 
 	// Thông báo lỗi các trường
@@ -168,6 +160,26 @@ function useModalAddNew() {
 			devicePost: objItem.devicePost || '',
 			percentBank: objItem.percentBank || '',
 			percentCustomer: objItem.percentCustomer || '',
+		});
+	};
+
+	// Clear Data
+	const onCleanData = () => {
+		setData({
+			...data,
+			[typeName.accountName]: '', // Chủ thẻ
+			[typeName.phoneNumber]: '', // Số điện thoại
+			[typeName.cardNumber]: '', // 4 Số cuối thẻ
+			[typeName.limitCard]: 0, // Hạn mức
+			[typeName.money]: 0, // Số tiền
+			// [typeName.devicePost]: optionsDevicePost[0].devicePost, // Tên thiết bị
+			// [typeName.percentBank]: optionsDevicePost[0].percentBank, // % Phí ngân hàng
+			// [typeName.percentCustomer]: optionsDevicePost[0].percentCustomer, // % Phí thu khách
+			// [typeName.type]: provinceDataType[0], // Hình thức
+			// [typeName.paymentOption]: paymentOption[0], // Hình thức đáo
+			// [typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
+			// [typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
+			[typeName.extends]: 'ok', // Note
 		});
 	};
 
@@ -321,9 +333,9 @@ function useModalAddNew() {
 	};
 
 	const checkValidateAll = () => {
-		setMessageError({
+		const messageErrors = {
 			accountName: checkValidateAccountName(),
-			phoneNumber:checkValidatePhoneNumber(),
+			phoneNumber: checkValidatePhoneNumber(),
 			cardNumber: checkValidateCardNumber(),
 			limitCard: checkValidateLimitCard(),
 			money: checkValidateMoney(),
@@ -335,7 +347,11 @@ function useModalAddNew() {
 			debit: checkValidateDebit(),
 			workTimestamp: checkValidateWorkTimestamp(),
 			extends: checkValidateNote(),
-		});
+		};
+
+		setMessageError(messageErrors);
+
+		return Object.values(messageErrors).every((message) => message === SUCCESS);
 	};
 
 	return({
@@ -358,6 +374,7 @@ function useModalAddNew() {
 		checkValidateAll,
 		onfocusInput,
 		paymentOption,
+		onCleanData,
 	});
 }
 
