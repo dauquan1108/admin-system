@@ -13,8 +13,8 @@
  */
 
 import React from 'react';
-import { Button, Tooltip } from 'antd';
 import { useSelector } from "react-redux";
+import { Button, message, Tooltip } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 // Component
@@ -36,14 +36,24 @@ function WrapModalAddNew() {
 	// Danh sách thiết bị.
 	const optionsDevicePost = useSelector(selectorDevice);
 
-	// Call API Lấy danh sách thiết bị
-	React.useLayoutEffect(() => {
+	const getListDevice = () => {
 		const params = { limit: 100, page: 1 };
 		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
+	};
+
+	// Call API Lấy danh sách thiết bị
+	React.useLayoutEffect(() => {
+		getListDevice();
 	}, []);
 
+	const isOptionsDevicePost = optionsDevicePost && optionsDevicePost.length > 0;
 	const onShowModal = () => {
-		setIsModal(true);
+		if (!isOptionsDevicePost) {
+			getListDevice();
+			message.warning('Xin lỗi vì không thể thực hiện thêm mới giao dịch ngay lúc này!',5 );
+		} else {
+			setIsModal(true);
+		}
 	};
 
 	const onCloseModal = () => {
@@ -57,7 +67,7 @@ function WrapModalAddNew() {
 			        Thêm mới
 		        </Button>
 	        </Tooltip>
-	        { optionsDevicePost.length > 0 && <Modal isModal={isModal} onCloseModal={onCloseModal}/> }
+	        { isOptionsDevicePost && <Modal isModal={isModal} onCloseModal={onCloseModal}/> }
         </div>
     );
 }

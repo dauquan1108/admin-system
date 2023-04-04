@@ -76,7 +76,7 @@ function ContentModal(props) {
 
 	const onSuccess = () => {
 		updateLoading(false);
-		// onCleanData();
+		onCleanData();
 		message.success('Thêm mới giao dịch thành công',5 );
 	};
 
@@ -222,6 +222,7 @@ function ContentModal(props) {
 				       onChangeInput={onChangeInput}
 			       />
 		       </div>
+
 		       <div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
 			       <span className={styles.titleText}>Trạng thái đáo<span className={styles.textObligatory}>*</span></span>
 			       <SelectComponent
@@ -231,7 +232,8 @@ function ContentModal(props) {
 				       onChangeInput={onChangeInput}
 			       />
 		       </div>
-		       <div className={classNames(styles.wrapContent, styles._flex1)}>
+
+		       <div className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}>
 			       <span className={styles.titleText}>Trạng thái thanh toán<span className={styles.textObligatory}>*</span></span>
 			       <SelectComponent
 				       data={paymentDataStatus}
@@ -239,6 +241,17 @@ function ContentModal(props) {
 				       onChangeInput={onChangeInput}
 			       />
 		       </div>
+
+		       <DatePickerComponent
+			       obligatory
+			       title='Ngày đáo thẻ'
+			       onfocusInput={onfocusInput}
+			       className={classNames(styles.wrapContent, styles._flex1)}
+			       messageError={messageError}
+			       typeName={typeName.cardExpirationDate}
+			       style={{ width: '100%' }}
+			       onChangeInput={onChangeInput}
+		       />
 	       </div>
 
 	       <InputTextAreaComponent
@@ -248,6 +261,7 @@ function ContentModal(props) {
 		       onChangeInput={onChangeInput}
 		       style={{ marginBottom: '25px' }}
 	       />
+
 		   <div className={styles.wrapBtn}>
 			   <Button
 				   key="ok"

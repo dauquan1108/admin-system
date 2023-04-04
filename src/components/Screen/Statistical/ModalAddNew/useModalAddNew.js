@@ -102,6 +102,7 @@ function useModalAddNew() {
 		[typeName.paymentOption]: paymentOption[0], // Hình thức đáo
 		[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
 		[typeName.workTimestamp]: convertTimeStamp(), // Ngày làm
+		[typeName.cardExpirationDate]: convertTimeStamp(), // Ngày đáo thẻ
 		[typeName.extends]: 'ok', // Note
 	});
 
@@ -119,6 +120,7 @@ function useModalAddNew() {
 		[typeName.paymentOption]: '', // Hình thức đáo
 		[typeName.debit]: '',  // Trạng thái thanh toán
 		[typeName.workTimestamp]: '', // Ngày làm
+		[typeName.cardExpirationDate]: '', // Ngày đáo thẻ
 		[typeName.extends]: '', // Note
 	});
 
@@ -165,13 +167,20 @@ function useModalAddNew() {
 
 	// Clear Data
 	const onCleanData = () => {
+		setDataSelectUser({
+			accountName: '',
+			phoneNumber: '',
+			limitCard: '',
+			cardNumber: '',
+		});
+
 		setData({
 			...data,
 			[typeName.accountName]: '', // Chủ thẻ
 			[typeName.phoneNumber]: '', // Số điện thoại
 			[typeName.cardNumber]: '', // 4 Số cuối thẻ
 			[typeName.limitCard]: 0, // Hạn mức
-			[typeName.money]: 0, // Số tiền
+			// [typeName.money]: 0, // Số tiền
 			// [typeName.devicePost]: optionsDevicePost[0].devicePost, // Tên thiết bị
 			// [typeName.percentBank]: optionsDevicePost[0].percentBank, // % Phí ngân hàng
 			// [typeName.percentCustomer]: optionsDevicePost[0].percentCustomer, // % Phí thu khách
@@ -327,6 +336,17 @@ function useModalAddNew() {
 		return SUCCESS;
 	};
 
+	const checkValidateCardExpirationDate = () => {
+		// Ngày làm
+		const { cardExpirationDate } = data;
+
+		if (!cardExpirationDate) {
+			return 'Ngày đáo thẻ không được để trống!'
+		}
+
+		return SUCCESS;
+	};
+
 	const checkValidateNote = () => {
 		// Note
 		return SUCCESS;
@@ -346,6 +366,7 @@ function useModalAddNew() {
 			paymentOption: checkValidatePaymentOption(),
 			debit: checkValidateDebit(),
 			workTimestamp: checkValidateWorkTimestamp(),
+			cardExpirationDate: checkValidateCardExpirationDate(),
 			extends: checkValidateNote(),
 		};
 

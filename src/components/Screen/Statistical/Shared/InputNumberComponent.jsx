@@ -45,6 +45,8 @@ function InputNumberComponent(props) {
 		const value = dataSelectUser && dataSelectUser[typeName];
 		if (value) {
 			setValueInputNumber(value.toString() || '');
+		} else {
+			setValueInputNumber('');
 		}
 	}, [dataSelectUser]);
 

@@ -47,10 +47,15 @@ function AutoCompleteUserCustom(props) {
 	}); // Khởi tạo giá trị ban đầu cho AutoComplete
 
 	React.useLayoutEffect(() => {
-		if (dataSelectUser && dataSelectUser[typeName]) {
-			const value = dataSelectUser[typeName];
+		const value = dataSelectUser && dataSelectUser[typeName];
+		if (value) {
 			setValueAutoComplete({
-				valueInput: value && value.toString() || '',
+				valueInput: value.toString() || '',
+				status: false,
+			});
+		} else {
+			setValueAutoComplete({
+				valueInput: '',
 				status: false,
 			});
 		}

@@ -31,7 +31,7 @@ function ModalAddNew(props) {
 	return(
 		<ModalBase
 			centered
-			width={900}
+			width={1000}
 			open={isModal}
 			destroyOnClose
 			maskClosable={false}

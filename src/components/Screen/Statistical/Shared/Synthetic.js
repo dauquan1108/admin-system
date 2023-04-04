@@ -29,6 +29,7 @@ const typeName = {
 	paymentOption: 'paymentOption', // Hình thức đáo
 	debit: 'debit', // Trạng thái thanh toán
 	limitCard: 'limitCard', // Hạn mức
+	cardExpirationDate: 'cardExpirationDate', // Ngày đáo thẻ
 }
 
 export { typeName };
