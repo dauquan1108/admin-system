@@ -43,7 +43,7 @@ function WrapModalAddNew() {
 
 	// Call API Lấy danh sách thiết bị
 	React.useLayoutEffect(() => {
-		getListDevice();
+		!optionsDevicePost && getListDevice();
 	}, []);
 
 	const isOptionsDevicePost = optionsDevicePost && optionsDevicePost.length > 0;

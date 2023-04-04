@@ -13,30 +13,44 @@
  */
 
 import React from 'react';
+import { Tooltip } from "antd";
 import classNames from "classnames";
-// import PropTypes from 'prop-types';
-import { message, Tooltip } from "antd";
+import { useSelector } from "react-redux";
 import { SnippetsOutlined, SyncOutlined } from "@ant-design/icons";
+
+// Base
+import ModalBase from "../../../Base/Modal";
 
 // Component
 import ItemEquipmentManagement from "./ItemEquipmentManagement";
 
-// Data
-import useModalAddNew from "../../Statistical/ModalAddNew/useModalAddNew";
+// selector
+import selectorDevice from "../../../../cores/selector/selectorDevice";
+
+// Custom hook
+import useDispatchCore from "../../../../cores/hooks/useDispathCore";
 
 // Img
 import option from "../../../Img/option_1.png";
 
 // Style
 import styles from "./Styles/index.module.scss";
+import ModalAddDevice from "./ModalAddDevice";
 
-function EquipmentManagement(props) {
-	const {
-		optionsDevicePost,
-	} = useModalAddNew();
+function EquipmentManagement() {
+	const dispatch = useDispatchCore();
+	// Danh sách thiết bị.
+	const optionsDevicePost = useSelector(selectorDevice);
 
-	const onClick = () => {
-		message.success('Chức năng đang phát triển',5 );
+	const [openModal, setOpenModal] = React.useState(false);
+
+	const onClickAddDevice = () => {
+		setOpenModal(!openModal);
+	};
+
+	const onClickRefresh = () => {
+		const params = { limit: 100, page: 1 };
+		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
 	};
 
     return(
@@ -46,13 +60,13 @@ function EquipmentManagement(props) {
 			        Quản lý thiết bị
 		        </span>
 		        <div className={styles.contentTopWrapIcon}>
-			        <Tooltip placement="bottom" title="Cập nhật thông tin">
-				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
+			        <Tooltip placement="bottom" title="Thêm mới thiết bị">
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClickAddDevice}>
 					        <img src={option} alt='' style={{ width: '15px', height: '15px' }} />
 				        </div>
 			        </Tooltip>
 			        <Tooltip placement="bottom" title="Làm mới">
-				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClick}>
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClickRefresh}>
 					        <SyncOutlined />
 				        </div>
 			        </Tooltip>
@@ -63,15 +77,12 @@ function EquipmentManagement(props) {
 	        </div>
 	        <div className={styles.contentBottom}>
 		        {
-			        optionsDevicePost.length > 0 && optionsDevicePost.map((item) => <ItemEquipmentManagement item={item} key={item.id} />)
+			        optionsDevicePost && optionsDevicePost.length > 0 ? optionsDevicePost.map((item) => <ItemEquipmentManagement item={item} key={item.id} />) : <p>Chưa có dữ liệu!</p>
 		        }
 	        </div>
+	        <ModalAddDevice openModal={openModal} onCloneModal={onClickAddDevice} />
         </div>
     );
 }
-
-// EquipmentManagement.propTypes = {};
-//
-// EquipmentManagement.defaultProps = {};
 
 export default EquipmentManagement;

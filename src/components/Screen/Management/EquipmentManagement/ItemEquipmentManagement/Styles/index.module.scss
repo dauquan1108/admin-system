@@ -5,15 +5,30 @@
     justify-content: space-between;
 
     padding: 10px;
-    margin-top: 10px;
-    border-radius: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
     background-color: #FFFFFF;
     font-size: 15px;
     font-weight: 700;
 
     .text {
-
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    .btnEdit {
+    .wrapIcon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-left: 8px;
+        .icon {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+        .iconEdit {
+            margin-right: 8px;
+        }
     }
 }

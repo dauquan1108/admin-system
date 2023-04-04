@@ -95,9 +95,9 @@ function useModalAddNew() {
 		[typeName.cardNumber]: '', // 4 Số cuối thẻ
 		[typeName.limitCard]: 0, // Hạn mức
 		[typeName.money]: 0, // Số tiền
-		[typeName.devicePost]: optionsDevicePost[0].devicePost, // Tên thiết bị
-		[typeName.percentBank]: optionsDevicePost[0].percentBank, // % Phí ngân hàng
-		[typeName.percentCustomer]: optionsDevicePost[0].percentCustomer, // % Phí thu khách
+		[typeName.devicePost]: optionsDevicePost.length && optionsDevicePost[0].devicePost || "", // Tên thiết bị
+		[typeName.percentBank]: optionsDevicePost.length && optionsDevicePost[0].percentBank || "", // % Phí ngân hàng
+		[typeName.percentCustomer]:optionsDevicePost.length && optionsDevicePost[0].percentCustomer || "", // % Phí thu khách
 		[typeName.type]: provinceDataType[0], // Hình thức
 		[typeName.paymentOption]: paymentOption[0], // Hình thức đáo
 		[typeName.debit]: paymentDataStatus[0], // Trạng thái thanh toán
@@ -128,7 +128,7 @@ function useModalAddNew() {
 	const [dataSelectUser, setDataSelectUser] = React.useState({});
 
 	// Khi người dùng select tên thiết bị
-	const [dataSelectDevicePost, setDataSelectDevicePost] = React.useState(optionsDevicePost[0]);
+	const [dataSelectDevicePost, setDataSelectDevicePost] = React.useState(optionsDevicePost.length && optionsDevicePost[0] || "");
 
 	const onChangeInput = (value, type) => {
 		setData({ ...data, [typeName[type]]: value })

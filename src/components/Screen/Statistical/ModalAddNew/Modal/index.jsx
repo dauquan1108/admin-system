@@ -33,7 +33,7 @@ function ModalAddNew(props) {
 			centered
 			width={1000}
 			open={isModal}
-			destroyOnClose
+			// destroyOnClose
 			maskClosable={false}
 			onCancel={onCloseModal}
 			title="Thêm mới giao dịch"
