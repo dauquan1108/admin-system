@@ -83,6 +83,101 @@ const optionsPercentBank = [
 	{id: '5', value: '2'},
 ];
 
+const optionsBankName = [
+	{id: '1', value: 'Ngân hàng ngoại thương Việt Nam(VietcomBank).'},
+	{id: '2', value: 'Ngân hàng Đầu tư và Phát triển VN (BIDV).'},
+	{id: '3', value: 'Ngân hàng Chính sách xã hội (VBSP).'},
+	{id: '4', value: 'Ngân hàng Công thương VN (Vietinbank).'},
+	{id: '5', value: 'Ngân hàng Nông nghiệp&PT Nông thôn VN-AGribank.'},
+	{id: '6', value: 'Ngân hàng Phát triển Nhà ĐBSCL (MHB).'},
+	{id: '7', value: 'Ngân hàng Phát triển Việt Nam (VDB).'},
+	{id: '8', value: 'Ngân hàng TMCP Bản Việt.'},
+	{id: '9', value: 'Ngân hàng TMCP Đại A.'},
+	{id: '10', value: 'Ngân hàng TMCP Phát triển MeKong.'},
+	{id: '11', value: 'Ngân hàng TMCP Quốc Dân.'},
+	{id: '12', value: 'Ngân hàng TMCP Việt Á'},
+	{id: '13', value: 'Ngân hàng TMCP Việt Nam Thương Tín.'},
+	{id: '14', value: 'Ngân hàng TMCP Xây dựng VN.'},
+	{id: '15', value: 'Ngân hàng BẢO VIỆT (Bao Viet Bank).'},
+	{id: '16', value: 'NHTMCP Kỹ thương VN (Techcombank).'},
+	{id: '17', value: 'NHTMCP Nam Á (Nam A Bank).'},
+	{id: '18', value: 'NHTMCP phát triển Tp HCM (HD Bank).'},
+	{id: '19', value: 'NHTMCP Phương Đông (OCB).'},
+	{id: '20', value: 'NHTMCP Phương Nam (Southern Bank).'},
+	{id: '21', value: 'NHTMCP Quân Đội (MB).'},
+	{id: '22', value: 'NHTMCP Quốc Tế (VIB).'},
+	{id: '23', value: 'NHTMCP Sài Gòn (SCB).'},
+	{id: '24', value: 'NHTMCP Sài gòn – Hà Nội (SHB).'},
+	{id: '25', value: 'NHTMCP Sài gòn Thương Tín (Sacombank).'},
+	{id: '26', value: 'NHTMCP SG Công Thương (SaigonBank).'},
+	{id: '27', value: 'NHTMCP Việt Hóa (Viet hoa JS bank).'},
+	{id: '28', value: 'NHTMCP VN Thịnh Vượng (VP Bank).'},
+	{id: '29', value: 'NHTMCP Xăng dầu Petrolimex (PGBank).'},
+	{id: '30', value: 'NHTMCP Xuất Nhập Khẩu (Eximbank).'},
+	{id: '31', value: 'PV com bank_NH Đại Chúng (P.Tay+TCDK).'},
+	{id: '32', value: 'Ngân hàng Tiên Phong (Tiên Phong Bank).'},
+	{id: '34', value: 'Ngân hàng TMCP BƯU ĐIỆN LIÊN VIỆT.'},
+	{id: '35', value: 'NHTMCP Á Châu (ACB).'},
+	{id: '36', value: 'NHTMCP An Bình (ABBank).'},
+	{id: '37', value: 'NHTMCP Bắc Á (Bac A bank).'},
+	{id: '38', value: 'NHTMCP Đại Dương (Oceanbank).'},
+	{id: '39', value: 'NHTMCP Dầu khí Toàn cầu (GPBank).'},
+	{id: '40', value: 'NHTMCP Đông Á (Dong A bank).'},
+	{id: '41', value: 'NHTMCP Đông Nam Á (Seabank).'},
+	{id: '42', value: 'NHTMCP Hàng Hải (Maritime Bank).'},
+	{id: '43', value: 'NHTMCP Kiên Long (Kien Long bank).'},
+	{id: '44', value: 'IN DOVINA BANK.'},
+	{id: '45', value: 'Ngân hàng liên doanh Việt Nga.'},
+	{id: '46', value: 'ABN-AMRO BANK.'},
+	{id: '47', value: 'ANZ BANK.'},
+	{id: '48', value: 'BANGKOK BANK.'},
+	{id: '49', value: 'BANK OF CHINA.'},
+	{id: '50', value: 'Bank of Communications.'},
+	{id: '51', value: 'BANKO OF TOKYO-MITSUBISHI UFJ,LTD CN HCM.'},
+	{id: '52', value: 'BANKO OF TOKYO-MITSUBISHI UFJ,LTD CN HN.'},
+	{id: '53', value: 'BNP- PARIBAS.'},
+	{id: '54', value: 'CITI BANK HCM.'},
+	{id: '55', value: 'CITI BANK HN.'},
+	{id: '56', value: 'Credit Agricole CIB.'},
+	{id: '57', value: 'DEUTSCHE BANK.'},
+	{id: '58', value: 'FIRST COMMERCIAL BANK HCM.'},
+	{id: '59', value: 'HONGKONG AND SHANGHAI BANK (HSBC).'},
+	{id: '60', value: 'HUANAN COMMERECIAL BANK LTD chi nhanh SG.'},
+	{id: '61', value: 'NH Cong nghiep Han Quoc.'},
+	{id: '62', value: 'NH DBS Bank Ltd CN HCM.'},
+	{id: '63', value: 'NH DTPT Campuchia Ha Noi.'},
+	{id: '64', value: 'NH DTPT Campuchia – HCM.'},
+	{id: '65', value: 'NH FAR EAST NATIONAL BANK.'},
+	{id: '66', value: 'NH Industrial &amp; Commercial Bank of China.'},
+	{id: '67', value: 'NH Kookmin thanh pho Ho Chi Minh.'},
+	{id: '68', value: 'NH Taipei FubonC.Bi.'},
+	{id: '69', value: 'NH TM Taipei Fubon.'},
+	{id: '70', value: 'NH TNHH CTBC ( NHTM Chinatrust).'},
+	{id: '71', value: 'NH TNHH MTV Shinhan VN.'},
+	{id: '72', value: 'NHTM Taipei Fubon.'},
+	{id: '73', value: 'NHTNHH MTV Hong Leong VN.'},
+	{id: '74', value: 'OVERSEA – CHINESE BANKING COPORATION Ltd.'},
+	{id: '75', value: 'STANDARD CHARTERED BANK.'},
+	{id: '76', value: 'SUMITOMO MITSUI BANKING CORPORATION.'},
+	{id: '77', value: 'The Shanghai Com&amp;Savings Bank.'},
+	{id: '78', value: 'UNITED OVERSEAS BANK (UOB).'},
+	{id: '79', value: 'WOORI BANK HA NOI.'},
+	{id: '80', value: 'Industrial Bank of korea.'},
+	{id: '81', value: 'JP MORGAN CHASE BANK.'},
+	{id: '82', value: 'KOREA EXCHANGE BANK.'},
+	{id: '83', value: 'MAY BANK.'},
+	{id: '84', value: 'MEGA INTERNATIONAL COMMERCIAL Co.LTD.'},
+	{id: '85', value: 'Mizuho Corporate Bank Ltd., Hanoi Branch.'},
+	{id: '86', value: 'MIZUHO CORPORATE BANK, LTD chi nhanh HCM.'},
+	{id: '87', value: 'NATEXIS BANQUES – POPULAIRES SUCCURSALE.'},
+	{id: '88', value: 'NGAN HANG FIRST COMMERCIAL BANK HANOI.'},
+	{id: '89', value: 'Ngan hang WOORI – Chi nhanh Tp HCM.'},
+	{id: '91', value: 'NH MALAYAN BANKING BERHAD.'},
+	{id: '92', value: 'NH CATHAY.'},
+	{id: '93', value: 'NH China Construction Bank Corporation.'},
+	{id: '94', value: 'NH Commonwealth Bank of Australia.'},
+];
+
 function useModalAddNew() {
 	// Danh sách thiết bị.
 	const optionsDevicePost = useSelector(selectorDevice);
@@ -93,6 +188,7 @@ function useModalAddNew() {
 		[typeName.accountName]: '', // Chủ thẻ
 		[typeName.phoneNumber]: '', // Số điện thoại
 		[typeName.cardNumber]: '', // 4 Số cuối thẻ
+		[typeName.bankName]: optionsBankName[0].value, // Tên ngân hàng
 		[typeName.limitCard]: 0, // Hạn mức
 		[typeName.money]: 0, // Số tiền
 		[typeName.devicePost]: optionsDevicePost.length && optionsDevicePost[0].devicePost || "", // Tên thiết bị
@@ -111,6 +207,7 @@ function useModalAddNew() {
 		[typeName.accountName]: '', // Chủ thẻ
 		[typeName.phoneNumber]: '', // Số điện thoại
 		[typeName.cardNumber]: '', // 4 Số cuối thẻ
+		[typeName.bankName]: '', // Tên ngân hàng
 		[typeName.limitCard]: '', // Hạn mức
 		[typeName.money]: '', // Số tiền
 		[typeName.devicePost]: '', // Tên thiết bị
@@ -145,10 +242,10 @@ function useModalAddNew() {
 		// Update thông tin user
 		setData({
 			...data,
-			accountName: objItem.accountName || '',
-			phoneNumber: objItem.phoneNumber || '',
-			limitCard: objItem.limitCard || '',
-			cardNumber: objItem.cardNumber || '',
+			[typeName.accountName]: objItem.accountName || '',
+			[typeName.phoneNumber]: objItem.phoneNumber || '',
+			[typeName.limitCard]: objItem.limitCard || '',
+			[typeName.cardNumber]: objItem.cardNumber || '',
 		});
 	};
 
@@ -159,19 +256,27 @@ function useModalAddNew() {
 		// Update thông tin user
 		setData({
 			...data,
-			devicePost: objItem.devicePost || '',
-			percentBank: objItem.percentBank || '',
-			percentCustomer: objItem.percentCustomer || '',
+			[typeName.devicePost]: objItem.devicePost || '',
+			[typeName.percentBank]: objItem.percentBank || '',
+			[typeName.percentCustomer]: objItem.percentCustomer || '',
+		});
+	};
+
+	// Todo QuanDX: chọn tên ngân hàng.
+	const onSelectBankName = (value, objItem) => {
+		setData({
+			...data,
+			[typeName.bankName]: value,
 		});
 	};
 
 	// Clear Data
 	const onCleanData = () => {
 		setDataSelectUser({
-			accountName: '',
-			phoneNumber: '',
-			limitCard: '',
-			cardNumber: '',
+			[typeName.accountName]: '',
+			[typeName.phoneNumber]: '',
+			[typeName.limitCard]: '',
+			[typeName.cardNumber]: '',
 		});
 
 		setData({
@@ -238,7 +343,7 @@ function useModalAddNew() {
 
 	const checkValidateLimitCard = () => {
 		// Hạn mức
-		const { limitCard, money } = data;
+		const { limitCard } = data;
 		const limitCard_ = Number(limitCard);
 		if (!limitCard_) {
 			return 'Số hạn mức không đúng vui lòng kiểm tra lại!'
@@ -270,6 +375,11 @@ function useModalAddNew() {
 
 	const checkValidateDevicePost = () => {
 		// Tên thiết bị
+		return SUCCESS;
+	};
+
+	const checkValidateBankName = () => {
+		// Tên Ngân hàng
 		return SUCCESS;
 	};
 
@@ -354,20 +464,21 @@ function useModalAddNew() {
 
 	const checkValidateAll = () => {
 		const messageErrors = {
-			accountName: checkValidateAccountName(),
-			phoneNumber: checkValidatePhoneNumber(),
-			cardNumber: checkValidateCardNumber(),
-			limitCard: checkValidateLimitCard(),
-			money: checkValidateMoney(),
-			devicePost: checkValidateDevicePost(),
-			percentBank: checkValidatePercentBank(),
-			percentCustomer: checkValidatePercentCustomer(),
-			type: checkValidateType(),
-			paymentOption: checkValidatePaymentOption(),
-			debit: checkValidateDebit(),
-			workTimestamp: checkValidateWorkTimestamp(),
-			cardExpirationDate: checkValidateCardExpirationDate(),
-			extends: checkValidateNote(),
+			[typeName.accountName]: checkValidateAccountName(),
+			[typeName.phoneNumber]: checkValidatePhoneNumber(),
+			[typeName.cardNumber]: checkValidateCardNumber(),
+			[typeName.bankName]: checkValidateBankName(),
+			[typeName.limitCard]: checkValidateLimitCard(),
+			[typeName.money]: checkValidateMoney(),
+			[typeName.devicePost]: checkValidateDevicePost(),
+			[typeName.percentBank]: checkValidatePercentBank(),
+			[typeName.percentCustomer]: checkValidatePercentCustomer(),
+			[typeName.type]: checkValidateType(),
+			[typeName.paymentOption]: checkValidatePaymentOption(),
+			[typeName.debit]: checkValidateDebit(),
+			[typeName.workTimestamp]: checkValidateWorkTimestamp(),
+			[typeName.cardExpirationDate]: checkValidateCardExpirationDate(),
+			[typeName.extends]: checkValidateNote(),
 		};
 
 		setMessageError(messageErrors);
@@ -396,6 +507,8 @@ function useModalAddNew() {
 		onfocusInput,
 		paymentOption,
 		onCleanData,
+		optionsBankName,
+		onSelectBankName,
 	});
 }
 

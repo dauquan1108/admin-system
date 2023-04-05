@@ -16,6 +16,7 @@ const typeName = {
 	devicePost: 'devicePost', // Tên máy Pos làm
 	workTimestamp: 'workTimestamp', // Ngày làm
 	accountName: 'accountName', // Chủ thẻ
+	bankName: 'bankName', // Tên ngân hàng
 	cardNumber: 'cardNumber', // 4 cuối của thẻ
 	phoneNumber: 'phoneNumber', // Số điện thoại
 	money: 'money', // Số tiền

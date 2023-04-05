@@ -62,6 +62,8 @@ function ContentModal(props) {
 		checkValidateAll,
 		onfocusInput,
 		onCleanData,
+		optionsBankName,
+		onSelectBankName,
 	} = useModalAddNew();
 
 	const dispatch = useDispatchCore();
@@ -140,13 +142,22 @@ function ContentModal(props) {
 	       </div>
 
 	       <div className={styles.wrap}>
+		       <InputSelectComponent
+			       obligatory
+			       title='Tên ngân hàng'
+			       optionsData={optionsBankName}
+			       placeholder="Vui lòng nhập tên ngân hàng..."
+			       onSelectDevicePost={onSelectBankName}
+			       className={classNames(styles.wrapContent, styles._flex6, styles.contentLeft)}
+		       />
+
 		       <InputNumberComponent
 			       obligatory
 			       title='Hạn mức'
 			       onfocusInput={onfocusInput}
 			       messageError={messageError}
 			       dataSelectUser={dataSelectUser}
-			       className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
+			       className={classNames(styles.wrapContent, styles._flex4, styles.contentLeft)}
 			       onChangeInput={onChangeInput}
 			       typeName={typeName.limitCard}
 			       placeholder="Vui lòng nhập hạn mức..."
@@ -155,7 +166,7 @@ function ContentModal(props) {
 			       obligatory
 			       messageError={messageError}
 			       title='Số tiền  làm cho khách'
-			       className={classNames(styles.wrapContent, styles._flex1)}
+			       className={classNames(styles.wrapContent, styles._flex4)}
 			       onfocusInput={onfocusInput}
 			       typeName={typeName.money}
 			       onChangeInput={onChangeInput}
@@ -243,7 +254,6 @@ function ContentModal(props) {
 		       </div>
 
 		       <DatePickerComponent
-			       obligatory
 			       title='Ngày đáo thẻ'
 			       onfocusInput={onfocusInput}
 			       className={classNames(styles.wrapContent, styles._flex1)}

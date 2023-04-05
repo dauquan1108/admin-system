@@ -21,7 +21,6 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
 	UserOutlined,
 	LoginOutlined,
-	CameraOutlined,
 	PieChartOutlined,
 	CalendarOutlined,
 	AppstoreAddOutlined,
@@ -32,17 +31,22 @@ import {
 // Components
 import MenuTop from './MenuTop';
 import Loading from '../../Loading';
-import Avatar from "../../Avatar";
+import MenuLeftTop from "./MenuLeftTop";
 
 // Reducers
 import { selectBackgroundImg } from "../../../cores/reducers/backgroundImg";
+
+// Selector
+import selectorDevice from "../../../cores/selector/selectorDevice";
+
+// Custom hooks
+import useDispatchCore from "../../../cores/hooks/useDispathCore";
 
 // Utils
 import ROUTES from '../../../utils/const/namerouter';
 
 // Style
 import styles from './Styles/index.module.scss';
-import MenuLeftTop from "./MenuLeftTop";
 
 // const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
@@ -83,6 +87,21 @@ function About() {
 
 function Contents({ collapsed }) {
 	const navigate = useNavigate();
+	const dispatch = useDispatchCore();
+
+	const getListDevice = () => {
+		// Lấy danh sách thiết bị
+		const params = { limit: 100, page: 1 };
+		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
+	};
+
+	// Danh sách thiết bị.
+	const optionsDevicePost = useSelector(selectorDevice);
+
+	React.useLayoutEffect(() => {
+		// Call API Lấy danh sách thiết bị
+		!optionsDevicePost.length && getListDevice();
+	}, []);
 
 	const onClickItem = (event) => {
 		navigate(event.key);
