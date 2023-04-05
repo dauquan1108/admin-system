@@ -13,19 +13,65 @@
  */
 
 import React from 'react';
+import {Button, message} from "antd";
 import PropTypes from 'prop-types';
+import classNames from "classnames";
+import { LoadingOutlined } from "@ant-design/icons";
+
+// Component
+import InputNumberCustom from "./InputNumberCustom";
+import InputComponentCustom from "./InputCompleteCustom";
+import useModalAddDevice from "./useModalAddDevice";
+
+// Shared
+import { typeName } from "../../../Statistical/Shared/Synthetic";
 
 // Base
 import ModalBase from "../../../../Base/Modal";
 
+// Custom hooks
+import useDispatchCore from "../../../../../cores/hooks/useDispathCore";
+
 // Style
 import styles from "./Styles/index.module.scss";
-import AutoCompleteCustom from "../../../Statistical/ModalAddNew/AutoCompleteCustom";
-import classNames from "classnames";
-import {typeName} from "../../../Statistical/Shared/Synthetic";
 
 function ModalAddDevice(props) {
 	const { openModal, onCloneModal } = props;
+
+	const {
+		data,
+		onChangeInput,
+		messageError,
+		checkValidateAll,
+		onfocusInput,
+		onCleanData,
+	} = useModalAddDevice();
+
+	const dispatch = useDispatchCore();
+
+	const [confirmLoading, setConfirmLoading] = React.useState(false);
+
+	const updateLoading = (status) => {
+		setConfirmLoading(status);
+	};
+
+	const onSuccess = () => {
+		updateLoading(false);
+		// onCleanData();
+		message.success('Thêm mới thiết bị thành công',5 );
+	};
+
+	const onFinally = () => {
+		updateLoading(false);
+		message.error('Thêm mới thiết bị thất bại',5 );
+	};
+
+	const onOkModal = () => {
+		const isError = checkValidateAll();
+		isError && updateLoading(true);
+		isError && dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
+	};
+
     return(
 	    <ModalBase
 		    centered
@@ -35,20 +81,50 @@ function ModalAddDevice(props) {
 		    title="Thêm mới thiệt bị"
 		    footer={null}
 	    >
-		   <div className={styles.wrapContent}>
-			   <AutoCompleteCustom
+		   <div className={styles['modal-add-device-content-wrap']}>
+			   <InputComponentCustom
+				   obligatory
+				   title='Tên thiết bị'
+				   style={{ width: '100%' }}
+				   messageError={messageError}
+				   onfocusInput={onfocusInput}
+				   onChangeInput={onChangeInput}
+				   // typeName={typeName.devicePost}
+				   typeName='name'
+				   placeholder="Vui lòng nhập tên thiết bị..."
+			   />
+
+			   <InputNumberCustom
 				   obligatory
 				   title='% Phí ngân hàng'
-				   // messageError={messageError}
-				   // dataSelectDevicePost={dataSelectDevicePost}
-				   // className={classNames(styles.wrapContent, styles._flex1, styles.contentLeft)}
-				   style={{ width: '100%' }}
-				   // onfocusInput={onfocusInput}
-				   // onChangeInput={onChangeInput}
+				   messageError={messageError}
+				   onfocusInput={onfocusInput}
+				   onChangeInput={onChangeInput}
 				   typeName={typeName.percentBank}
-				   // optionsData={optionsPercentBank}
-				   placeholder="% phí ngân hàng..."
+				   placeholder="Vui lòng nhập % phí ngân hàng..."
 			   />
+
+			   <InputNumberCustom
+				   obligatory
+				   title='% Phí thu khách'
+				   messageError={messageError}
+				   onfocusInput={onfocusInput}
+				   onChangeInput={onChangeInput}
+				   typeName={typeName.percentCustomer}
+				   placeholder="Vui lòng nhập % phí thu khách..."
+			   />
+
+			   <div className={styles['wrap-btn']}>
+				   <Button
+					   key="ok"
+					   size='large'
+					   type="primary"
+					   onClick={onOkModal}
+					   disabled={confirmLoading}
+				   >
+					   { confirmLoading ? <LoadingOutlined/> : "Lưu" }
+				   </Button>
+			   </div>
 		   </div>
 	    </ModalBase>
     );

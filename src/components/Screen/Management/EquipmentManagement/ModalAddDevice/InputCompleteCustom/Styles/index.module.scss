@@ -1,6 +1,7 @@
-.auto-complete-wrap {
+.input-wrap {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
 
     :global {
         .ant-select-selection-search-input {
@@ -13,7 +14,7 @@
         }
     }
 
-    .auto-complete-title {
+    .input-title {
         margin-bottom: 3px;
         color: #4D4D4D;
         font-size: 16px;
@@ -21,11 +22,11 @@
         font-weight: 600;
     }
 
-    .auto-complete-obligatory {
+    .input-obligatory {
         color: red;
     }
 
-    .auto-complete-text-error {
+    .input-text-error {
         color: red;
         font-size: 13px;
         font-weight: 400;

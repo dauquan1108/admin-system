@@ -1,3 +1,10 @@
-.wrapContent {
+.modal-add-device-content-wrap {
+    padding: 0 20px;
 
+    .wrap-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
 }
