@@ -27,7 +27,7 @@ import EyeView from '../../../Img/eyeView.png';
 import EyeHide from '../../../Img/eyeHide.png';
 
 const InputLogin = React.forwardRef((props, ref) => {
-	const { className, type, onBlurInput, onFocusInput, messageError } = props;
+	const { className, type, onFocusInput, messageError, placeholder } = props;
 
 	const { TYPE_PASSWORD, SUCCESS } = flagInput;
 
@@ -47,10 +47,6 @@ const InputLogin = React.forwardRef((props, ref) => {
 		return showTextError;
 	};
 
-	const handleBlur = (e) => {
-		onBlurInput(type, e);
-	};
-
 	const handleFocus = () => {
 		onFocusInput(type);
 	};
@@ -68,8 +64,8 @@ const InputLogin = React.forwardRef((props, ref) => {
 						    <input
 							    ref={refInput}
 							    type={isView ? type : 'text'}
-							    onBlur={handleBlur}
 							    onFocus={handleFocus}
+							    placeholder={placeholder}
 							    className={ClassNames(styles.input, showError() && styles.inputError)}
 						    />
 						    <img alt='icon Eye' src={isView ? EyeView : EyeHide} className={styles.iconEye} onClick={onClickIconEye} />
@@ -83,8 +79,8 @@ const InputLogin = React.forwardRef((props, ref) => {
 					    <input
 						    type={type}
 						    ref={refInput}
-						    onBlur={handleBlur}
 						    onFocus={handleFocus}
+						    placeholder={placeholder}
 						    className={ClassNames(styles.input, showError() && styles.inputError)}
 					    />
 					    {
@@ -98,15 +94,17 @@ const InputLogin = React.forwardRef((props, ref) => {
 })
 
 InputLogin.propTypes = {
-	messageError: PropTypes.string,
-	className: PropTypes.string,
 	type: PropTypes.string,
-	onBlurInput: PropTypes.func,
+	className: PropTypes.string,
+	placeholder: PropTypes.string,
 	onFocusInput: PropTypes.func,
+	messageError: PropTypes.object,
 };
 
 InputLogin.defaultProps = {
-	type: 'text'
+	type: 'text',
+	messageError: {},
+	onFocusInput: () => null,
 };
 
 export default InputLogin;

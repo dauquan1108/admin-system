@@ -12,8 +12,6 @@
  * @modifier abc@bkav.com on xx/xx/xxxx đã chỉnh sửa abcxyx (Chỉ các thay đổi quan trọng mới cần ghi lại note này)
  */
 
-'use strict';
-
 import React from "react";
 
 // Base
@@ -24,7 +22,8 @@ function useLogin() {
     const { TYPE_EMAIL, TYPE_PASSWORD, SUCCESS } = flagInput;
 
     const [messageError, setMessageError] = React.useState({
-	    Email: '', Password: ''
+	    Email: '',
+	    Password: ''
     });
 
     const refInputEmail = React.useRef(null);
@@ -36,51 +35,44 @@ function useLogin() {
 
     const checkValidateEmail = () => {
         if (inputValue(refInputEmail) === '') {
-            return 'Email không được để trống.';
+            return 'Email không được để trống!';
         }
+
         if (!validateInputEmail(inputValue(refInputEmail))) {
             return 'Vui lòng kiểm tra lại Email!';
         }
+
         return SUCCESS;
     };
 
     const checkValidatePassword = () => {
         if (inputValue(refInputPassword) === '') {
-            return 'Mật khẩu không được để trống.';
+            return 'Mật khẩu không được để trống!';
         }
-        return SUCCESS;
-    };
 
-    const onBlurInput = (type) => {
-        setMessageError({ ...messageError, [type]: checkItemInput(type) });
+        return SUCCESS;
     };
 
     const onFocusInput = (type) => {
         setMessageError({ ...messageError, [type]: '' });
     };
 
-    const checkItemInput = (type) => {
-        switch (type) {
-            case TYPE_EMAIL:
-                return checkValidateEmail();
-            case TYPE_PASSWORD:
-                return checkValidatePassword();
-            default:
-                return null;
-        }
-    };
 
-    const checkAllInput = () => ({
-	    Email: checkValidateEmail(),
-        Password: checkValidatePassword(),
-    });
+    const checkAllInput = () => {
+    	const messageErrors = {
+		    Email: checkValidateEmail(),
+		    Password: checkValidatePassword(),
+	    };
+
+	    setMessageError(messageErrors);
+	    return Object.values(messageErrors).every((message) => message === SUCCESS);
+    };
 
     return({
         messageError,
         setMessageError,
 	    refInputEmail,
         refInputPassword,
-        onBlurInput,
         onFocusInput,
         checkAllInput,
 	    TYPE_EMAIL,

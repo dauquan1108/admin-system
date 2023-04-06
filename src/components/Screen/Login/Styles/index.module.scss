@@ -33,20 +33,35 @@
 
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
             .title {
-                color: #000000;
+                color: #2F80ED;
                 font-size: 30px;
-                font-weight: 700;
-                line-height: 130%;
-                margin-bottom: 20px;
-            }
-            .text {
-                font-style: normal;
-                line-height: 22px;
                 font-weight: 600;
-                font-size: 14px;
+                line-height: 20px;
+                margin-bottom: 25px;
+            }
+
+            .titleText {
+                margin-bottom: 15px;
+                line-height: 22px;
+                font-weight: 500;
+                font-size: 15px;
                 color: #4D4D4D;
+            }
+
+            .wrapItem {
+                .prioritizeText {
+                    color: red;
+                }
+                .text {
+                    line-height: 22px;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #4D4D4D;
+                }
             }
             .btnLogin {
                 border: 1px solid #b3b3b3;
