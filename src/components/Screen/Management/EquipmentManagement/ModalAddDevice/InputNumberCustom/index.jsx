@@ -33,7 +33,7 @@ function InputNumberCustom(props) {
 		messageError,
 		onfocusInput,
 		onChangeInput,
-		dataSelectUser,
+		isClearData,
 		...otherProps
 	} = props;
 
@@ -42,29 +42,24 @@ function InputNumberCustom(props) {
 	const [valueInputNumber, setValueInputNumber] = React.useState('');
 
 	React.useLayoutEffect(() => {
-		const value = dataSelectUser && dataSelectUser[typeName];
-		if (value) {
-			setValueInputNumber(value.toString() || '');
-		} else {
-			setValueInputNumber('');
-		}
-	}, [dataSelectUser]);
+		setValueInputNumber('');
+	}, [isClearData]);
 
 	const onChangeInputNumber = (values) => {
 		setValueInputNumber(values);
 	};
 
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
 	const onFocusInputNumber = () =>  {
-		onfocusInput(typeName);
+		showError && onfocusInput(typeName);
 	};
 
 	const onBlurInput = () => {
 		// Set data cho item
 		onChangeInput(valueInputNumber, typeName);
 	};
-
-	const messageErrorText = messageError && messageError[typeName];
-	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
 	    <div className={classNames(styles['input-number-wrap'], className)}>

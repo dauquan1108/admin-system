@@ -60,8 +60,12 @@ function AutoCompleteCustom(props) {
 		// Set data cho item
 		onChangeInput(valueAutoComplete, typeName);
 	};
+
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
 	const onfocusAutoComplete = () => {
-		onfocusInput(typeName);
+		showError && onfocusInput(typeName);
 	};
 
 	const onFilterOption = (inputValue, option) => {
@@ -73,9 +77,6 @@ function AutoCompleteCustom(props) {
 	const handleSelect = (value, item) => {
 		setValueAutoComplete(value);
 	};
-
-	const messageErrorText = messageError && messageError[typeName];
-	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
         <div className={classNames(styles['auto-complete-wrap'], className)}>

@@ -37,12 +37,12 @@ function DatePickerComponent(props) {
 		onChangeInput(dateString ? valueDate : '', typeName);
 	};
 
-	const onfocusDatePicker = () => {
-		onfocusInput(typeName);
-	};
-
 	const messageErrorText = messageError && messageError[typeName];
 	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
+	const onfocusDatePicker = () => {
+		showError && onfocusInput(typeName);
+	};
 
 	return(
     	<div className={classNames(styles['date-picker-wrap'], className)}>

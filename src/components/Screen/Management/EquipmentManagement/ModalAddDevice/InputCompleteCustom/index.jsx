@@ -33,11 +33,16 @@ function InputComponentCustom(props) {
 		messageError,
 		onfocusInput,
 		onChangeInput,
+		isClearData,
 	} = props;
 
 	const { SUCCESS } = flagInput;
 
 	const [valueAutoComplete, setValueAutoComplete] = React.useState(''); // Khởi tạo giá trị ban đầu
+
+	React.useLayoutEffect(() => {
+		setValueAutoComplete('');
+	}, [isClearData]);
 
 	const onChange = (e) => {
 		const { value }= e.target;
@@ -48,12 +53,13 @@ function InputComponentCustom(props) {
 		// Set data cho item
 		onChangeInput(valueAutoComplete, typeName);
 	};
-	const onfocusAutoComplete = () => {
-		onfocusInput(typeName);
-	};
 
 	const messageErrorText = messageError && messageError[typeName];
 	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
+	const onfocusAutoComplete = () => {
+		showError && onfocusInput(typeName);
+	};
 
     return(
         <div className={classNames(styles['input-wrap'], className)}>
@@ -84,6 +90,7 @@ InputComponentCustom.propTypes = {
 	className: PropTypes.string,
 	placeholder: PropTypes.string,
 	obligatory: PropTypes.bool,
+	isClearData: PropTypes.bool,
 	onChangeInput: PropTypes.func,
 	onfocusInput: PropTypes.func,
 	messageError: PropTypes.object,
@@ -91,6 +98,7 @@ InputComponentCustom.propTypes = {
 
 InputComponentCustom.defaultProps = {
 	obligatory: false,
+	isClearData: false,
 	messageError: {},
 	onChangeInput: () => null,
 	onfocusInput: () => null,

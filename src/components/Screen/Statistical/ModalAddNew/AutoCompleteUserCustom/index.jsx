@@ -72,8 +72,11 @@ function AutoCompleteUserCustom(props) {
 		status && onChangeInput(valueAutoComplete.valueInput, typeName);
 	};
 
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
 	const onfocusAutoComplete = () => {
-		onfocusInput(typeName);
+		showError && onfocusInput(typeName);
 	};
 
 	const onFilterOption = (inputValue, option) => {
@@ -86,9 +89,6 @@ function AutoCompleteUserCustom(props) {
 		setValueAutoComplete({ valueInput: value, status: false });
 		onSelectAutoComplete(value, item);
 	};
-
-	const messageErrorText = messageError && messageError[typeName];
-	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
         <div className={classNames(styles['auto-complete-user-wrap'], className)}>

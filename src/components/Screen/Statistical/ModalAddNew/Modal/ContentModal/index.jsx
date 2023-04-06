@@ -70,6 +70,7 @@ function ContentModal(props) {
 
 	const onCancelModal = () => {
 		onCloseModal();
+		updateLoading(false);
 	};
 
 	const updateLoading = (status) => {

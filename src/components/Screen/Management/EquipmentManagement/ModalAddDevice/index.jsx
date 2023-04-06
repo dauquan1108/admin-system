@@ -13,9 +13,8 @@
  */
 
 import React from 'react';
-import {Button, message} from "antd";
 import PropTypes from 'prop-types';
-import classNames from "classnames";
+import { Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 // Component
@@ -50,6 +49,7 @@ function ModalAddDevice(props) {
 	const dispatch = useDispatchCore();
 
 	const [confirmLoading, setConfirmLoading] = React.useState(false);
+	const [isClear, setIsClear] = React.useState(false);
 
 	const updateLoading = (status) => {
 		setConfirmLoading(status);
@@ -57,7 +57,8 @@ function ModalAddDevice(props) {
 
 	const onSuccess = () => {
 		updateLoading(false);
-		// onCleanData();
+		onCleanData();
+		setIsClear(!isClear);
 		message.success('Thêm mới thiết bị thành công',5 );
 	};
 
@@ -72,12 +73,17 @@ function ModalAddDevice(props) {
 		isError && dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.ADD, data, {}, {}, onSuccess, onFinally); // ADD
 	};
 
+	const onCloneModalComponent = () => {
+		onCloneModal();
+		updateLoading(false);
+	};
+
     return(
 	    <ModalBase
 		    centered
 		    width={450}
 		    open={openModal}
-		    onCancel={onCloneModal}
+		    onCancel={onCloneModalComponent}
 		    title="Thêm mới thiệt bị"
 		    footer={null}
 	    >
@@ -90,6 +96,7 @@ function ModalAddDevice(props) {
 				   onfocusInput={onfocusInput}
 				   onChangeInput={onChangeInput}
 				   // typeName={typeName.devicePost}
+				   isClearData={isClear}
 				   typeName='name'
 				   placeholder="Vui lòng nhập tên thiết bị..."
 			   />
@@ -97,6 +104,7 @@ function ModalAddDevice(props) {
 			   <InputNumberCustom
 				   obligatory
 				   title='% Phí ngân hàng'
+				   isClearData={isClear}
 				   messageError={messageError}
 				   onfocusInput={onfocusInput}
 				   onChangeInput={onChangeInput}
@@ -107,6 +115,7 @@ function ModalAddDevice(props) {
 			   <InputNumberCustom
 				   obligatory
 				   title='% Phí thu khách'
+				   isClearData={isClear}
 				   messageError={messageError}
 				   onfocusInput={onfocusInput}
 				   onChangeInput={onChangeInput}
@@ -140,4 +149,4 @@ ModalAddDevice.defaultProps = {
 	onCloneModal: () => null,
 };
 
-export default ModalAddDevice;
+export default React.memo(ModalAddDevice);

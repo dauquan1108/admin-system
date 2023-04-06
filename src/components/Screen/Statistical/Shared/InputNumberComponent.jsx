@@ -54,17 +54,17 @@ function InputNumberComponent(props) {
 		setValueInputNumber(values);
 	};
 
+	const messageErrorText = messageError && messageError[typeName];
+	const showError = messageErrorText && messageErrorText !== SUCCESS;
+
 	const onFocusInputNumber = () =>  {
-		onfocusInput(typeName);
+		showError && onfocusInput(typeName);
 	};
 
 	const onBlurInput = () => {
 		// Set data cho item
 		onChangeInput(valueInputNumber, typeName);
 	};
-
-	const messageErrorText = messageError && messageError[typeName];
-	const showError = messageErrorText && messageErrorText !== SUCCESS;
 
     return(
 	    <div className={classNames(styles['input-number-wrap'], className)}>
