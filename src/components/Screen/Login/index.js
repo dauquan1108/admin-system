@@ -76,7 +76,7 @@ function Login() {
 					        placeholder='Vui lòng nhập mật khẩu'
 				        />
 			        </div>
-			        <button className={styles.btnLogin} onClick={onLogin}>
+			        <button className={styles.btnLogin} onClick={onLogin} disabled={loading}>
 				        {loading ? <LoadingOutlined /> : 'Đăng nhập' }
 			        </button>
 		        </div>
