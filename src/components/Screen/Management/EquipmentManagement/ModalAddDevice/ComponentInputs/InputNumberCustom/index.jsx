@@ -18,7 +18,7 @@ import { InputNumber } from "antd";
 import classNames from "classnames";
 
 // Base
-import { flagInput } from "../../../../../Base/Regex/FlagInput";
+import { flagInput } from "../../../../../../Base/Regex/FlagInput";
 
 // Style
 import styles from "./Styles/index.module.scss";

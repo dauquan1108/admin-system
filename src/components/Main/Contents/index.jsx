@@ -33,11 +33,9 @@ import MenuTop from './MenuTop';
 import Loading from '../../Loading';
 import MenuLeftTop from "./MenuLeftTop";
 
-// Reducers
-import { selectBackgroundImg } from "../../../cores/reducers/backgroundImg";
-
 // Selector
 import selectorDevice from "../../../cores/selector/selectorDevice";
+import selectBackgroundImg from "../../../cores/selector/selectBackgroundImg";
 
 // Custom hooks
 import useDispatchCore from "../../../cores/hooks/useDispathCore";

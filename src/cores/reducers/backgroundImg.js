@@ -112,10 +112,4 @@ export const getLitBackgroundImg = (state) => {
 	return state.backgroundImg.data;
 };
 
-export const selectBackgroundImg = (state) => {
-	const litBackgroundImg = state.backgroundImg.data;
-	const litBackgroundImgNew = litBackgroundImg.filter((item) => item.status === true);
-	return litBackgroundImgNew[0];
-};
-
 export default reducersBackgroundImg.reducer;
