@@ -25,7 +25,7 @@ import selectorDevice from "../../../../cores/selector/selectorDevice";
 
 // Shared
 import { typeName } from "../Shared/Synthetic";
-import { convertTimeStamp } from "../Shared/Time";
+import { convertTimeStamp } from "../../../Base/Time";
 
 const provinceDataType = ['Đáo', 'Rút tiền'];
 
