@@ -13,7 +13,6 @@
  */
 
 import React from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
 
 // Component
 import useLogin from "./useLogin";
@@ -28,20 +27,22 @@ import Logo from '../../Img/login.png';
 function Login() {
 	const {
 		messageError,
+		setMessageError,
 		refInputEmail,
 		refInputPassword,
+		onBlurInput,
 		onFocusInput,
 		checkAllInput,
 		TYPE_EMAIL,
 		TYPE_PASSWORD,
+		SUCCESS,
 	} = useLogin();
 
-	const [loading, setLoading] = React.useState(false);
+	const { Email, Password } = messageError;
 
 	const onLogin = () => {
-		const isError = checkAllInput();
-		if (isError) {
-			setLoading(true);
+		setMessageError(checkAllInput());
+		if (Email === SUCCESS && Password === SUCCESS) {
 			alert("Đăng nhập thành công.");
 		}
 	};
@@ -53,32 +54,25 @@ function Login() {
 					<img className={styles.imgLogin} alt='login' src={Logo} />
 		        </div>
 		        <div className={styles.contentLoginRight}>
-					<span className={styles.title}>Truelove Pos</span>
-			        <span className={styles.titleText}>Hãy đăng nhập để bắt đầu nhé</span>
-
-			        <div className={styles.wrapItem}>
-				        <span className={styles.text}>Email<span className={styles.prioritizeText}>*</span></span>
-				        <InputLogin
-					        type={TYPE_EMAIL}
-					        ref={refInputEmail}
-					        onFocusInput={onFocusInput}
-					        messageError={messageError}
-					        placeholder='Vui lòng nhập email'
-				        />
-			        </div>
-			        <div className={styles.wrapItem}>
-				        <span className={styles.text}>Mật khẩu<span className={styles.prioritizeText}>*</span></span>
-				        <InputLogin
-					        type={TYPE_PASSWORD}
-					        ref={refInputPassword}
-					        onFocusInput={onFocusInput}
-					        messageError={messageError}
-					        placeholder='Vui lòng nhập mật khẩu'
-				        />
-			        </div>
-			        <button className={styles.btnLogin} onClick={onLogin} disabled={loading}>
-				        {loading ? <LoadingOutlined /> : 'Đăng nhập' }
-			        </button>
+					<span className={styles.title}>Đăng nhập</span>
+			        <span className={styles.text}>Email</span>
+			        <InputLogin
+				        type={TYPE_EMAIL}
+				        ref={refInputEmail}
+				        onBlurInput={onBlurInput}
+				        onFocusInput={onFocusInput}
+				        messageError={messageError}
+			        />
+			        <span className={styles.text}>Mật khẩu</span>
+			        <InputLogin
+				        type={TYPE_PASSWORD}
+				        ref={refInputPassword}
+				        onBlurInput={onBlurInput}
+				        onFocusInput={onFocusInput}
+				        placeholder={TYPE_PASSWORD}
+				        messageError={messageError}
+			        />
+			        <button className={styles.btnLogin}  onClick={onLogin}>Đăng nhập</button>
 		        </div>
 	        </div>
         </div>

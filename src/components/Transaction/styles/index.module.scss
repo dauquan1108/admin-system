@@ -1,0 +1,73 @@
+.wrapInvoice {
+  height: 100%;
+  min-width: 1300px;
+
+  .invoiceHeader {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .contentLeft {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .contentLeftBtnRefresh {
+        margin-left: 10px;
+      }
+    }
+    .contentRight {}
+  }
+  :global {
+    .ant-table-content {
+      border-top-right-radius: 8px;
+    }
+    .ant-table-container {
+      border: 1px solid #f0f0f0;
+      border-top-right-radius: 8px;
+    }
+  }
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.wrapTable {
+  .withdrawMoney {
+    // Rút tiền
+    background-color: #eef8eb;
+  }
+
+  .unique {
+    // Đáo
+  }
+
+  :global {
+    .ant-pagination-next {
+      margin-right: 16px;
+    }
+    .ant-pagination-options {
+      display: none;
+    }
+    .ant-table-expanded-row-fixed {
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ant-pagination-item-link {
+      background-color: #ffffff !important;
+    }
+    .ant-pagination-item {
+      font-size: 15px;
+      font-weight: 600;
+      background-color: #ffffff;
+    }
+    .ant-pagination-item-active {
+      border: 2px solid #1677ff;
+    }
+  }
+}
+

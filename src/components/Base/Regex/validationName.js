@@ -20,8 +20,13 @@ import REGEX_BASE from './regexBase';
  * @returns {boolean}
  */
 const validationName = (value = '') => {
-	const regex = /^[^\d!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+ [^\d!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+( [^\d!@#$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+)*$/;
-	return regex.test(value);
+    if (typeof value === 'string' && value.length > 0) {
+        // const regexLatin = /\p{Script=Latin}+/u;
+        // Chỉ cho phép tên gồm các ký tự tiếng Việt và các chữ số
+        const regexName = REGEX_BASE.REGEX_NAME;
+        return regexName.test(value);
+    }
+    return true;
 };
 
 export default validationName;

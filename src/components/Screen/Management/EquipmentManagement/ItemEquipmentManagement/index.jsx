@@ -14,52 +14,23 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from "classnames";
-import { message } from "antd";
-
-// Custom hooks
-import useDispatchCore from "../../../../../cores/hooks/useDispathCore";
+import {Button, message} from "antd";
 
 // Style
 import styles from "./Styles/index.module.scss";
 
-// Img
-import editIcon from "../../../../Img/edit.png";
-import deleteIcon from "../../../../Img/delete.png";
-
 function ItemEquipmentManagement(props) {
 	const { item } = props;
 
-	const dispatch = useDispatchCore();
-
-	const onFail = () => {
-		message.error(`Đã sảy ra lỗi khi xóa thiết bị: ${item.value || ""}`,5 );
-	};
-
-	const onclickEdit = () => {
+	const onclickDeleteItem = () => {
 		message.success('Chức năng đang phát triển',5 );
 	};
 
-	const onclickDeleteItem = () => {
-		const id = item._id;
-		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.REMOTE, {id}, {}, {}, null, onFail); // get danh sách thiết bị
-	};
-
     return(
-    	<React.Fragment>
-		    {
-			    item &&
-			    <div className={styles.wrapItem}>
-				    <span className={styles.text} title={item.value || ""}>
-					    {item.value || ""}
-				    </span>
-				    <div className={styles.wrapIcon}>
-					    <img src={editIcon} className={classNames(styles.icon, styles.iconEdit)} alt=''  onClick={onclickEdit} />
-					    <img src={deleteIcon} className={styles.icon} alt='' onClick={onclickDeleteItem} />
-				    </div>
-			    </div>
-		    }
-	    </React.Fragment>
+        <div className={styles.wrapItem}>
+	        <span className={styles.text}>{item && item.value || ""}</span>
+	        <Button type="primary" danger className={styles.btnEdit} onClick={onclickDeleteItem}>Xóa</Button>
+        </div>
     );
 }
 
@@ -71,4 +42,4 @@ ItemEquipmentManagement.defaultProps = {
 	item: {},
 };
 
-export default React.memo(ItemEquipmentManagement);
+export default ItemEquipmentManagement;

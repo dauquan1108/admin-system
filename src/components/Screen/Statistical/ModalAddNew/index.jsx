@@ -13,53 +13,25 @@
  */
 
 import React from 'react';
-import { useSelector } from "react-redux";
-import { Button, message, Tooltip } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
 
 // Component
 import Modal from "./Modal";
 
-// selector
-import selectorDevice from "../../../../cores/selector/selectorDevice";
-
-// hooks custom
-import useDispatchCore from "../../../../cores/hooks/useDispathCore";
-
 // Style
 import styles from './Styles/index.module.scss';
 
 function WrapModalAddNew() {
-	const dispatch = useDispatchCore();
 	const [isModal, setIsModal] = React.useState(false);
 
-	// Danh sách thiết bị.
-	const optionsDevicePost = useSelector(selectorDevice);
-
-	const getListDevice = () => {
-		const params = { limit: 100, page: 1 };
-		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
-	};
-
-	// Call API Lấy danh sách thiết bị
-	React.useLayoutEffect(() => {
-		!optionsDevicePost.length && getListDevice();
-	}, []);
-
-	const isOptionsDevicePost = optionsDevicePost && optionsDevicePost.length > 0;
-
 	const onShowModal = () => {
-		if (!isOptionsDevicePost) {
-			getListDevice();
-			message.warning('Xin lỗi vì không thể thực hiện thêm mới giao dịch ngay lúc này!',5 );
-		} else {
-			setIsModal(true);
-		}
+		setIsModal(true);
 	};
 
 	const onCloseModal = () => {
 		setIsModal(false);
-	};
+	}
 
     return(
         <div className={styles.wrapModalAddNew}>
@@ -68,7 +40,7 @@ function WrapModalAddNew() {
 			        Thêm mới
 		        </Button>
 	        </Tooltip>
-	        { isOptionsDevicePost && <Modal isModal={isModal} onCloseModal={onCloseModal}/> }
+	        <Modal isModal={isModal} onCloseModal={onCloseModal} />
         </div>
     );
 }

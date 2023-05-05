@@ -13,10 +13,8 @@
  */
 
 import React from 'react';
-import axios from "axios";
 import { useSelector } from "react-redux";
-import { Button, message, Tooltip } from 'antd';
-// import { SyncOutlined } from "@ant-design/icons";
+import { message } from 'antd';
 
 // Component
 import Table from "./Table";
@@ -29,9 +27,6 @@ import selectorTransaction from "cores/selector/selectorTransaction";
 
 // Styles
 import styles from './Styles/index.module.scss';
-
-// Utils
-import { API_URL } from "../../../utils/Config";
 
 // Hooks custom
 import useDispatchCore from "../../../cores/hooks/useDispathCore";

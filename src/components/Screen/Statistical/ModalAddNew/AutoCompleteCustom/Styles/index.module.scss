@@ -1,31 +1,5 @@
-.auto-complete-wrap {
-    display: flex;
-    flex-direction: column;
-
-    :global {
-        .ant-select-selection-search-input {
-            font-size: 16px !important;
-            line-height: 38px !important;
-            font-weight: 400 !important;
-        }
-        .ant-select-selection-placeholder {
-            font-size: 14px;
-        }
-    }
-
-    .auto-complete-title {
-        margin-bottom: 3px;
-        color: #4D4D4D;
-        font-size: 16px;
-        line-height: 22px;
-        font-weight: 600;
-    }
-
-    .auto-complete-obligatory {
-        color: red;
-    }
-
-    .auto-complete-text-error {
+.wrapAutoComplete {
+    .textError {
         color: red;
         font-size: 13px;
         font-weight: 400;

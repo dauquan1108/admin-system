@@ -16,7 +16,6 @@
 import React, { Suspense } from 'react';
 import { Menu } from 'antd';
 import PropTypes from 'prop-types';
-import { useSelector } from "react-redux";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
 	UserOutlined,
@@ -31,23 +30,17 @@ import {
 // Components
 import MenuTop from './MenuTop';
 import Loading from '../../Loading';
-import MenuLeftTop from "./MenuLeftTop";
-
-// Selector
-import selectorDevice from "../../../cores/selector/selectorDevice";
-import selectBackgroundImg from "../../../cores/selector/selectBackgroundImg";
-
-// Custom hooks
-import useDispatchCore from "../../../cores/hooks/useDispathCore";
 
 // Utils
 import ROUTES from '../../../utils/const/namerouter';
 
 // Style
 import styles from './Styles/index.module.scss';
+import MenuLeftTop from "./MenuLeftTop";
 
 // const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
+const Transaction = React.lazy(() => import('../../Transaction'));
 const Management = React.lazy(() => import('../../Screen/Management'))
 
 function getItem(label, key, icon, children, type) {
@@ -85,33 +78,14 @@ function About() {
 
 function Contents({ collapsed }) {
 	const navigate = useNavigate();
-	const dispatch = useDispatchCore();
-
-	const getListDevice = () => {
-		// Lấy danh sách thiết bị
-		const params = { limit: 100, page: 1 };
-		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
-	};
-
-	// Danh sách thiết bị.
-	const optionsDevicePost = useSelector(selectorDevice);
-
-	React.useLayoutEffect(() => {
-		// Call API Lấy danh sách thiết bị
-		!optionsDevicePost.length && getListDevice();
-	}, []);
 
 	const onClickItem = (event) => {
 		navigate(event.key);
 	};
 
-	const backgroundImg = useSelector(selectBackgroundImg);
 
 	return (
 		<React.Fragment>
-			<div className={styles.background}>
-				<img src={backgroundImg && backgroundImg.img || ''} alt="" />
-			</div>
 			<div className={styles.content}>
 				<div
 					className={styles.menuLeft}
@@ -135,7 +109,8 @@ function Contents({ collapsed }) {
 						<Suspense fallback={<Loading />}>
 							<Routes>
 								<Route path={ROUTES.STATISTICAL} element={<About />} />
-								<Route path={ROUTES.TRANSACTIONS} element={<Statistical />} />
+								{/*<Route path={ROUTES.TRANSACTIONS} element={<Statistical />} />*/}
+								<Route path={ROUTES.TRANSACTIONS} element={<Transaction />} />
 								<Route path={ROUTES.CALENDAR} element={<About />} />
 								<Route path={ROUTES.CUMTOMER} element={<About />} />
 								<Route path={ROUTES.STAFF} element={<About />} />

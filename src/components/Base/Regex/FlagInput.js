@@ -13,9 +13,7 @@
  */
 
 const flagInput = {
-	// From Đăng nhập, Đăng ký, Update mật khẩu.
-	TYPE_CONFIRM_PASSWORD: 'ConfirmPassword',
-	TYPE_PASSWORD: 'Password',
+    TYPE_PASSWORD: 'Password',
     TYPE_EMAIL: 'Email',
     SUCCESS: 'Success', // Thành công
 };

@@ -9,7 +9,8 @@ const hasNAME = createSlice({
     initialState: {
         total: 0,
         count: 0,
-        itemIds: []
+        itemIds: [],
+        page: {},
     },
     reducers: {
         ...hasObjectReducer,

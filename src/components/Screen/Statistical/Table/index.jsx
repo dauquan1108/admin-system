@@ -27,10 +27,10 @@ import useModalAddNew from "../ModalAddNew/useModalAddNew";
 import useDispatchCore from "../../../../cores/hooks/useDispathCore";
 
 // Shared
-import { convertDMY } from "../../../Base/Time";
+import { convertDMY } from "../../../Shared/Time";
 
 // Search
-import Search from "../Shared/useSearch";
+import Search from "../../../Shared/useSearch";
 
 // Img
 import iconEye from "../../../Img/eye_1.png";
@@ -50,11 +50,11 @@ TableComponent.propTypes = {
 	setIsLoading: PropTypes.func,
 	getColumnSearchProps: PropTypes.func,
 	onDeleteItemDataSource: PropTypes.func,
-	pageDefaut: PropTypes.object,
+	pageDefault: PropTypes.object,
 };
 
 TableComponent.defaultProps = {
-	pageDefaut: {
+	pageDefault: {
 		defaultCurrent: 1, // vị trí page được chọn
 		defaultPageSize: 7, // limit một lần lấy về và vẽ ra bao nhiêu
 	},
@@ -77,7 +77,7 @@ function TableComponent(props) {
 		setPagination,
 		// dataSourceOrigin,
 		onDeleteItemDataSource,
-		pageDefaut,
+		pageDefault,
 	} = props;
 
 	const { getColumnSearchProps } = Search();
@@ -318,7 +318,7 @@ function TableComponent(props) {
 						total: total,
 						current: page,
 
-						...pageDefaut
+						...pageDefault
 					}}
 				// showSorterTooltip={{ title: 'Click để sắp xếp giảm dần' }}
 				/>

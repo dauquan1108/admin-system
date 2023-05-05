@@ -1,0 +1,22 @@
+:root {
+  --m5: 5px;
+  --m10: 10px;
+  --p10: 10px;
+  --br15: 15px;
+  --br: #faf7f2;
+  --brA: #ffffff;
+  --cl: #867b8c;
+  --clA: #f8b310;
+}
+
+
+.loading-row {
+    display: inline-block;
+    vertical-align: top;
+    background: rgba(0,0,0,.06);
+    border-radius: 4px;
+}
+
+.loading-row td { 
+  display: none;
+}

@@ -15,8 +15,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Img
-import a0 from '../../../src/components/Img/BackgroungImg/a0.jpg';
-import a0000 from '../../../src/components/Img/BackgroungImg/a0000.jpg';
+// import a0 from '../../../src/components/Img/BackgroungImg/a0.jpg';
+// import a0000 from '../../../src/components/Img/BackgroungImg/a0000.jpg';
+import defaultBackground from '../../../src/components/Img/BackgroungImg/index.jpg';
 import a000 from '../../../src/components/Img/BackgroungImg/a000.jpg';
 import a00 from '../../../src/components/Img/BackgroungImg/a00.jpeg';
 // import a01 from '../../../src/components/Img/BackgroungImg/a01.jpeg';
@@ -58,7 +59,8 @@ export const reducersBackgroundImg = createSlice({
 	name: "backgroundImg",
 	initialState: {
 		data: [
-			{ id: 33, img: a000, status: true },
+			{ id: 34, img: defaultBackground, status: true },
+			{ id: 33, img: a000, status: false },
 			{ id: 32, img: a00, status: false },
 			{ id: 0, img: a1, status: false },
 			{ id: 1, img: a2, status: false },
@@ -110,6 +112,12 @@ export const { updateBackgroundImg } = reducersBackgroundImg.actions;
 
 export const getLitBackgroundImg = (state) => {
 	return state.backgroundImg.data;
+};
+
+export const selectBackgroundImg = (state) => {
+	const litBackgroundImg = state.backgroundImg.data;
+	const litBackgroundImgNew = litBackgroundImg.filter((item) => item.status === true);
+	return litBackgroundImgNew[0];
 };
 
 export default reducersBackgroundImg.reducer;

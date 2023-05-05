@@ -7,9 +7,9 @@ import { v4 as createId } from 'uuid';
 
 /**
  * doMergeAdd: Dùng để đưa bắn action đến store phù hợp để update
- * @param {string} nameAPI tên của API  
+ * @param {string} nameAPI tên của API
  * @param {*} data: Dữ liệu đẩy lên
- * @param {*} type: sử dụng để phân biện dữ liệu từ server đổ về hay dữ liệu giả  
+ * @param {*} type: sử dụng để phân biện dữ liệu từ server đổ về hay dữ liệu giả
  */
 export function* doMergeAdd(nameAPI, data, type = '') {
     const arr = convertAPItoNameStore(nameAPI);
@@ -26,28 +26,29 @@ export function* doMergeAdd(nameAPI, data, type = '') {
  * doMergeGetList: Sử dụng để đưa bắn action type phù hợp để merge vào store tương ứng
  * @param {*} obj mô phỏng obj = { HasTodo: {}, Todo: {}}
  */
-export function* doMergeGetList(obj, limit) {
+export function* doMergeGetList(obj, other) {
     const keys = Object.keys(obj).reverse(); // Note: dữ liệu được merge lên store cần merge dữ liệu object trước
     for (let i in keys) {
+        const isHas = keys[i].includes('Has');
         yield put({
             type: `${keys[i]}/${TYPE_HANDLE.GET_LIST}`, // Mô phỏng: HasTodo/getList
-            // Mô phỏng: payload: HasTodo 
-            payload: {
+            // Mô phỏng: payload: HasTodo
+            payload: isHas ? {
                 ...obj[keys[i]],
-                limit
-            }
+                other,
+            } : obj[keys[i]],
         })
     }
 };
 
 /**
  * doMergeRemove: Dùng để đưa bắn action đến store phù hợp để update
- * @param {string} nameAPI tên của API  
- * @param {*} data 
+ * @param {string} nameAPI tên của API
+ * @param {*} data
  */
 export function* doMergeRemove(nameAPI, data, type = '') {
     const arr = convertAPItoNameStore(nameAPI);
-    // Với trạng thái xóa thì chỉ cần xóa dữ liệu trên trường Has của store 
+    // Với trạng thái xóa thì chỉ cần xóa dữ liệu trên trường Has của store
     yield put({
         type: `${arr[1]}/${TYPE_HANDLE.REMOTE}${type}`, // Mô phỏng: HasTodo/remote
         payload: data.id,
@@ -56,29 +57,29 @@ export function* doMergeRemove(nameAPI, data, type = '') {
 
 export function* doMergeUpdate(nameAPI, data, type = '') {
     const arr = convertAPItoNameStore(nameAPI);
-    // Với trạng thái update thì chỉ cần update dữ liệu trên trường Object của store 
+    // Với trạng thái update thì chỉ cần update dữ liệu trên trường Object của store
     yield put({
         type: `${arr[0]}/${TYPE_HANDLE.UPDATE}${type}`, // Mô phỏng: Todo/update
         payload: data,
     })
 };
 
-function* doSwitchHandleToStore(method, data, nameAPI) {
+function* doSwitchHandleToStore(method, _data, nameAPI) {
     switch (method) {
         case TYPE_HANDLE.GET_LIST:
-            const { limit } = data;
-            yield fork(doMergeGetList, data['data'], limit);
+            const { data, ...other } = _data;
+            yield fork(doMergeGetList, data, other);
             break;
         case TYPE_HANDLE.ADD:
-            yield fork(doMergeAdd, nameAPI, data)
+            yield fork(doMergeAdd, nameAPI, _data)
             break;
         case TYPE_HANDLE.REMOTE:
-            yield fork(doMergeRemove, nameAPI, data)
+            yield fork(doMergeRemove, nameAPI, _data)
             break;
         case TYPE_HANDLE.GET:
             break;
         case TYPE_HANDLE.UPDATE:
-            yield fork(doMergeUpdate, nameAPI, data);
+            yield fork(doMergeUpdate, nameAPI, _data);
             break;
         default:
             console.log('Chưa hỗ trợ method này: ', method);

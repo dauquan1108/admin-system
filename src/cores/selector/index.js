@@ -15,13 +15,9 @@
 import { createStructuredSelector } from "reselect";
 
 // Selector
-import deviceData from "./selectorDevice";
 import transformData from "./selectorTransaction";
-import backgroundImgData from "./selectBackgroundImg";
 
 export const mySelector = createStructuredSelector({
-	selectorDevice: deviceData,
 	selectorTransaction: transformData,
-	selectBackgroundImg: backgroundImgData,
 });
 

@@ -13,17 +13,11 @@
  */
 
 import React from 'react';
-import { Tooltip } from "antd";
 // import PropTypes from 'prop-types';
-import classNames from "classnames";
-import { PlusCircleOutlined } from "@ant-design/icons";
-
-// Component
-import ItemStaff from "./ItemStaff";
-import FromRegister from "./FromRegister";
 
 // Style
 import styles from "./Styles/index.module.scss";
+import ItemStaff from "./ItemStaff";
 
 const data = [
 	{ id: 1, name: 'Nguyễn Hồng Đăng', avatar : 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/327029693_708725687418667_9163197552793877487_n.jpg?stp=cp6_dst-jpg&_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=v91CkCFtbqMAX9xxTSE&_nc_ht=scontent.fhan14-4.fna&oh=00_AfCNtx7Yq6YBn8wYanToARC19rZNOysYSA022ZbLEXRBcg&oe=64153A58' ,position: 'Nhân viên', phone: '0387091106' },
@@ -35,31 +29,16 @@ const data = [
 ];
 
 function EmployeeManager(props) {
-	const [open, setOpen] = React.useState(false);
-
-	const onClickFromRegister = () => {
-		setOpen(!open);
-	};
 
     return(
-    	<React.Fragment>
-		    <div className={styles.wrap}>
-			    <div className={styles.contentTop}>
-				    <div className={styles.title}>
-					    <span>Quản lý nhân viên</span>
-				    </div>
-				    <Tooltip placement="bottom" title="Tạo mới tài khoản">
-					    <div onClick={onClickFromRegister} className={classNames(styles.icon, styles.iconSync)}>
-						    <PlusCircleOutlined />
-					    </div>
-				    </Tooltip>
-			    </div>
-			    <div className={styles.contentList}>
-				    {data.length > 0 && data.map((item) => <ItemStaff key={item.id} value={item} /> )}
-			    </div>
-		    </div>
-		    <FromRegister open={open} onCancelModal={onClickFromRegister} />
-	    </React.Fragment>
+        <div className={styles.wrap}>
+	        <div className={styles.title}>
+		        <span>Quản lý nhân viên</span>
+	        </div>
+	        <div className={styles.contentList}>
+		        {data.length > 0 && data.map((item) => <ItemStaff key={item.id} value={item} /> )}
+	        </div>
+        </div>
     );
 }
 

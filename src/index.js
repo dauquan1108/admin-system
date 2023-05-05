@@ -2,17 +2,18 @@ import React, { Suspense } from 'react';
 import { Provider } from "react-redux";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
 
 // Component
 import App from './App';
 import Loading from './components/Loading';
-import reportWebVitals from './reportWebVitals';
 
 // store
 import store from 'cores/reducers';
 
 // Style
 import './index.css';
+import './styles/core.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

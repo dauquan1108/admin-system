@@ -41,13 +41,18 @@ const hasObjectReducer = {
     },
     [TYPE_HANDLE.GET_LIST]: {
         reducer: (state, action) => {
-            const { count, total, itemIds, limit } = action.payload;
+            const { count, total, itemIds, other } = action.payload;
+            const { limit, page } = other;
             if (state.count != count) {
                 return produce(state, (draftState) => {
                     const itemIdsNew = [...new Set(draftState.itemIds.concat(itemIds))];
                     draftState.total = total;
                     draftState.count = itemIdsNew.length;
                     draftState.itemIds = itemIdsNew;
+                    draftState.page[limit] = {
+                        ...draftState.page[limit],
+                        [page]: itemIds,
+                    };
                 });
             }
         },

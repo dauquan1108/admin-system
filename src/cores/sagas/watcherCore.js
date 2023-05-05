@@ -1,4 +1,4 @@
-import { take, fork, takeEvery, takeLatest } from "redux-saga/effects";
+import { fork, takeEvery } from "redux-saga/effects";
 
 // worker
 import workerCore from './workerCore';
