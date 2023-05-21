@@ -18,9 +18,9 @@ import { Button, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 // Component
+import InputNumberCustom from "./InputNumberCustom";
+import InputComponentCustom from "./InputCompleteCustom";
 import useModalAddDevice from "./useModalAddDevice";
-import InputNumberCustom from "./ComponentInputs/InputNumberCustom";
-import InputComponentCustom from "./ComponentInputs/InputCompleteCustom";
 
 // Shared
 import { typeName } from "../../../Statistical/Shared/Synthetic";

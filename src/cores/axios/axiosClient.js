@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-const url = 'http://localhost:2111';
-// const url = 'https://backend-truelove.vercel.app';
 const axiosClient = axios.create({
-    withCredentials: true,
-    baseURL: url + '/api/',
+    baseURL: 'https://backend-truelove.vercel.app/api/',
+    // baseURL: 'http://localhost:2111/api/',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:2111',
-        'version': 'v.0.0.1',
     },
 });
 

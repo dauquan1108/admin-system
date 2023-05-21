@@ -23,7 +23,7 @@ import locale from "antd/es/date-picker/locale/vi_VN";
 import { flagInput } from "../../../Base/Regex/FlagInput";
 
 // Shared
-import { convertMDY, convertTimeStamp, dateFormatList, today } from "../../../Base/Time";
+import { convertMDY, convertTimeStamp, dateFormatList, today } from "./Time";
 
 // Style
 import styles from './Styles/index.module.scss';

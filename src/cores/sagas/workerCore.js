@@ -129,10 +129,8 @@ function* workerCore(method = TYPE_HANDLE.GET_LIST, nameAPI, config = {}, callba
                 callback[0] && callback[1](data);
                 break;
         }
-    } catch (err) {
-        console.error('[error workerCore] =>', err);
-        console.log('err?.response: ', err?.response);
-        callback[1] && callback[1](err?.response);
+    } catch (error) {
+        console.error('[error workerGetList] =>', error);
     }
 };
 

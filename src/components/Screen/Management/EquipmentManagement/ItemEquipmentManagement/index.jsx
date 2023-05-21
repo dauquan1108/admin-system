@@ -60,6 +60,8 @@ function ItemEquipmentManagement(props) {
 			    </div>
 		    }
 	    </React.Fragment>
+
+
     );
 }
 

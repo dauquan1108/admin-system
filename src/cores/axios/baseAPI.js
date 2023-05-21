@@ -12,28 +12,28 @@ const validationConfig = (config) => {
     return ({ params, headers })
 }
 const baseAPI = {
-    [TYPE_HANDLE.GET_LIST]: (url, config = { params: {}, headers: {} }, isLogError = true) => {
-        isLogError && isStringInStore(url);
+    [TYPE_HANDLE.GET_LIST]: (url, config = { params: {}, headers: {} }) => {
+        isStringInStore(url);
         return axiosClient.get(`${url}`, config);
     },
 
-    [TYPE_HANDLE.GET]: (url, id, config = { params: {}, headers: {} }, isLogError = true) => {
-        isLogError && isStringInStore(url);
+    [TYPE_HANDLE.GET]: (url, id, config = { params: {}, headers: {} }) => {
+        isStringInStore(url);
         return axiosClient.get(`${url}/${id}`, validationConfig(config));
     },
 
-    [TYPE_HANDLE.ADD]: (url, config = { params: {}, headers: {} }, isLogError = true) => {
-        isLogError && isStringInStore(url);
+    [TYPE_HANDLE.ADD]: (url, config = { params: {}, headers: {} }) => {
+        isStringInStore(url);
         return axiosClient.post(url, config?.data, validationConfig(config));
     },
 
-    [TYPE_HANDLE.UPDATE]: (url, config = { params: {}, headers: {} }, isLogError = true) => {
-        isLogError && isStringInStore(url);
+    [TYPE_HANDLE.UPDATE]: (url, config = { params: {}, headers: {} }) => {
+        isStringInStore(url);
         return axiosClient.put(`${url}/${config?.data?.id}`, config?.data, validationConfig(config));
     },
 
-    [TYPE_HANDLE.REMOTE]: (url, config, isLogError = true) => {
-        isLogError && isStringInStore(url);
+    [TYPE_HANDLE.REMOTE]: (url, config) => {
+        isStringInStore(url);
         return axiosClient.delete(`${url}/${config?.data?.id}`, validationConfig(config));
     },
 };

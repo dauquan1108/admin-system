@@ -16,10 +16,12 @@ import React from 'react';
 import { Tooltip } from "antd";
 import classNames from "classnames";
 import { useSelector } from "react-redux";
-import { SnippetsOutlined, SyncOutlined, LoadingOutlined } from "@ant-design/icons";
+import { SnippetsOutlined, SyncOutlined } from "@ant-design/icons";
+
+// Base
+import ModalBase from "../../../Base/Modal";
 
 // Component
-import ModalAddDevice from "./ModalAddDevice";
 import ItemEquipmentManagement from "./ItemEquipmentManagement";
 
 // selector
@@ -33,10 +35,9 @@ import option from "../../../Img/option_1.png";
 
 // Style
 import styles from "./Styles/index.module.scss";
+import ModalAddDevice from "./ModalAddDevice";
 
 function EquipmentManagement() {
-	const [loading, setLoading] = React.useState(false);
-
 	const dispatch = useDispatchCore();
 	// Danh sách thiết bị.
 	const optionsDevicePost = useSelector(selectorDevice);
@@ -48,10 +49,8 @@ function EquipmentManagement() {
 	};
 
 	const onClickRefresh = () => {
-		setLoading(true);
-		const statusLoading = () => setLoading(false);
 		const params = { limit: 100, page: 1 };
-		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, statusLoading, statusLoading); // get danh sách thiết bị
+		dispatch.dispatchCore(dispatch.TYPE.Device, dispatch.METHOD.GET_LIST, {}, params, {}, null, null); // get danh sách thiết bị
 	};
 
     return(
@@ -67,8 +66,8 @@ function EquipmentManagement() {
 				        </div>
 			        </Tooltip>
 			        <Tooltip placement="bottom" title="Làm mới">
-				        <div className={classNames(styles.icon, styles.iconSync)} onClick={!loading && onClickRefresh}>
-					        {loading ? <LoadingOutlined /> : <SyncOutlined />}
+				        <div className={classNames(styles.icon, styles.iconSync)} onClick={onClickRefresh}>
+					        <SyncOutlined />
 				        </div>
 			        </Tooltip>
 			        <div className={styles.icon}>
