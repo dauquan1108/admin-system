@@ -33,7 +33,7 @@ function SettingBackgroundImg(props) {
     return(
         <div className={classNames(styles.wrapSettingBackgroundImg, className)}>
 	         <div className={styles.title}>
-		         <span>Quản lý ảnh nền</span>
+		         <span>Quản lý hình nền của bạn</span>
 			 </div>
 	        <div className={styles.contentList}>
 		        {

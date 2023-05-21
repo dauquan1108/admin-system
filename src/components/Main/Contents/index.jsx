@@ -26,7 +26,6 @@ import {
 	AppstoreAddOutlined,
 	TransactionOutlined,
 	UsergroupAddOutlined,
-	AreaChartOutlined,
 } from '@ant-design/icons';
 
 // Components
@@ -34,11 +33,9 @@ import MenuTop from './MenuTop';
 import Loading from '../../Loading';
 import MenuLeftTop from "./MenuLeftTop";
 
-// Reducers
-import { selectBackgroundImg } from "../../../cores/reducers/backgroundImg";
-
 // Selector
 import selectorDevice from "../../../cores/selector/selectorDevice";
+import selectBackgroundImg from "../../../cores/selector/selectBackgroundImg";
 
 // Custom hooks
 import useDispatchCore from "../../../cores/hooks/useDispathCore";
@@ -52,11 +49,6 @@ import styles from './Styles/index.module.scss';
 // const component
 const Statistical = React.lazy(() => import('../../Screen/Statistical'));
 const Management = React.lazy(() => import('../../Screen/Management'))
-const Customer = React.lazy(() => import('../../Screen/Customer'));
-const Staff = React.lazy(() => import('../../Screen/Staff'));
-const Debts = React.lazy(() => import('../../Screen/Debts'));
-const Daothe = React.lazy(() => import('../../Screen/Daothe'));
-const General = React.lazy(() => import('../../Screen/General'));
 
 function getItem(label, key, icon, children, type) {
 	return {
@@ -72,10 +64,9 @@ const items = [
 	getItem('MAIN MENU', 'main', null, [
 		getItem('Thống kê', ROUTES.STATISTICAL, <PieChartOutlined />),
 		getItem('Giao dịch', ROUTES.TRANSACTIONS, <TransactionOutlined />),
-		getItem('Lịch đáo thẻ', ROUTES.DAOTHE, <CalendarOutlined />),
-		getItem('Khách hàng', ROUTES.CUSTOMER, <UsergroupAddOutlined />),
+		getItem('Lịch đáo thẻ', ROUTES.CALENDAR, <CalendarOutlined />),
+		getItem('Khách hàng', ROUTES.CUMTOMER, <UsergroupAddOutlined />),
 		getItem('Nhân viên', ROUTES.STAFF, <UserOutlined />),
-		getItem('Tiền chưa thu', ROUTES.DEBTS, <AreaChartOutlined />),
 	], 'group'),
 
 	getItem('SETTING', 'setting', null, [
@@ -143,12 +134,11 @@ function Contents({ collapsed }) {
 					<div className={styles.viewScreenContent}>
 						<Suspense fallback={<Loading />}>
 							<Routes>
-								<Route path={ROUTES.STATISTICAL} element={<General />} />
+								<Route path={ROUTES.STATISTICAL} element={<About />} />
 								<Route path={ROUTES.TRANSACTIONS} element={<Statistical />} />
-								<Route path={ROUTES.DAOTHE} element={<Daothe />} />
-								<Route path={ROUTES.CUSTOMER} element={<Customer />} />
-								<Route path={ROUTES.STAFF} element={<Staff />} />
-								<Route path={ROUTES.DEBTS} element={<Debts />} />
+								<Route path={ROUTES.CALENDAR} element={<About />} />
+								<Route path={ROUTES.CUMTOMER} element={<About />} />
+								<Route path={ROUTES.STAFF} element={<About />} />
 								<Route path={ROUTES.ACCOUNT_MANAGEMENT} element={<Management />} />
 								<Route path='*' element={<About />} />
 							</Routes>

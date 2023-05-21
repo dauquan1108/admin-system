@@ -1,0 +1,23 @@
+
+.date-picker-wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .date-picker-title {
+        margin-bottom: 3px;
+        font-style: normal;
+        line-height: 22px;
+        font-weight: 600;
+        font-size: 14px;
+        color: #4D4D4D;
+    }
+    .date-picker-text-error {
+        color: red;
+        font-size: 13px;
+        font-weight: 400;
+    }
+    .date-picker-obligatory {
+        color: red;
+    }
+}

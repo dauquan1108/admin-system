@@ -1,21 +1,19 @@
 const NAME = {
-    LOGIN: "login", // Đăng nhập
+    LOGIN: "login", // Đăng nhập 
     TRANSACTIONS: "transactions", // Giao dịch
-    DAOTHE: "daothe", // Lịch đáo thẻ
-    CUSTOMER: 'customer', // Khách hàng
+    CALENDAR: "calendar", // Lịch đáo thẻ
+    CUMTOMER: 'customer', // Khách hàng
     ACCOUNT_MANAGEMENT: 'account-management', // quản lý tài khoản
     STAFF: 'staff', // nhân viến
-    DEBTS: 'debts',
-    STATISTICAL: 'statistical', // Thống kê
-    TODOS: 'todos', // Thống kê
+    STATISTICAL: 'statistical', // Thống kêD
+    TODOS: 'todos', // Thống kêD
 }
 const ROUTES = {
     LOGIN: `/${NAME.LOGIN}`,
     TRANSACTIONS: `/${NAME.TRANSACTIONS}`,
-    DAOTHE: `/${NAME.DAOTHE}`,
-    CUSTOMER: `/${NAME.CUSTOMER}`,
+    CALENDAR: `/${NAME.CALENDAR}`,
+    CUMTOMER: `/${NAME.CUMTOMER}`,
     STAFF: `/${NAME.STAFF}`,
-    DEBTS: `/${NAME.DEBTS}`,
     ACCOUNT_MANAGEMENT: `/${NAME.ACCOUNT_MANAGEMENT}`,
     STATISTICAL: `/${NAME.STATISTICAL}`,
     TODOS: `/${NAME.TODOS}`,

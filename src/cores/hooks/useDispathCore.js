@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import TYPE_HANDLE_ACTION from 'cores/utils/constants/TYPE_HANDLE_ACTION';
 import TYPE_STORE from 'cores/utils/constants/TYPE_STORE';

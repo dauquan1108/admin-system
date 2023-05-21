@@ -17,13 +17,17 @@ import React from "react";
 // Base
 import { flagInput } from "../../Base/Regex/FlagInput";
 import { validateInputEmail } from "../../Base/Regex/checkRegex";
+// import ACTION_TYPE from "cores/utils/constants/ACTION_TYPE";
+import useAuthorCore from "cores/hooks/useAuthorCore";
 
 function useLogin() {
+    // Call useAuthorCore function inside useLogin hook
+    const author = useAuthorCore();
     const { TYPE_EMAIL, TYPE_PASSWORD, SUCCESS } = flagInput;
 
     const [messageError, setMessageError] = React.useState({
-	    Email: '',
-	    Password: ''
+        Email: '',
+        Password: ''
     });
 
     const refInputEmail = React.useRef(null);
@@ -59,25 +63,32 @@ function useLogin() {
 
 
     const checkAllInput = () => {
-    	const messageErrors = {
-		    Email: checkValidateEmail(),
-		    Password: checkValidatePassword(),
-	    };
+        const messageErrors = {
+            Email: checkValidateEmail(),
+            Password: checkValidatePassword(),
+        };
 
-	    setMessageError(messageErrors);
-	    return Object.values(messageErrors).every((message) => message === SUCCESS);
+        setMessageError(messageErrors);
+        return Object.values(messageErrors).every((message) => message === SUCCESS);
     };
 
-    return({
+    const onLogin = () => {
+        const email = inputValue(refInputEmail);
+        const password = inputValue(refInputPassword)
+        author.handleLogin(email, password)
+    };
+
+    return ({
         messageError,
         setMessageError,
-	    refInputEmail,
+        refInputEmail,
         refInputPassword,
         onFocusInput,
         checkAllInput,
-	    TYPE_EMAIL,
+        TYPE_EMAIL,
         TYPE_PASSWORD,
         SUCCESS,
+        onLogin,
     });
 }
 
